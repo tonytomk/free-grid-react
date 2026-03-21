@@ -1,0 +1,49 @@
+{
+  "name": "free-grid-react",
+  "version": "0.1.0",
+  "description": "A lightweight, high-performance React grid component built with CSS Grid and TypeScript.",
+  "author": "Tony Tom K",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "grid",
+    "table",
+    "typescript",
+    "vite",
+    "flexbox",
+    "mui-style"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "development": "./src/index.ts",
+      "import": "./dist/free-grid.js",
+      "require": "./dist/free-grid.umd.cjs"
+    },
+    "./src/Grid.css": "./src/Grid.css",
+    "./free-grid.css": "./dist/free-grid.css"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": "^18.0.0 || ^19.0.0",
+    "react-dom": "^18.0.0 || ^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "typescript": "^5.7.2",
+    "vite": "^6.0.5",
+    "vite-plugin-dts": "^4.4.0"
+  }
+}
