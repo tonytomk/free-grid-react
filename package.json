@@ -1,6 +1,6 @@
 {
   "name": "free-grid-react",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "description": "A lightweight, high-performance React grid component built with CSS Grid and TypeScript.",
   "author": "Tony Tom K",
   "license": "MIT",
@@ -29,7 +29,8 @@
       "require": "./dist/free-grid.umd.cjs"
     },
     "./src/Grid.css": "./src/Grid.css",
-    "./free-grid.css": "./dist/free-grid.css"
+    "./free-grid.css": "./dist/free-grid.css",
+    "./dist/*": "./dist/*"
   },
   "files": [
     "dist"

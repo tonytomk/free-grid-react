@@ -2,7 +2,6 @@
 
 A lightweight, high-performance, and fully configurable React grid component built with CSS Grid and TypeScript.
 
-![FreeGrid Demo](/C:/Users/tonyt/.gemini/antigravity/brain/73afc559-fc2b-422d-bfbd-f3cc1beb1b11/final_grid_verification_1774116262897.png)
 
 ## Features
 
