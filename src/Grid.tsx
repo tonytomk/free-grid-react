@@ -1,6 +1,6 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useRef, useEffect } from 'react';
 import './Grid.css';
-import { GridProps } from './types';
+import { GridProps, Column } from './types';
 
 export function Grid<T extends { id?: string | number } | any>({
   data,
@@ -24,6 +24,57 @@ export function Grid<T extends { id?: string | number } | any>({
     key: null,
     direction: null,
   });
+
+  const [visibleColumnKeys, setVisibleColumnKeys] = useState<Set<string>>(() => {
+    const initial = new Set<string>();
+    if (selectable) initial.add('__selection');
+    columns.forEach((col) => {
+      if (!col.defaultHidden) initial.add(col.key as string);
+    });
+    return initial;
+  });
+
+  const [anchorEl, setAnchorEl] = useState<{
+    element: HTMLElement;
+    column: Column<T> | null;
+    isSelection?: boolean;
+  } | null>(null);
+  const [showManageDialog, setShowManageDialog] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const popoverRef = useRef<HTMLDivElement>(null);
+  const manageRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        anchorEl &&
+        popoverRef.current &&
+        !popoverRef.current.contains(event.target as Node) &&
+        !anchorEl.element.contains(event.target as Node)
+      ) {
+        handleCloseMenu();
+      }
+      if (
+        showManageDialog &&
+        manageRef.current &&
+        !manageRef.current.contains(event.target as Node)
+      ) {
+        // Only close if we didn't just click the menu item that opens it
+        const isMenuItem = (event.target as HTMLElement).closest('.free-grid-menu-item');
+        if (!isMenuItem) {
+          setShowManageDialog(false);
+        }
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [anchorEl, showManageDialog]);
+
+  const filteredColumns = useMemo(
+    () => columns.filter((col) => visibleColumnKeys.has(col.key as string)),
+    [columns, visibleColumnKeys]
+  );
 
   const toggleRow = (rowIndex: number, item: T) => {
     const rowId = (item as any).id !== undefined ? (item as any).id : rowIndex;
@@ -88,9 +139,20 @@ export function Grid<T extends { id?: string | number } | any>({
     onSelectionChange(Array.from(newSelected));
   };
 
+  const handleOpenMenu = (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => {
+    e.stopPropagation();
+    setAnchorEl({ element: e.currentTarget as HTMLElement, column, isSelection });
+  };
+
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
+
   const gridStyle = {
     display: 'grid',
-    gridTemplateColumns: `${selectable ? '50px ' : ''}${columns
+    gridTemplateColumns: `${
+      selectable && visibleColumnKeys.has('__selection') ? '50px ' : ''
+    }${filteredColumns
       .map((col) => {
         if (col.width) return typeof col.width === 'number' ? `${col.width}px` : col.width;
         if (col.flex) return `${col.flex}fr`;
@@ -100,10 +162,10 @@ export function Grid<T extends { id?: string | number } | any>({
   };
 
   return (
-    <div className={`free-grid-container ${className}`} id={id}>
+    <div className={`free-grid-container ${className}`} id={id} ref={containerRef}>
       {showHeader && (
         <div className="free-grid-header" style={gridStyle}>
-          {selectable && (
+          {selectable && visibleColumnKeys.has('__selection') && (
             <div className="free-grid-header-cell free-grid-checkbox-cell">
               <input
                 type="checkbox"
@@ -113,7 +175,7 @@ export function Grid<T extends { id?: string | number } | any>({
               />
             </div>
           )}
-          {columns.map((col, i) => {
+          {filteredColumns.map((col, i) => {
             const isSortable = allowSorting !== false && col.sortable !== false;
             const isSorted = sortConfig.key === col.key;
 
@@ -123,7 +185,7 @@ export function Grid<T extends { id?: string | number } | any>({
                 className={`free-grid-header-cell ${isSortable ? 'sortable' : ''}`}
                 onClick={() => isSortable && handleSort(col.key as string)}
               >
-                {col.header}
+                <span className="free-grid-header-text">{col.header}</span>
                 {isSortable && (
                   <span className={`free-grid-sort-icon ${isSorted ? 'active' : ''}`}>
                     {isSorted && sortConfig.direction === 'asc' ? (
@@ -141,6 +203,14 @@ export function Grid<T extends { id?: string | number } | any>({
                     )}
                   </span>
                 )}
+                <button
+                  className="free-grid-menu-button"
+                  onClick={(e) => handleOpenMenu(e, col)}
+                >
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
+                  </svg>
+                </button>
               </div>
             );
           })}
@@ -161,7 +231,7 @@ export function Grid<T extends { id?: string | number } | any>({
                 style={gridStyle}
                 onClick={() => renderChildView && toggleRow(rowIndex, item)}
               >
-                {selectable && (
+                {selectable && visibleColumnKeys.has('__selection') && (
                   <div className="free-grid-cell free-grid-checkbox-cell">
                     <input
                       type="checkbox"
@@ -172,7 +242,7 @@ export function Grid<T extends { id?: string | number } | any>({
                     />
                   </div>
                 )}
-                {columns.map((col, colIndex) => {
+                {filteredColumns.map((col, colIndex) => {
                   const value = (item as any)[col.key];
                   return (
                     <div key={`cell-${rowIndex}-${colIndex}`} className="free-grid-cell">
@@ -211,6 +281,193 @@ export function Grid<T extends { id?: string | number } | any>({
                   <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
                 </svg>
               </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {anchorEl && containerRef.current && (
+        <div
+          ref={popoverRef}
+          className="free-grid-popover"
+          style={{
+            top:
+              anchorEl.element.getBoundingClientRect().bottom -
+              containerRef.current.getBoundingClientRect().top +
+              4,
+            ...(filteredColumns.length > 0 &&
+            anchorEl.column?.key === filteredColumns[filteredColumns.length - 1].key
+              ? {
+                  right:
+                    containerRef.current.getBoundingClientRect().right -
+                    anchorEl.element.getBoundingClientRect().right,
+                }
+              : {
+                  left:
+                    anchorEl.element.getBoundingClientRect().left -
+                    containerRef.current.getBoundingClientRect().left,
+                }),
+          }}
+        >
+          {anchorEl.isSelection ? (
+            <div
+              className="free-grid-menu-item"
+              onClick={() => {
+                setShowManageDialog(true);
+                handleCloseMenu();
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" />
+              </svg>
+              Manage columns
+            </div>
+          ) : (
+            <>
+              <div
+                className="free-grid-menu-item"
+                onClick={() => {
+                  handleSort(anchorEl.column!.key as string);
+                  handleCloseMenu();
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" />
+                </svg>
+                Sort by ASC
+              </div>
+              <div
+                className="free-grid-menu-item"
+                onClick={() => {
+                  handleSort(anchorEl.column!.key as string);
+                  handleCloseMenu();
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
+                </svg>
+                Sort by DESC
+              </div>
+              <div className="free-grid-menu-divider" />
+              <div
+                className="free-grid-menu-item"
+                onClick={() => {
+                  const newVisible = new Set(visibleColumnKeys);
+                  newVisible.delete(anchorEl.column!.key as string);
+                  setVisibleColumnKeys(newVisible);
+                  handleCloseMenu();
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2.27 4.27l2.28 2.28.46.46C3.1 8.35 1.61 10.06 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.54 3.27 2.27 4.27zM12 17c-2.76 0-5-2.24-5-5 0-.65.13-1.26.36-1.82l6.46 6.46c-.56.23-1.17.36-1.82.36z" />
+                </svg>
+                Hide column
+              </div>
+              <div
+                className="free-grid-menu-item"
+                onClick={() => {
+                  setShowManageDialog(true);
+                  handleCloseMenu();
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" />
+                </svg>
+                Manage columns
+              </div>
+            </>
+          )}
+        </div>
+      )}
+
+      {showManageDialog && (
+        <div 
+          ref={manageRef}
+          className="free-grid-manage-popover" 
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="free-grid-dialog-header">
+            <div className="free-grid-search-container">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" style={{ opacity: 0.5 }}>
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" />
+              </svg>
+              <input
+                type="text"
+                placeholder="Search..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="free-grid-search-input"
+                autoFocus
+              />
+            </div>
+          </div>
+          <div className="free-grid-dialog-content">
+            <div className="free-grid-dialog-actions">
+              <label className="free-grid-dialog-row">
+                <input
+                  type="checkbox"
+                  className="free-grid-checkbox"
+                  checked={visibleColumnKeys.size === columns.length + (selectable ? 1 : 0)}
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                        const all = new Set(columns.map(c => c.key as string));
+                        if (selectable) all.add('__selection');
+                        setVisibleColumnKeys(all);
+                      } else {
+                        setVisibleColumnKeys(new Set());
+                      }
+                  }}
+                />
+                <span>Show/Hide All</span>
+              </label>
+              <button
+                className="free-grid-text-button"
+                onClick={() => {
+                  const initial = new Set<string>();
+                  if (selectable) initial.add('__selection');
+                  columns.forEach(c => { if (!c.defaultHidden) initial.add(c.key as string); });
+                  setVisibleColumnKeys(initial);
+                }}
+              >
+                RESET
+              </button>
+            </div>
+
+            <div className="free-grid-columns-list">
+              {selectable && "checkbox selection".includes(searchTerm.toLowerCase()) && (
+                <label className="free-grid-dialog-row">
+                  <input
+                    type="checkbox"
+                    className="free-grid-checkbox"
+                    checked={visibleColumnKeys.has('__selection')}
+                    onChange={() => {
+                      const next = new Set(visibleColumnKeys);
+                      if (next.has('__selection')) next.delete('__selection');
+                      else next.add('__selection');
+                      setVisibleColumnKeys(next);
+                    }}
+                  />
+                  <span>Checkbox selection</span>
+                </label>
+              )}
+              {columns
+                .filter((c) => (c.header as string).toLowerCase().includes(searchTerm.toLowerCase()))
+                .map((col) => (
+                  <label key={col.key as string} className="free-grid-dialog-row">
+                    <input
+                      type="checkbox"
+                      className="free-grid-checkbox"
+                      checked={visibleColumnKeys.has(col.key as string)}
+                      onChange={() => {
+                        const next = new Set(visibleColumnKeys);
+                        if (next.has(col.key as string)) next.delete(col.key as string);
+                        else next.add(col.key as string);
+                        setVisibleColumnKeys(next);
+                      }}
+                    />
+                    <span>{col.header}</span>
+                  </label>
+                ))}
             </div>
           </div>
         </div>

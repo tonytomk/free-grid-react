@@ -5,6 +5,8 @@ export interface Column<T> {
   flex?: number;
   render?: (value: any, item: T) => React.ReactNode;
   sortable?: boolean;
+  hideable?: boolean;
+  defaultHidden?: boolean;
 }
 
 export interface GridProps<T> {

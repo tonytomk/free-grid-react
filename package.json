@@ -1,6 +1,6 @@
 {
   "name": "free-grid-react",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "A lightweight, high-performance React grid component built with CSS Grid and TypeScript.",
   "author": "Tony Tom K",
   "license": "MIT",

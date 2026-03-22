@@ -4,6 +4,9 @@ export interface Column<T> {
     width?: string | number;
     flex?: number;
     render?: (value: any, item: T) => React.ReactNode;
+    sortable?: boolean;
+    hideable?: boolean;
+    defaultHidden?: boolean;
 }
 export interface GridProps<T> {
     data: T[];
@@ -21,4 +24,6 @@ export interface GridProps<T> {
     };
     className?: string;
     id?: string;
+    allowSorting?: boolean;
+    onSort?: (key: string, direction: 'asc' | 'desc' | null) => void;
 }
