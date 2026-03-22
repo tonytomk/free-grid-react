@@ -35,6 +35,38 @@
   display: flex;
   align-items: center;
   position: relative;
+  transition: background-color 0.2s;
+}
+
+.free-grid-header-cell.sortable {
+  cursor: pointer;
+  user-select: none;
+}
+
+.free-grid-header-cell.sortable:hover {
+  background-color: var(--fg-row-hover);
+}
+
+.free-grid-sort-icon {
+  margin-left: 4px;
+  display: inline-flex;
+  align-items: center;
+  color: rgba(0, 0, 0, 0.45);
+  opacity: 0;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.free-grid-header-cell.sortable:hover .free-grid-sort-icon {
+  opacity: 1;
+}
+
+.free-grid-sort-icon.active {
+  opacity: 1;
+  color: var(--fg-primary-color);
+}
+
+.free-grid-sort-icon svg {
+  display: block;
 }
 
 .free-grid-header-cell:not(:last-child)::after {

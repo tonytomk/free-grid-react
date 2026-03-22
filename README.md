@@ -10,6 +10,7 @@ A lightweight, high-performance, and fully configurable React grid component bui
 - 🛠️ **Configurable Headers**: Bold labels with vertical dividers and togglable visibility.
 - 🔘 **Selection**: Built-in checkbox selection with "Select All" support.
 - 📁 **Child Views**: Easily expand rows to show detailed child components.
+- 📶 **Sorting**: Built-in support for ascending and descending sort on any column.
 - 📄 **Pagination**: Integrated right-aligned pagination footer.
 - ⌨️ **TypeScript**: First-class support for types and interfaces.
 
@@ -52,8 +53,10 @@ function App() {
 | Prop | Type | Description |
 | --- | --- | --- |
 | `data` | `any[]` | Array of data objects to display. |
-| `columns` | `Column[]` | Configuration for columns (`key`, `header`, `flex`, `render`). |
+| `columns` | `Column[]` | Configuration for columns (`key`, `header`, `flex`, `render`, `sortable`). |
 | `showHeader` | `boolean` | Whether to show the grid header (default: `true`). |
+| `allowSorting` | `boolean` | Global toggle to enable/disable sorting (default: `true`). |
+| `onSort` | `(key, dir) => void` | Callback for external/server-side sorting. |
 | `selectable` | `boolean` | Enable row selection checkboxes. |
 | `selectedIds` | `(string\|number)[]` | Controlled array of selected row IDs. |
 | `onSelectionChange` | `(ids: any[]) => void` | Callback when selection changes. |

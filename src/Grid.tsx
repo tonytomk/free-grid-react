@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import './Grid.css';
 import { GridProps } from './types';
 
@@ -13,8 +13,17 @@ export function Grid<T extends { id?: string | number } | any>({
   pagination,
   className = '',
   id,
+  allowSorting,
+  onSort,
 }: GridProps<T>) {
   const [expandedRows, setExpandedRows] = useState<Set<string | number>>(new Set());
+  const [sortConfig, setSortConfig] = useState<{
+    key: string | null;
+    direction: 'asc' | 'desc' | null;
+  }>({
+    key: null,
+    direction: null,
+  });
 
   const toggleRow = (rowIndex: number, item: T) => {
     const rowId = (item as any).id !== undefined ? (item as any).id : rowIndex;
@@ -26,6 +35,37 @@ export function Grid<T extends { id?: string | number } | any>({
     }
     setExpandedRows(newExpandedRows);
   };
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' | null = 'asc';
+    if (sortConfig.key === key) {
+      if (sortConfig.direction === 'asc') direction = 'desc';
+      else if (sortConfig.direction === 'desc') direction = null;
+    }
+
+    setSortConfig({ key, direction });
+    if (onSort) {
+      onSort(key, direction);
+    }
+  };
+
+  const sortedData = useMemo(() => {
+    if (onSort || !sortConfig.key || !sortConfig.direction) {
+      return data;
+    }
+
+    return [...data].sort((a, b) => {
+      const aValue = (a as any)[sortConfig.key!];
+      const bValue = (b as any)[sortConfig.key!];
+
+      if (aValue === bValue) return 0;
+      if (aValue === null || aValue === undefined) return 1;
+      if (bValue === null || bValue === undefined) return -1;
+
+      const comparison = aValue < bValue ? -1 : 1;
+      return sortConfig.direction === 'asc' ? comparison : -comparison;
+    });
+  }, [data, sortConfig, onSort]);
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!onSelectionChange) return;
@@ -73,15 +113,41 @@ export function Grid<T extends { id?: string | number } | any>({
               />
             </div>
           )}
-          {columns.map((col, i) => (
-            <div key={`header-${i}`} className="free-grid-header-cell">
-              {col.header}
-            </div>
-          ))}
+          {columns.map((col, i) => {
+            const isSortable = allowSorting !== false && col.sortable !== false;
+            const isSorted = sortConfig.key === col.key;
+
+            return (
+              <div
+                key={`header-${i}`}
+                className={`free-grid-header-cell ${isSortable ? 'sortable' : ''}`}
+                onClick={() => isSortable && handleSort(col.key as string)}
+              >
+                {col.header}
+                {isSortable && (
+                  <span className={`free-grid-sort-icon ${isSorted ? 'active' : ''}`}>
+                    {isSorted && sortConfig.direction === 'asc' ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 14l5-5 5 5z" />
+                      </svg>
+                    ) : isSorted && sortConfig.direction === 'desc' ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M7 10l5 5 5-5z" />
+                      </svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="placeholder">
+                        <path d="M7 14l5-5 5 5z M7 10l5 5 5-5z" />
+                      </svg>
+                    )}
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
       <div className="free-grid-body">
-        {data.map((item, rowIndex) => {
+        {sortedData.map((item, rowIndex) => {
           const rowId = (item as any).id !== undefined ? (item as any).id : rowIndex;
           const isExpanded = expandedRows.has(rowId);
           const isSelected = selectedIds.includes(rowId);
