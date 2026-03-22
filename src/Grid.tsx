@@ -13,9 +13,15 @@ export function Grid<T extends { id?: string | number } | any>({
   pagination,
   className = '',
   id,
-  allowSorting,
+  allowSorting = true,
   onSort,
+  allowReordering = true,
+  allowResizing = true,
 }: GridProps<T>) {
+  const [columnKeys, setColumnKeys] = useState<string[]>(() => columns.map(col => col.key as string));
+  const [columnWidths, setColumnWidths] = useState<Record<string, number | string>>({});
+  const [resizing, setResizing] = useState<{ key: string; startX: number; startWidth: number } | null>(null);
+  const [draggedColKey, setDraggedColKey] = useState<string | null>(null);
   const [expandedRows, setExpandedRows] = useState<Set<string | number>>(new Set());
   const [sortConfig, setSortConfig] = useState<{
     key: string | null;
@@ -46,6 +52,44 @@ export function Grid<T extends { id?: string | number } | any>({
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    setColumnKeys(columns.map(col => col.key as string));
+  }, [columns]);
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!resizing) return;
+      const deltaX = e.clientX - resizing.startX;
+      const newWidth = Math.max(resizing.startWidth + deltaX, 50);
+      setColumnWidths(prev => ({ ...prev, [resizing.key]: newWidth }));
+    };
+
+    const handleMouseUp = () => {
+      setResizing(null);
+    };
+
+    if (resizing) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [resizing]);
+
+  const orderedColumns = useMemo(() => {
+    return columnKeys
+      .map(key => columns.find(col => col.key === key))
+      .filter((col): col is Column<T> => !!col);
+  }, [columnKeys, columns]);
+
+  const filteredColumns = useMemo(
+    () => orderedColumns.filter((col) => visibleColumnKeys.has(col.key as string)),
+    [orderedColumns, visibleColumnKeys]
+  );
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         anchorEl &&
@@ -60,7 +104,6 @@ export function Grid<T extends { id?: string | number } | any>({
         manageRef.current &&
         !manageRef.current.contains(event.target as Node)
       ) {
-        // Only close if we didn't just click the menu item that opens it
         const isMenuItem = (event.target as HTMLElement).closest('.free-grid-menu-item');
         if (!isMenuItem) {
           setShowManageDialog(false);
@@ -70,11 +113,6 @@ export function Grid<T extends { id?: string | number } | any>({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [anchorEl, showManageDialog]);
-
-  const filteredColumns = useMemo(
-    () => columns.filter((col) => visibleColumnKeys.has(col.key as string)),
-    [columns, visibleColumnKeys]
-  );
 
   const toggleRow = (rowIndex: number, item: T) => {
     const rowId = (item as any).id !== undefined ? (item as any).id : rowIndex;
@@ -139,6 +177,55 @@ export function Grid<T extends { id?: string | number } | any>({
     onSelectionChange(Array.from(newSelected));
   };
 
+  const handleDragStart = (e: React.DragEvent, key: string) => {
+    setDraggedColKey(key);
+    e.dataTransfer.setData('text/plain', key);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+  };
+
+  const handleDrop = (e: React.DragEvent, targetKey: string) => {
+    e.preventDefault();
+    if (!draggedColKey || draggedColKey === targetKey) return;
+
+    const newKeys = [...columnKeys];
+    const sourceIdx = newKeys.indexOf(draggedColKey);
+    const targetIdx = newKeys.indexOf(targetKey);
+    
+    newKeys.splice(sourceIdx, 1);
+    newKeys.splice(targetIdx, 0, draggedColKey);
+    setColumnKeys(newKeys);
+    setDraggedColKey(null);
+  };
+
+  const moveColumn = (key: string, direction: 'left' | 'right') => {
+    const newKeys = [...columnKeys];
+    const idx = newKeys.indexOf(key);
+    if (idx === -1) return;
+
+    if (direction === 'left' && idx > 0) {
+      [newKeys[idx], newKeys[idx - 1]] = [newKeys[idx - 1], newKeys[idx]];
+    } else if (direction === 'right' && idx < newKeys.length - 1) {
+      [newKeys[idx], newKeys[idx + 1]] = [newKeys[idx + 1], newKeys[idx]];
+    }
+    setColumnKeys(newKeys);
+  };
+
+  const handleResizeStart = (e: React.MouseEvent, key: string) => {
+    e.stopPropagation();
+    e.preventDefault();
+    const cell = (e.target as HTMLElement).closest('.free-grid-header-cell');
+    if (cell) {
+      setResizing({
+        key,
+        startX: e.clientX,
+        startWidth: cell.getBoundingClientRect().width,
+      });
+    }
+  };
+
   const handleOpenMenu = (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => {
     e.stopPropagation();
     setAnchorEl({ element: e.currentTarget as HTMLElement, column, isSelection });
@@ -154,6 +241,8 @@ export function Grid<T extends { id?: string | number } | any>({
       selectable && visibleColumnKeys.has('__selection') ? '50px ' : ''
     }${filteredColumns
       .map((col) => {
+        const manualWidth = columnWidths[col.key as string];
+        if (manualWidth) return typeof manualWidth === 'number' ? `${manualWidth}px` : manualWidth;
         if (col.width) return typeof col.width === 'number' ? `${col.width}px` : col.width;
         if (col.flex) return `${col.flex}fr`;
         return '1fr';
@@ -163,7 +252,9 @@ export function Grid<T extends { id?: string | number } | any>({
 
   return (
     <div className={`free-grid-container ${className}`} id={id} ref={containerRef}>
-      {showHeader && (
+      <div className="free-grid-scroll-container">
+        <div className="free-grid-inner">
+          {showHeader && (
         <div className="free-grid-header" style={gridStyle}>
           {selectable && visibleColumnKeys.has('__selection') && (
             <div className="free-grid-header-cell free-grid-checkbox-cell">
@@ -173,36 +264,45 @@ export function Grid<T extends { id?: string | number } | any>({
                 onChange={handleSelectAll}
                 checked={data.length > 0 && selectedIds.length === data.length}
               />
+              <button
+                className="free-grid-menu-button"
+                onClick={(e) => handleOpenMenu(e, null, true)}
+                style={{ position: 'absolute', right: '2px' }}
+              >
+                ⋮
+              </button>
             </div>
           )}
-          {filteredColumns.map((col, i) => {
+          {filteredColumns.map((col) => {
             const isSortable = allowSorting !== false && col.sortable !== false;
             const isSorted = sortConfig.key === col.key;
+            const isDraggable = allowReordering !== false && col.draggable !== false;
+            const isResizable = allowResizing !== false && col.resizable !== false;
 
             return (
               <div
-                key={`header-${i}`}
-                className={`free-grid-header-cell ${isSortable ? 'sortable' : ''}`}
-                onClick={() => isSortable && handleSort(col.key as string)}
+                key={col.key as string}
+                className={`free-grid-header-cell ${isSortable ? 'sortable' : ''} ${
+                  isSorted ? 'active' : ''
+                } ${draggedColKey === col.key ? 'dragging' : ''}`}
+                draggable={isDraggable}
+                onDragStart={(e) => handleDragStart(e, col.key as string)}
+                onDragOver={handleDragOver}
+                onDrop={(e) => handleDrop(e, col.key as string)}
               >
-                <span className="free-grid-header-text">{col.header}</span>
-                {isSortable && (
-                  <span className={`free-grid-sort-icon ${isSorted ? 'active' : ''}`}>
-                    {isSorted && sortConfig.direction === 'asc' ? (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 14l5-5 5 5z" />
-                      </svg>
-                    ) : isSorted && sortConfig.direction === 'desc' ? (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M7 10l5 5 5-5z" />
-                      </svg>
-                    ) : (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="placeholder">
-                        <path d="M7 14l5-5 5 5z M7 10l5 5 5-5z" />
-                      </svg>
+                <div 
+                  className="free-grid-header-content" 
+                  onClick={() => isSortable && handleSort(col.key as string)}
+                >
+                  <span className="free-grid-header-text">
+                    {col.header}
+                    {isSorted && (
+                      <span className={`free-grid-sort-icon ${sortConfig.direction}`}>
+                        {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                      </span>
                     )}
                   </span>
-                )}
+                </div>
                 <button
                   className="free-grid-menu-button"
                   onClick={(e) => handleOpenMenu(e, col)}
@@ -211,6 +311,12 @@ export function Grid<T extends { id?: string | number } | any>({
                     <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" />
                   </svg>
                 </button>
+                {isResizable && (
+                  <div 
+                    className="free-grid-resizer" 
+                    onMouseDown={(e) => handleResizeStart(e, col.key as string)}
+                  />
+                )}
               </div>
             );
           })}
@@ -259,6 +365,8 @@ export function Grid<T extends { id?: string | number } | any>({
             </React.Fragment>
           );
         })}
+        </div>
+      </div>
       </div>
       {pagination && (
         <div className="free-grid-footer">
@@ -268,7 +376,11 @@ export function Grid<T extends { id?: string | number } | any>({
               {Math.min(pagination.page * pagination.pageSize, pagination.total)} of {pagination.total}
             </span>
             <div className="free-grid-pagination-actions">
-              <button className="free-grid-icon-button" disabled={pagination.page <= 1}>
+              <button 
+                className="free-grid-icon-button" 
+                disabled={pagination.page <= 1}
+                onClick={() => pagination.onPageChange?.(pagination.page - 1)}
+              >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
                 </svg>
@@ -276,6 +388,7 @@ export function Grid<T extends { id?: string | number } | any>({
               <button
                 className="free-grid-icon-button"
                 disabled={pagination.page * pagination.pageSize >= pagination.total}
+                onClick={() => pagination.onPageChange?.(pagination.page + 1)}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" />
@@ -347,6 +460,31 @@ export function Grid<T extends { id?: string | number } | any>({
                   <path d="M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" />
                 </svg>
                 Sort by DESC
+              </div>
+              <div className="free-grid-menu-divider" />
+              <div
+                className="free-grid-menu-item"
+                onClick={() => {
+                  moveColumn(anchorEl.column!.key as string, 'left');
+                  handleCloseMenu();
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" />
+                </svg>
+                Move left
+              </div>
+              <div
+                className="free-grid-menu-item"
+                onClick={() => {
+                  moveColumn(anchorEl.column!.key as string, 'right');
+                  handleCloseMenu();
+                }}
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+                </svg>
+                Move right
               </div>
               <div className="free-grid-menu-divider" />
               <div
@@ -465,7 +603,7 @@ export function Grid<T extends { id?: string | number } | any>({
                         setVisibleColumnKeys(next);
                       }}
                     />
-                    <span>{col.header}</span>
+                    <span>{col.header as string}</span>
                   </label>
                 ))}
             </div>

@@ -3,10 +3,13 @@ export interface Column<T> {
   header: React.ReactNode;
   width?: string | number;
   flex?: number;
-  render?: (value: any, item: T) => React.ReactNode;
+  render?: (value: any, row: T) => React.ReactNode;
   sortable?: boolean;
   hideable?: boolean;
   defaultHidden?: boolean;
+  draggable?: boolean;
+  resizable?: boolean;
+  minWidth?: number;
 }
 
 export interface GridProps<T> {
@@ -22,9 +25,12 @@ export interface GridProps<T> {
     total: number;
     page: number;
     pageSize: number;
+    onPageChange?: (page: number) => void;
   };
   className?: string;
   id?: string;
   allowSorting?: boolean;
   onSort?: (key: string, direction: 'asc' | 'desc' | null) => void;
+  allowReordering?: boolean;
+  allowResizing?: boolean;
 }

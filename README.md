@@ -59,8 +59,10 @@ function App() {
 | `data` | `any[]` | Array of data objects to display. |
 | `columns` | `Column[]` | Configuration for columns. |
 | `showHeader` | `boolean` | Whether to show the grid header (default: `true`). |
-| `allowSorting` | `boolean` | Global toggle for sorting (default: `true`). |
-| `onSort` | `(key, dir) => void` | Callback for external/server-side sorting. |
+| `allowSorting` | `boolean` | `true` | Enable/disable sorting for the entire grid |
+| `allowReordering` | `boolean` | `true` | Enable/disable column drag-and-drop reordering |
+| `allowResizing` | `boolean` | `true` | Enable/disable interactive column resizing |
+| `onSort` | `function` | - | Callback when sorting changes |
 | `selectable` | `boolean` | Enable row selection checkboxes. |
 | `selectedIds` | `(string\|number)[]` | Managed array of selected row IDs. |
 | `onSelectionChange` | `(ids: any[]) => void` | Callback for selection changes. |
@@ -75,16 +77,21 @@ function App() {
 | `header` | `string` | Header display text. |
 | `width` | `number \| string` | Fixed width (e.g., `100` or `'100px'`). |
 | `flex` | `number` | Flex grow value (uses `fr` units). |
-| `sortable` | `boolean` | Enable sorting for this column (default: `true`). |
-| `hideable` | `boolean` | Allow user to hide this column (default: `true`). |
-| `defaultHidden` | `boolean` | Column is hidden by default. |
+| `sortable` | `boolean` | `true` | Whether this specific column can be sorted |
+| `hideable` | `boolean` | `true` | Whether this column can be hidden via the menu |
+| `defaultHidden` | `boolean` | `false` | Whether the column is hidden by default |
+| `draggable` | `boolean` | `true` | Whether this specific column can be dragged |
+| `resizable` | `boolean` | `true` | Whether this specific column can be resized |
+| `minWidth` | `number` | `50` | Minimum width in pixels when resizing |
 | `render` | `(val, row) => ReactNode` | Custom cell renderer. |
 
-## Column Management
+### Column Management
 
-The grid includes a built-in column management system:
-- **Individual Hiding**: Click the three-dot menu on any header to hide that column.
-- **Global Management**: Access "Manage Columns" from any header menu to open a compact popover.
+The grid provides built-in tools for managing columns:
+- **Visibility**: Toggle columns via the "Manage columns" dialog.
+- **Reordering**: Drag and drop header cells to change their order, or use "Move left/right" in the column menu.
+- **Resizing**: Hover between header cells and drag the handle to adjust column widths.
+- **Persistence**: The grid maintains internal state for column order and widths (you can lift this state if needed by passing controlled props in future updates).
 - **Search & Reset**: Search for columns, toggle visibility globally, or reset to defaults.
 
 ## License
