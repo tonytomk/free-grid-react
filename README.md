@@ -2,6 +2,11 @@
 
 A lightweight, high-performance, and fully configurable React grid component built with CSS Grid and TypeScript.
 
+## Demo
+
+- Demo app: https://tonytomk.github.io/free-grid-react-demo/
+- Demo app codebase: https://github.com/tonytomk/free-grid-react-app
+
 
 ## Features
 
