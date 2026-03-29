@@ -337,6 +337,7 @@
   font-size: 0.875rem;
   min-height: 52px;
   width: 100%;
+  background-color: var(--fg-row-background, transparent);
 }
 
 .free-grid-row:last-child {
@@ -348,11 +349,19 @@
 }
 
 .free-grid-row:hover {
-  background-color: var(--fg-grid-surface-hover);
+  background-color: var(--fg-row-hover-background, var(--fg-grid-surface-hover));
 }
 
 .free-grid-row.expanded {
-  background-color: var(--fg-grid-surface-hover);
+  background-color: var(--fg-row-hover-background, var(--fg-grid-surface-hover));
+}
+
+.free-grid-row.selected {
+  background-color: var(--fg-grid-surface-selected);
+}
+
+.free-grid-row.selected:hover {
+  background-color: var(--fg-grid-surface-selected);
 }
 
 .free-grid-cell {

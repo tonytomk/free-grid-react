@@ -11,7 +11,6 @@ A lightweight, high-performance, and fully configurable React grid component bui
 ## Features
 
 - 🚀 **Performant**: Built with native CSS Grid for smooth rendering.
-- 🎨 **MUI-Inspired**: Clean, professional aesthetic out of the box.
 - 🛠️ **Configurable Headers**: Bold labels with vertical dividers and togglable visibility.
 - 🔘 **Selection**: Built-in checkbox selection with "Select All" support.
 - 📁 **Child Views**: Easily expand rows to show detailed child components.
@@ -49,8 +48,7 @@ function App() {
       data={data}
       columns={columns}
       selectable={true}
-      gridColor="#0f172a"
-      gridTextColor="#ffffff"
+      theme="dark"
       pagination={{ total: 2, page: 1, pageSize: 10 }}
     />
   );
@@ -66,6 +64,10 @@ function App() {
 | `data` | `any[]` | Array of data objects to display. |
 | `columns` | `Column[]` | Configuration for columns. |
 | `showHeader` | `boolean` | Whether to show the grid header (default: `true`). |
+| `stripedRows` | `boolean` | Optional alternating row colors. Defaults to `false`. |
+| `stripedRowOddColor` | `string` | Custom color for odd striped rows. |
+| `stripedRowEvenColor` | `string` | Custom color for even striped rows. |
+| `theme` | `light \| dark \| blue` | Built-in surface theme preset. Defaults to `light`. |
 | `gridColor` | `string` | Main grid surface color. Defaults to white when omitted. |
 | `gridTextColor` | `string` | Optional text color for custom grid surfaces. |
 | `allowSorting` | `boolean` | `true` | Enable/disable sorting for the entire grid |

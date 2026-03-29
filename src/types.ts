@@ -12,11 +12,17 @@ export interface Column<T> {
   minWidth?: number;
 }
 
+export type GridTheme = 'light' | 'dark' | 'blue';
+
 export interface GridProps<T> {
   data: T[];
   columns: Column<T>[];
   showHeader?: boolean;
   rowHeight?: string | number;
+  stripedRows?: boolean;
+  stripedRowOddColor?: string;
+  stripedRowEvenColor?: string;
+  theme?: GridTheme;
   gridColor?: string;
   gridTextColor?: string;
   renderChildView?: (item: T) => React.ReactNode;

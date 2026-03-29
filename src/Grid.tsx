@@ -6,6 +6,10 @@ export function Grid<T extends { id?: string | number } | any>({
   data,
   columns,
   showHeader = true,
+  stripedRows = false,
+  stripedRowOddColor,
+  stripedRowEvenColor,
+  theme = 'light',
   gridColor,
   gridTextColor,
   renderChildView,
@@ -90,6 +94,17 @@ export function Grid<T extends { id?: string | number } | any>({
     () => orderedColumns.filter((col) => visibleColumnKeys.has(col.key as string)),
     [orderedColumns, visibleColumnKeys]
   );
+
+  const stripedColors = stripedRows
+    ? {
+        odd:
+          stripedRowOddColor ??
+          (theme === 'light' && !gridColor ? 'rgba(0, 0, 0, 0.00)' : 'rgba(255, 255, 255, 0.04)'),
+        even:
+          stripedRowEvenColor ??
+          (theme === 'light' && !gridColor ? 'rgba(0, 0, 0, 0.03)' : 'rgba(255, 255, 255, 0.08)'),
+      }
+    : null;
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -237,16 +252,65 @@ export function Grid<T extends { id?: string | number } | any>({
     setAnchorEl(null);
   };
 
-  const themeSurfaceStyle = gridColor
-    ? ({
-        '--fg-grid-surface': gridColor,
-        '--fg-grid-surface-text': gridTextColor ?? '#ffffff',
-        '--fg-grid-surface-muted': gridTextColor ?? 'rgba(255, 255, 255, 0.72)',
-        '--fg-grid-surface-border': 'rgba(255, 255, 255, 0.18)',
-        '--fg-grid-surface-hover': 'rgba(255, 255, 255, 0.08)',
-        '--fg-grid-surface-selected': 'rgba(255, 255, 255, 0.12)',
-      } as React.CSSProperties)
-    : undefined;
+  const themePresets = {
+    light: {
+      gridColor: '#ffffff',
+      gridTextColor: 'rgba(0, 0, 0, 0.87)',
+      gridMutedColor: 'rgba(0, 0, 0, 0.54)',
+      gridBorderColor: '#e0e0e0',
+      gridHoverColor: 'rgba(0, 0, 0, 0.04)',
+      gridSelectedColor: 'rgba(25, 118, 210, 0.08)',
+    },
+    dark: {
+      gridColor: '#0f172a',
+      gridTextColor: '#ffffff',
+      gridMutedColor: 'rgba(255, 255, 255, 0.72)',
+      gridBorderColor: 'rgba(255, 255, 255, 0.18)',
+      gridHoverColor: 'rgba(255, 255, 255, 0.08)',
+      gridSelectedColor: 'rgba(255, 255, 255, 0.12)',
+    },
+    blue: {
+      gridColor: '#1d4ed8',
+      gridTextColor: '#ffffff',
+      gridMutedColor: 'rgba(255, 255, 255, 0.72)',
+      gridBorderColor: 'rgba(255, 255, 255, 0.18)',
+      gridHoverColor: 'rgba(255, 255, 255, 0.08)',
+      gridSelectedColor: 'rgba(255, 255, 255, 0.12)',
+    },
+  } satisfies Record<string, {
+    gridColor: string;
+    gridTextColor: string;
+    gridMutedColor: string;
+    gridBorderColor: string;
+    gridHoverColor: string;
+    gridSelectedColor: string;
+  }>;
+
+  const activeTheme = themePresets[theme] ?? themePresets.light;
+  const useCustomSurfacePalette = theme === 'light' && !!gridColor;
+  const resolvedGridColor = gridColor ?? activeTheme.gridColor;
+  const resolvedGridTextColor =
+    gridTextColor ?? (useCustomSurfacePalette ? '#ffffff' : activeTheme.gridTextColor);
+  const resolvedGridMutedColor =
+    gridTextColor ?? (useCustomSurfacePalette ? 'rgba(255, 255, 255, 0.72)' : activeTheme.gridMutedColor);
+  const resolvedGridBorderColor = useCustomSurfacePalette
+    ? 'rgba(255, 255, 255, 0.18)'
+    : activeTheme.gridBorderColor;
+  const resolvedGridHoverColor = useCustomSurfacePalette
+    ? 'rgba(255, 255, 255, 0.08)'
+    : activeTheme.gridHoverColor;
+  const resolvedGridSelectedColor = useCustomSurfacePalette
+    ? 'rgba(255, 255, 255, 0.12)'
+    : activeTheme.gridSelectedColor;
+
+  const themeSurfaceStyle = ({
+    '--fg-grid-surface': resolvedGridColor,
+    '--fg-grid-surface-text': resolvedGridTextColor,
+    '--fg-grid-surface-muted': resolvedGridMutedColor,
+    '--fg-grid-surface-border': resolvedGridBorderColor,
+    '--fg-grid-surface-hover': resolvedGridHoverColor,
+    '--fg-grid-surface-selected': resolvedGridSelectedColor,
+  } as React.CSSProperties);
 
   const gridStyle = {
     display: 'grid',
@@ -341,10 +405,17 @@ export function Grid<T extends { id?: string | number } | any>({
         </div>
       )}
       <div className="free-grid-body">
-        {sortedData.map((item, rowIndex) => {
+      {sortedData.map((item, rowIndex) => {
           const rowId = (item as any).id !== undefined ? (item as any).id : rowIndex;
           const isExpanded = expandedRows.has(rowId);
           const isSelected = selectedIds.includes(rowId);
+          const rowStripeStyle = stripedColors && !isSelected
+            ? ({
+                '--fg-row-background':
+                  rowIndex % 2 === 0 ? stripedColors.odd : stripedColors.even,
+                '--fg-row-hover-background': activeTheme.gridHoverColor,
+              } as React.CSSProperties)
+            : undefined;
 
           return (
             <React.Fragment key={`row-${rowId}`}>
@@ -352,7 +423,7 @@ export function Grid<T extends { id?: string | number } | any>({
                 className={`free-grid-row ${renderChildView ? 'expandable' : ''} ${
                   isExpanded ? 'expanded' : ''
                 } ${isSelected ? 'selected' : ''}`}
-                style={gridStyle}
+                style={{ ...gridStyle, ...rowStripeStyle }}
                 onClick={() => renderChildView && toggleRow(rowIndex, item)}
               >
                 {selectable && visibleColumnKeys.has('__selection') && (
