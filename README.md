@@ -64,6 +64,7 @@ function App() {
 | `data` | `any[]` | Array of data objects to display. |
 | `columns` | `Column[]` | Configuration for columns. |
 | `showHeader` | `boolean` | Whether to show the grid header (default: `true`). |
+| `selectionMode` | `single \| multiple` | Row selection behavior. Defaults to `multiple`. |
 | `stripedRows` | `boolean` | Optional alternating row colors. Defaults to `false`. |
 | `stripedRowOddColor` | `string` | Custom color for odd striped rows. |
 | `stripedRowEvenColor` | `string` | Custom color for even striped rows. |

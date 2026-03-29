@@ -17,6 +17,7 @@ export interface GridProps<T> {
     columns: Column<T>[];
     showHeader?: boolean;
     rowHeight?: string | number;
+    selectionMode?: 'single' | 'multiple';
     stripedRows?: boolean;
     stripedRowOddColor?: string;
     stripedRowEvenColor?: string;

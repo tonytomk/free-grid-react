@@ -6,6 +6,7 @@ export function Grid<T extends { id?: string | number } | any>({
   data,
   columns,
   showHeader = true,
+  selectionMode = 'multiple',
   stripedRows = false,
   stripedRowOddColor,
   stripedRowEvenColor,
@@ -175,6 +176,7 @@ export function Grid<T extends { id?: string | number } | any>({
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (!onSelectionChange) return;
+    if (selectionMode === 'single') return;
     if (e.target.checked) {
       onSelectionChange(data.map((item, i) => (item as any).id !== undefined ? (item as any).id : i));
     } else {
@@ -185,6 +187,11 @@ export function Grid<T extends { id?: string | number } | any>({
   const handleSelectRow = (e: React.ChangeEvent<HTMLInputElement>, rowId: string | number) => {
     e.stopPropagation();
     if (!onSelectionChange) return;
+    if (selectionMode === 'single') {
+      onSelectionChange(e.target.checked ? [rowId] : []);
+      return;
+    }
+
     const newSelected = new Set(selectedIds);
     if (e.target.checked) {
       newSelected.add(rowId);
@@ -338,7 +345,7 @@ export function Grid<T extends { id?: string | number } | any>({
         <div className="free-grid-inner">
           {showHeader && (
         <div className="free-grid-header" style={gridStyle}>
-          {selectable && visibleColumnKeys.has('__selection') && (
+          {selectable && selectionMode !== 'single' && visibleColumnKeys.has('__selection') && (
             <div className="free-grid-header-cell free-grid-checkbox-cell">
               <input
                 type="checkbox"
