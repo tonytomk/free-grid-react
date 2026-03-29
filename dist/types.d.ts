@@ -16,6 +16,8 @@ export interface GridProps<T> {
     columns: Column<T>[];
     showHeader?: boolean;
     rowHeight?: string | number;
+    gridColor?: string;
+    gridTextColor?: string;
     renderChildView?: (item: T) => React.ReactNode;
     selectable?: boolean;
     selectedIds?: (string | number)[];

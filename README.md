@@ -49,6 +49,8 @@ function App() {
       data={data}
       columns={columns}
       selectable={true}
+      gridColor="#0f172a"
+      gridTextColor="#ffffff"
       pagination={{ total: 2, page: 1, pageSize: 10 }}
     />
   );
@@ -64,6 +66,8 @@ function App() {
 | `data` | `any[]` | Array of data objects to display. |
 | `columns` | `Column[]` | Configuration for columns. |
 | `showHeader` | `boolean` | Whether to show the grid header (default: `true`). |
+| `gridColor` | `string` | Main grid surface color. Defaults to white when omitted. |
+| `gridTextColor` | `string` | Optional text color for custom grid surfaces. |
 | `allowSorting` | `boolean` | `true` | Enable/disable sorting for the entire grid |
 | `allowReordering` | `boolean` | `true` | Enable/disable column drag-and-drop reordering |
 | `allowResizing` | `boolean` | `true` | Enable/disable interactive column resizing |

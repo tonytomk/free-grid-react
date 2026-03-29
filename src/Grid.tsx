@@ -6,6 +6,8 @@ export function Grid<T extends { id?: string | number } | any>({
   data,
   columns,
   showHeader = true,
+  gridColor,
+  gridTextColor,
   renderChildView,
   selectable,
   selectedIds = [],
@@ -235,6 +237,17 @@ export function Grid<T extends { id?: string | number } | any>({
     setAnchorEl(null);
   };
 
+  const themeSurfaceStyle = gridColor
+    ? ({
+        '--fg-grid-surface': gridColor,
+        '--fg-grid-surface-text': gridTextColor ?? '#ffffff',
+        '--fg-grid-surface-muted': gridTextColor ?? 'rgba(255, 255, 255, 0.72)',
+        '--fg-grid-surface-border': 'rgba(255, 255, 255, 0.18)',
+        '--fg-grid-surface-hover': 'rgba(255, 255, 255, 0.08)',
+        '--fg-grid-surface-selected': 'rgba(255, 255, 255, 0.12)',
+      } as React.CSSProperties)
+    : undefined;
+
   const gridStyle = {
     display: 'grid',
     gridTemplateColumns: `${
@@ -251,7 +264,12 @@ export function Grid<T extends { id?: string | number } | any>({
   };
 
   return (
-    <div className={`free-grid-container ${className}`} id={id} ref={containerRef}>
+    <div
+      className={`free-grid-container ${className}`}
+      id={id}
+      ref={containerRef}
+      style={themeSurfaceStyle}
+    >
       <div className="free-grid-scroll-container">
         <div className="free-grid-inner">
           {showHeader && (
