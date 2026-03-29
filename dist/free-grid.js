@@ -73,7 +73,7 @@ function Be() {
             return r.displayName || "Context";
           case ne:
             return (r._context.displayName || "Context") + ".Consumer";
-          case H:
+          case F:
             var o = r.render;
             return r = r.displayName, r || (r = o.displayName || o.name || "", r = r !== "" ? "ForwardRef(" + r + ")" : "ForwardRef"), r;
           case le:
@@ -119,7 +119,7 @@ function Be() {
       }
     }
     function v() {
-      var r = F.A;
+      var r = H.A;
       return r === null ? null : r.getOwner();
     }
     function x() {
@@ -237,7 +237,7 @@ React keys must be passed directly to JSX without using spread:
     function B(r) {
       return typeof r == "object" && r !== null && r.$$typeof === c;
     }
-    var k = je, c = Symbol.for("react.transitional.element"), re = Symbol.for("react.portal"), W = Symbol.for("react.fragment"), te = Symbol.for("react.strict_mode"), Y = Symbol.for("react.profiler"), ne = Symbol.for("react.consumer"), se = Symbol.for("react.context"), H = Symbol.for("react.forward_ref"), I = Symbol.for("react.suspense"), oe = Symbol.for("react.suspense_list"), le = Symbol.for("react.memo"), y = Symbol.for("react.lazy"), Z = Symbol.for("react.activity"), A = Symbol.for("react.client.reference"), F = k.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, V = Object.prototype.hasOwnProperty, ie = Array.isArray, f = console.createTask ? console.createTask : function() {
+    var k = je, c = Symbol.for("react.transitional.element"), re = Symbol.for("react.portal"), W = Symbol.for("react.fragment"), te = Symbol.for("react.strict_mode"), Y = Symbol.for("react.profiler"), ne = Symbol.for("react.consumer"), se = Symbol.for("react.context"), F = Symbol.for("react.forward_ref"), I = Symbol.for("react.suspense"), oe = Symbol.for("react.suspense_list"), le = Symbol.for("react.memo"), y = Symbol.for("react.lazy"), Z = Symbol.for("react.activity"), A = Symbol.for("react.client.reference"), H = k.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, V = Object.prototype.hasOwnProperty, ie = Array.isArray, f = console.createTask ? console.createTask : function() {
       return null;
     };
     k = {
@@ -250,7 +250,7 @@ React keys must be passed directly to JSX without using spread:
       x
     )(), u = f(E(x)), G = {};
     J.Fragment = W, J.jsx = function(r, o, i) {
-      var d = 1e4 > F.recentlyCreatedOwnerStacks++;
+      var d = 1e4 > H.recentlyCreatedOwnerStacks++;
       return P(
         r,
         o,
@@ -260,7 +260,7 @@ React keys must be passed directly to JSX without using spread:
         d ? f(E(r)) : u
       );
     }, J.jsxs = function(r, o, i) {
-      var d = 1e4 > F.recentlyCreatedOwnerStacks++;
+      var d = 1e4 > H.recentlyCreatedOwnerStacks++;
       return P(
         r,
         o,
@@ -277,7 +277,7 @@ function Ye() {
   return ke || (ke = 1, process.env.NODE_ENV === "production" ? ee.exports = De() : ee.exports = Be()), ee.exports;
 }
 var t = Ye();
-function Fe({
+function He({
   data: h,
   columns: g,
   showHeader: O = !0,
@@ -301,7 +301,7 @@ function Fe({
   allowResizing: se = !0
 }) {
   var ve;
-  const [H, I] = _(() => g.map((e) => e.key)), [oe, le] = _({}), [y, Z] = _(null), [A, F] = _(null), [V, ie] = _(/* @__PURE__ */ new Set()), [f, Q] = _({
+  const [F, I] = _(() => g.map((e) => e.key)), [oe, le] = _({}), [y, Z] = _(null), [A, H] = _(null), [V, ie] = _(/* @__PURE__ */ new Set()), [f, Q] = _({
     key: null,
     direction: null
   }), [m, R] = _(() => {
@@ -324,7 +324,7 @@ function Fe({
       document.removeEventListener("mousemove", e), document.removeEventListener("mouseup", n);
     };
   }, [y]);
-  const S = ue(() => H.map((e) => g.find((n) => n.key === e)).filter((e) => !!e), [H, g]), w = ue(
+  const S = ue(() => F.map((e) => g.find((n) => n.key === e)).filter((e) => !!e), [F, g]), w = ue(
     () => S.filter((e) => m.has(e.key)),
     [S, m]
   ), U = v ? {
@@ -361,15 +361,15 @@ function Fe({
     const s = new Set(B);
     e.target.checked ? s.add(n) : s.delete(n), k(Array.from(s));
   }, Ee = (e, n) => {
-    F(n), e.dataTransfer.setData("text/plain", n);
+    H(n), e.dataTransfer.setData("text/plain", n);
   }, Re = (e) => {
     e.preventDefault();
   }, Se = (e, n) => {
     if (e.preventDefault(), !A || A === n) return;
-    const s = [...H], l = s.indexOf(A), p = s.indexOf(n);
-    s.splice(l, 1), s.splice(p, 0, A), I(s), F(null);
+    const s = [...F], l = s.indexOf(A), p = s.indexOf(n);
+    s.splice(l, 1), s.splice(p, 0, A), I(s), H(null);
   }, fe = (e, n) => {
-    const s = [...H], l = s.indexOf(e);
+    const s = [...F], l = s.indexOf(e);
     l !== -1 && (n === "left" && l > 0 ? [s[l], s[l - 1]] = [s[l - 1], s[l]] : n === "right" && l < s.length - 1 && ([s[l], s[l + 1]] = [s[l + 1], s[l]]), I(s));
   }, Ne = (e, n) => {
     e.stopPropagation(), e.preventDefault();
@@ -432,7 +432,7 @@ function Fe({
       children: [
         /* @__PURE__ */ t.jsx("div", { className: "free-grid-scroll-container", children: /* @__PURE__ */ t.jsxs("div", { className: "free-grid-inner", children: [
           O && /* @__PURE__ */ t.jsxs("div", { className: "free-grid-header", style: me, children: [
-            b && E !== "single" && m.has("__selection") && /* @__PURE__ */ t.jsxs("div", { className: "free-grid-header-cell free-grid-checkbox-cell", children: [
+            b && m.has("__selection") && /* @__PURE__ */ t.jsx("div", { className: "free-grid-header-cell free-grid-checkbox-cell", children: E !== "single" ? /* @__PURE__ */ t.jsxs(t.Fragment, { children: [
               /* @__PURE__ */ t.jsx(
                 "input",
                 {
@@ -451,7 +451,7 @@ function Fe({
                   children: "⋮"
                 }
               )
-            ] }),
+            ] }) : /* @__PURE__ */ t.jsx("span", { "aria-hidden": "true", style: { width: "18px", height: "18px" } }) }),
             w.map((e) => {
               const n = te !== !1 && e.sortable !== !1, s = f.key === e.key, l = ne !== !1 && e.draggable !== !1, p = se !== !1 && e.resizable !== !1;
               return /* @__PURE__ */ t.jsxs(
@@ -770,5 +770,5 @@ function Fe({
   );
 }
 export {
-  Fe as Grid
+  He as Grid
 };

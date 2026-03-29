@@ -345,21 +345,27 @@ export function Grid<T extends { id?: string | number } | any>({
         <div className="free-grid-inner">
           {showHeader && (
         <div className="free-grid-header" style={gridStyle}>
-          {selectable && selectionMode !== 'single' && visibleColumnKeys.has('__selection') && (
+          {selectable && visibleColumnKeys.has('__selection') && (
             <div className="free-grid-header-cell free-grid-checkbox-cell">
-              <input
-                type="checkbox"
-                className="free-grid-checkbox"
-                onChange={handleSelectAll}
-                checked={data.length > 0 && selectedIds.length === data.length}
-              />
-              <button
-                className="free-grid-menu-button"
-                onClick={(e) => handleOpenMenu(e, null, true)}
-                style={{ position: 'absolute', right: '2px' }}
-              >
-                ⋮
-              </button>
+              {selectionMode !== 'single' ? (
+                <>
+                  <input
+                    type="checkbox"
+                    className="free-grid-checkbox"
+                    onChange={handleSelectAll}
+                    checked={data.length > 0 && selectedIds.length === data.length}
+                  />
+                  <button
+                    className="free-grid-menu-button"
+                    onClick={(e) => handleOpenMenu(e, null, true)}
+                    style={{ position: 'absolute', right: '2px' }}
+                  >
+                    ⋮
+                  </button>
+                </>
+              ) : (
+                <span aria-hidden="true" style={{ width: '18px', height: '18px' }} />
+              )}
             </div>
           )}
           {filteredColumns.map((col) => {
