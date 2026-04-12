@@ -1,3 +1,21 @@
+export type StringFilterOperator =
+  | 'contains'
+  | 'doesNotContain'
+  | 'equals'
+  | 'notEqual'
+  | 'startsWith'
+  | 'endsWith';
+
+export type NumberFilterOperator = '=' | '!=' | '>' | '<' | '>=' | '<=';
+
+export type FilterOperator = StringFilterOperator | NumberFilterOperator;
+
+export interface ActiveFilter {
+  columnKey: string;
+  operator: FilterOperator;
+  value: string;
+}
+
 export interface Column<T> {
   key: keyof T | string;
   header: React.ReactNode;
@@ -10,6 +28,8 @@ export interface Column<T> {
   draggable?: boolean;
   resizable?: boolean;
   minWidth?: number;
+  type?: 'string' | 'number';   // override auto-detection for filtering
+  filterable?: boolean;          // set false to exclude from filter panel
 }
 
 export type GridTheme = 'light' | 'dark' | 'blue';
@@ -42,4 +62,6 @@ export interface GridProps<T> {
   onSort?: (key: string, direction: 'asc' | 'desc' | null) => void;
   allowReordering?: boolean;
   allowResizing?: boolean;
+  allowFiltering?: boolean;
+  onFilterChange?: (filter: ActiveFilter | null) => void;
 }

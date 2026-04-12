@@ -5,6 +5,14 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.3.0] — 2026-04-12
+
+### Added
+- **Column Filtering:** Robust client-side filtering via dropdown with string/number operators.
+- **Unit Testing:** Integrated Vitest & React Testing Library with 100% core hook/component coverage.
+
+---
+
 ## [0.2.9] — 2026-04-11
 
 ### Changed

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column } from '../types';
+import { Column, ActiveFilter } from '../types';
 
 interface SortConfig {
   key: string | null;
@@ -26,6 +26,7 @@ interface GridHeaderProps<T> {
   handleDrop: (e: React.DragEvent, targetKey: string) => void;
   handleResizeStart: (e: React.MouseEvent, key: string) => void;
   handleOpenMenu: (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => void;
+  activeFilter: ActiveFilter | null;
 }
 
 export function GridHeader<T>({
@@ -48,6 +49,7 @@ export function GridHeader<T>({
   handleDrop,
   handleResizeStart,
   handleOpenMenu,
+  activeFilter,
 }: GridHeaderProps<T>) {
   return (
     <div className="free-grid-header" style={gridStyle}>
@@ -100,6 +102,13 @@ export function GridHeader<T>({
                 {isSorted && (
                   <span className={`free-grid-sort-icon ${sortConfig.direction}`}>
                     {sortConfig.direction === 'asc' ? '↑' : '↓'}
+                  </span>
+                )}
+                {activeFilter?.columnKey === col.key && (
+                  <span className="free-grid-filter-badge" title="Filter active">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
+                    </svg>
                   </span>
                 )}
               </span>

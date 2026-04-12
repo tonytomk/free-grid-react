@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { Column } from '../types';
+import { Column, ActiveFilter } from '../types';
 interface SortConfig {
     key: string | null;
     direction: 'asc' | 'desc' | null;
@@ -24,6 +24,7 @@ interface GridHeaderProps<T> {
     handleDrop: (e: React.DragEvent, targetKey: string) => void;
     handleResizeStart: (e: React.MouseEvent, key: string) => void;
     handleOpenMenu: (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => void;
+    activeFilter: ActiveFilter | null;
 }
-export declare function GridHeader<T>({ filteredColumns, gridStyle, selectable, visibleColumnKeys, selectionMode, data, selectedIds, handleSelectAll, sortConfig, handleSort, allowSorting, allowReordering, allowResizing, draggedColKey, handleDragStart, handleDragOver, handleDrop, handleResizeStart, handleOpenMenu, }: GridHeaderProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function GridHeader<T>({ filteredColumns, gridStyle, selectable, visibleColumnKeys, selectionMode, data, selectedIds, handleSelectAll, sortConfig, handleSort, allowSorting, allowReordering, allowResizing, draggedColKey, handleDragStart, handleDragOver, handleDrop, handleResizeStart, handleOpenMenu, activeFilter, }: GridHeaderProps<T>): import("react/jsx-runtime").JSX.Element;
 export {};

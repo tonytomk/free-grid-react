@@ -9,12 +9,14 @@ import { useColumnVisibility } from './hooks/useColumnVisibility';
 import { useSorting } from './hooks/useSorting';
 import { useSelection } from './hooks/useSelection';
 import { useRowExpansion } from './hooks/useRowExpansion';
+import { useFiltering } from './hooks/useFiltering';
 
 import { GridHeader } from './components/GridHeader';
 import { GridBody } from './components/GridBody';
 import { GridFooter } from './components/GridFooter';
 import { ColumnMenu } from './components/ColumnMenu';
 import { ManageColumnsDialog } from './components/ManageColumnsDialog';
+import { FilterPanel } from './components/FilterPanel';
 
 export function Grid<T extends { id?: string | number } | any>({
   data,
@@ -38,6 +40,8 @@ export function Grid<T extends { id?: string | number } | any>({
   onSort,
   allowReordering = true,
   allowResizing = true,
+  allowFiltering = false,
+  onFilterChange,
 }: GridProps<T>) {
   // ── Hooks ─────────────────────────────────────────────────────────────────
   const { orderedColumns, draggedColKey, handleDragStart, handleDragOver, handleDrop, moveColumn } =
@@ -47,7 +51,12 @@ export function Grid<T extends { id?: string | number } | any>({
 
   const { visibleColumnKeys, setVisibleColumnKeys } = useColumnVisibility(columns, selectable);
 
-  const { sortConfig, handleSort, sortedData } = useSorting(data, onSort);
+  // Filter runs first; sorting is applied on top of filtered data.
+  const { filter, filteredData, filterPanelColumnKey, openFilterPanel, closeFilterPanel,
+          applyFilter, clearFilter, getColumnType } =
+    useFiltering(data, columns, onFilterChange);
+
+  const { sortConfig, handleSort, sortedData } = useSorting(filteredData, onSort);
 
   const { handleSelectAll, handleSelectRow } = useSelection({
     data,
@@ -68,8 +77,9 @@ export function Grid<T extends { id?: string | number } | any>({
   const [searchTerm, setSearchTerm] = useState('');
 
   // ── Refs ──────────────────────────────────────────────────────────────────
-  const popoverRef = useRef<HTMLDivElement>(null);
-  const manageRef = useRef<HTMLDivElement>(null);
+  const popoverRef  = useRef<HTMLDivElement>(null);
+  const manageRef   = useRef<HTMLDivElement>(null);
+  const filterRef   = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // ── Click-outside handler ─────────────────────────────────────────────────
@@ -91,10 +101,19 @@ export function Grid<T extends { id?: string | number } | any>({
         const isMenuItem = (event.target as HTMLElement).closest('.free-grid-menu-item');
         if (!isMenuItem) setShowManageDialog(false);
       }
+      if (
+        filterPanelColumnKey &&
+        filterRef.current &&
+        !filterRef.current.contains(event.target as Node) &&
+        !(event.target as Element).closest('.free-grid-filter-panel') &&
+        (event.target as Element).tagName !== 'OPTION'
+      ) {
+        closeFilterPanel();
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [anchorEl, showManageDialog]);
+  }, [anchorEl, showManageDialog, filterPanelColumnKey]);
 
   const handleOpenMenu = (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => {
     e.stopPropagation();
@@ -104,7 +123,7 @@ export function Grid<T extends { id?: string | number } | any>({
   const handleCloseMenu = () => setAnchorEl(null);
 
   // ── Derived values ────────────────────────────────────────────────────────
-  const filteredColumns = useMemo(
+  const visibleColumns = useMemo(
     () => orderedColumns.filter((col) => visibleColumnKeys.has(col.key as string)),
     [orderedColumns, visibleColumnKeys]
   );
@@ -126,7 +145,7 @@ export function Grid<T extends { id?: string | number } | any>({
     display: 'grid',
     gridTemplateColumns: `${
       selectable && visibleColumnKeys.has('__selection') ? '50px ' : ''
-    }${filteredColumns
+    }${visibleColumns
       .map((col) => {
         const manualWidth = columnWidths[col.key as string];
         if (manualWidth) return typeof manualWidth === 'number' ? `${manualWidth}px` : manualWidth;
@@ -149,7 +168,7 @@ export function Grid<T extends { id?: string | number } | any>({
         <div className="free-grid-inner">
           {showHeader && (
             <GridHeader
-              filteredColumns={filteredColumns}
+              filteredColumns={visibleColumns}
               gridStyle={gridStyle}
               selectable={selectable}
               visibleColumnKeys={visibleColumnKeys}
@@ -168,11 +187,12 @@ export function Grid<T extends { id?: string | number } | any>({
               handleDrop={handleDrop}
               handleResizeStart={handleResizeStart}
               handleOpenMenu={handleOpenMenu}
+              activeFilter={filter}
             />
           )}
           <GridBody
             sortedData={sortedData}
-            filteredColumns={filteredColumns}
+            filteredColumns={visibleColumns}
             gridStyle={gridStyle}
             selectable={selectable}
             visibleColumnKeys={visibleColumnKeys}
@@ -193,13 +213,16 @@ export function Grid<T extends { id?: string | number } | any>({
         <ColumnMenu
           anchorEl={anchorEl}
           containerRef={containerRef}
-          filteredColumns={filteredColumns}
+          filteredColumns={visibleColumns}
           popoverRef={popoverRef}
           handleSort={handleSort}
           moveColumn={moveColumn}
           setVisibleColumnKeys={setVisibleColumnKeys}
           setShowManageDialog={setShowManageDialog}
           handleCloseMenu={handleCloseMenu}
+          allowFiltering={allowFiltering}
+          openFilterPanel={openFilterPanel}
+          activeFilter={filter}
         />
       )}
 
@@ -213,6 +236,19 @@ export function Grid<T extends { id?: string | number } | any>({
           searchTerm={searchTerm}
           setSearchTerm={setSearchTerm}
         />
+      )}
+
+      {allowFiltering && filterPanelColumnKey && (
+        <div ref={filterRef}>
+          <FilterPanel
+            columns={columns}
+            initialColumnKey={filterPanelColumnKey}
+            existingFilter={filter?.columnKey === filterPanelColumnKey ? filter : null}
+            getColumnType={getColumnType}
+            onCommit={(f) => { if (f) applyFilter(f); else clearFilter(); }}
+            onClose={closeFilterPanel}
+          />
+        </div>
       )}
     </div>
   );

@@ -15,6 +15,7 @@ A lightweight, high-performance, and fully configurable React grid component bui
 - 🔘 **Selection**: Built-in checkbox selection with "Select All" support.
 - 📁 **Child Views**: Easily expand rows to show detailed child components.
 - 📶 **Sorting**: Built-in support for ascending and descending sort on any column.
+- 🔍 **Filtering**: Column-specific filtering with dynamic string/number operator dropdowns.
 - 🧺 **Column Management**: Hide/Show individual columns via header menu.
 - ⚙️ **Manage Columns**: Search and toggle multiple columns visibility through a right-aligned popover.
 - 📄 **Pagination**: Integrated right-aligned pagination footer.
@@ -74,7 +75,9 @@ function App() {
 | `allowSorting` | `boolean` | `true` | Enable/disable sorting for the entire grid |
 | `allowReordering` | `boolean` | `true` | Enable/disable column drag-and-drop reordering |
 | `allowResizing` | `boolean` | `true` | Enable/disable interactive column resizing |
-| `onSort` | `function` | - | Callback when sorting changes |
+| `allowFiltering` | `boolean` | Enable/disable column filtering in the header menu |
+| `onFilterChange` | `(filter: ActiveFilter \| null) => void` | Callback when a filter is applied or cleared |
+| `onSort` | `function` | Callback when sorting changes |
 | `selectable` | `boolean` | Enable row selection checkboxes. |
 | `selectedIds` | `(string\|number)[]` | Managed array of selected row IDs. |
 | `onSelectionChange` | `(ids: any[]) => void` | Callback for selection changes. |
@@ -92,9 +95,11 @@ function App() {
 | `sortable` | `boolean` | `true` | Whether this specific column can be sorted |
 | `hideable` | `boolean` | `true` | Whether this column can be hidden via the menu |
 | `defaultHidden` | `boolean` | `false` | Whether the column is hidden by default |
-| `draggable` | `boolean` | `true` | Whether this specific column can be dragged |
-| `resizable` | `boolean` | `true` | Whether this specific column can be resized |
-| `minWidth` | `number` | `50` | Minimum width in pixels when resizing |
+| `draggable` | `boolean` | Whether this specific column can be dragged (default: `true`) |
+| `resizable` | `boolean` | Whether this specific column can be resized (default: `true`) |
+| `minWidth` | `number` | Minimum width in pixels when resizing (default: `50`) |
+| `type` | `'string' \| 'number'` | Data type used to determine filter operators (auto-detected if omitted) |
+| `filterable` | `boolean` | Whether this specific column should appear in the filter panel (default: `true`) |
 | `render` | `(val, row) => ReactNode` | Custom cell renderer. |
 
 ### Column Management
@@ -105,6 +110,20 @@ The grid provides built-in tools for managing columns:
 - **Resizing**: Hover between header cells and drag the handle to adjust column widths.
 - **Persistence**: The grid maintains internal state for column order and widths (you can lift this state if needed by passing controlled props in future updates).
 - **Search & Reset**: Search for columns, toggle visibility globally, or reset to defaults.
+
+## Testing
+
+The package includes a comprehensive unit testing suite built with [Vitest](https://vitest.dev/) and React Testing Library.
+
+To run the tests in interactive watch mode:
+```bash
+npm run test
+```
+
+To run the tests once (useful for CI/CD environments):
+```bash
+npm run test:run
+```
 
 ## License
 

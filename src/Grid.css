@@ -458,3 +458,121 @@
     transform: translateY(0);
   }
 }
+
+/* ── Filter Panel ────────────────────────────────────────────────────────── */
+.free-grid-filter-panel {
+  position: absolute;
+  top: 56px;
+  right: 12px;
+  left: auto;
+  z-index: 1000;
+  background: var(--fg-grid-surface);
+  border-radius: 6px;
+  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.12),
+              0 12px 16px -4px rgba(0, 0, 0, 0.14);
+  padding: 10px 16px 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: fadeIn 0.15s ease-out;
+}
+
+.free-grid-filter-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  line-height: 1;
+  color: var(--fg-grid-surface-muted);
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  flex-shrink: 0;
+  transition: background-color 0.2s, color 0.2s;
+  padding: 0;
+}
+
+.free-grid-filter-close:hover {
+  background-color: var(--fg-grid-surface-hover);
+  color: var(--fg-grid-surface-text);
+}
+
+.free-grid-filter-field {
+  position: relative;
+  border: 1px solid var(--fg-grid-surface-border);
+  border-radius: 4px;
+  padding: 6px 10px 4px;
+  min-width: 130px;
+  transition: border-color 0.2s;
+}
+
+.free-grid-filter-field:focus-within {
+  border-color: var(--fg-primary-color);
+}
+
+.free-grid-filter-value-field {
+  min-width: 160px;
+}
+
+.free-grid-filter-label {
+  position: absolute;
+  top: -8px;
+  left: 8px;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--fg-grid-surface-muted);
+  background: var(--fg-grid-surface);
+  padding: 0 3px;
+  pointer-events: none;
+  transition: color 0.2s;
+  white-space: nowrap;
+}
+
+.free-grid-filter-field:focus-within .free-grid-filter-label {
+  color: var(--fg-primary-color);
+}
+
+.free-grid-filter-select,
+.free-grid-filter-input {
+  border: none;
+  background: transparent;
+  font-size: 0.875rem;
+  color: var(--fg-grid-surface-text);
+  outline: none;
+  width: 100%;
+  padding: 2px 0;
+  font-family: var(--fg-font-family);
+}
+
+.free-grid-filter-select {
+  cursor: pointer;
+}
+
+.free-grid-filter-select option {
+  background: var(--fg-grid-surface);
+  color: var(--fg-grid-surface-text);
+}
+
+.free-grid-filter-input::placeholder {
+  color: var(--fg-grid-surface-muted);
+  opacity: 1;
+}
+
+/* Chrome number input arrows */
+.free-grid-filter-input[type='number']::-webkit-inner-spin-button {
+  opacity: 0.5;
+}
+
+
+/* Active filter badge in header cell */
+.free-grid-filter-badge {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 3px;
+  color: var(--fg-primary-color);
+  flex-shrink: 0;
+  vertical-align: middle;
+}

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column } from '../types';
+import { Column, ActiveFilter } from '../types';
 
 interface ColumnMenuProps<T> {
   anchorEl: { element: HTMLElement; column: Column<T> | null; isSelection?: boolean };
@@ -11,6 +11,9 @@ interface ColumnMenuProps<T> {
   setVisibleColumnKeys: React.Dispatch<React.SetStateAction<Set<string>>>;
   setShowManageDialog: React.Dispatch<React.SetStateAction<boolean>>;
   handleCloseMenu: () => void;
+  allowFiltering: boolean;
+  openFilterPanel: (columnKey: string) => void;
+  activeFilter: ActiveFilter | null;
 }
 
 export function ColumnMenu<T>({
@@ -23,6 +26,9 @@ export function ColumnMenu<T>({
   setVisibleColumnKeys,
   setShowManageDialog,
   handleCloseMenu,
+  allowFiltering,
+  openFilterPanel,
+  activeFilter,
 }: ColumnMenuProps<T>) {
   if (!containerRef.current) return null;
 
@@ -74,6 +80,25 @@ export function ColumnMenu<T>({
             </svg>
             Sort by DESC
           </div>
+
+          <div className="free-grid-menu-divider" />
+          {allowFiltering && anchorEl.column!.filterable !== false && (
+            <div
+              className="free-grid-menu-item"
+              style={activeFilter?.columnKey === anchorEl.column!.key
+                ? { color: 'var(--fg-primary-color)' }
+                : undefined}
+              onClick={() => {
+                openFilterPanel(anchorEl.column!.key as string);
+                handleCloseMenu();
+              }}
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />
+              </svg>
+              Filter
+            </div>
+          )}
           <div className="free-grid-menu-divider" />
           <div
             className="free-grid-menu-item"

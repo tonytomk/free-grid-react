@@ -74,6 +74,7 @@ export function resolveTheme(
     '--fg-grid-surface-border': resolvedGridBorderColor,
     '--fg-grid-surface-hover': resolvedGridHoverColor,
     '--fg-grid-surface-selected': resolvedGridSelectedColor,
+    colorScheme: theme === 'dark' || theme === 'blue' || useCustomSurfacePalette ? 'dark' : 'light',
   } as React.CSSProperties;
 
   return { themeSurfaceStyle, activeTheme };
