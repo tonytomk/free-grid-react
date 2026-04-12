@@ -81,6 +81,15 @@ export function Grid<T extends { id?: string | number } | any>({
   const manageRef   = useRef<HTMLDivElement>(null);
   const filterRef   = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+
+  const [fixedHeight, setFixedHeight] = useState<number | undefined>(undefined);
+
+  useEffect(() => {
+    if (!filter && scrollContainerRef.current) {
+      setFixedHeight(scrollContainerRef.current.getBoundingClientRect().height);
+    }
+  }, [data, filter, columns, showHeader, pagination?.pageSize]);
 
   // ── Click-outside handler ─────────────────────────────────────────────────
   useEffect(() => {
@@ -113,7 +122,7 @@ export function Grid<T extends { id?: string | number } | any>({
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [anchorEl, showManageDialog, filterPanelColumnKey]);
+  }, [anchorEl, showManageDialog, filterPanelColumnKey, closeFilterPanel]);
 
   const handleOpenMenu = (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => {
     e.stopPropagation();
@@ -164,7 +173,11 @@ export function Grid<T extends { id?: string | number } | any>({
       ref={containerRef}
       style={themeSurfaceStyle}
     >
-      <div className="free-grid-scroll-container">
+      <div 
+        className="free-grid-scroll-container" 
+        ref={scrollContainerRef}
+        style={{ minHeight: filter && fixedHeight ? `${fixedHeight}px` : undefined }}
+      >
         <div className="free-grid-inner">
           {showHeader && (
             <GridHeader

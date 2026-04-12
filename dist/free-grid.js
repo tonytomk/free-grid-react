@@ -1,4 +1,4 @@
-import ye, { useState as S, useEffect as ie, useMemo as Q, useRef as J } from "react";
+import Ce, { useState as S, useEffect as Q, useMemo as ee, useRef as G } from "react";
 var Z = { exports: {} }, q = {};
 /**
  * @license React
@@ -9,11 +9,11 @@ var Z = { exports: {} }, q = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var me;
-function Ee() {
-  if (me) return q;
-  me = 1;
-  var t = Symbol.for("react.transitional.element"), i = Symbol.for("react.fragment");
+var xe;
+function Pe() {
+  if (xe) return q;
+  xe = 1;
+  var t = Symbol.for("react.transitional.element"), a = Symbol.for("react.fragment");
   function l(s, o, d) {
     var u = null;
     if (d !== void 0 && (u = "" + d), o.key !== void 0 && (u = "" + o.key), "key" in o) {
@@ -29,9 +29,9 @@ function Ee() {
       props: d
     };
   }
-  return q.Fragment = i, q.jsx = l, q.jsxs = l, q;
+  return q.Fragment = a, q.jsx = l, q.jsxs = l, q;
 }
-var F = {};
+var I = {};
 /**
  * @license React
  * react-jsx-runtime.development.js
@@ -41,13 +41,13 @@ var F = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var ve;
-function Te() {
-  return ve || (ve = 1, process.env.NODE_ENV !== "production" && (function() {
+var pe;
+function ze() {
+  return pe || (pe = 1, process.env.NODE_ENV !== "production" && (function() {
     function t(r) {
       if (r == null) return null;
       if (typeof r == "function")
-        return r.$$typeof === re ? null : r.displayName || r.name || null;
+        return r.$$typeof === te ? null : r.displayName || r.name || null;
       if (typeof r == "string") return r;
       switch (r) {
         case y:
@@ -56,11 +56,11 @@ function Te() {
           return "Profiler";
         case T:
           return "StrictMode";
-        case P:
+        case z:
           return "Suspense";
         case M:
           return "SuspenseList";
-        case ee:
+        case re:
           return "Activity";
       }
       if (typeof r == "object")
@@ -73,10 +73,10 @@ function Te() {
             return r.displayName || "Context";
           case j:
             return (r._context.displayName || "Context") + ".Consumer";
-          case O:
+          case P:
             var g = r.render;
             return r = r.displayName, r || (r = g.displayName || g.name || "", r = r !== "" ? "ForwardRef(" + r + ")" : "ForwardRef"), r;
-          case W:
+          case H:
             return g = r.displayName || null, g !== null ? g : t(r.type) || "Memo";
           case E:
             g = r._payload, r = r._init;
@@ -87,12 +87,12 @@ function Te() {
         }
       return null;
     }
-    function i(r) {
+    function a(r) {
       return "" + r;
     }
     function l(r) {
       try {
-        i(r);
+        a(r);
         var g = !1;
       } catch {
         g = !0;
@@ -104,7 +104,7 @@ function Te() {
           g,
           "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
           w
-        ), i(r);
+        ), a(r);
       }
     }
     function s(r) {
@@ -119,14 +119,14 @@ function Te() {
       }
     }
     function o() {
-      var r = H.A;
+      var r = W.A;
       return r === null ? null : r.getOwner();
     }
     function d() {
       return Error("react-stack-top-frame");
     }
     function u(r) {
-      if (I.call(r, "key")) {
+      if (K.call(r, "key")) {
         var g = Object.getOwnPropertyDescriptor(r, "key").get;
         if (g && g.isReactWarning) return !1;
       }
@@ -144,9 +144,9 @@ function Te() {
         configurable: !0
       });
     }
-    function a() {
+    function i() {
       var r = t(this.type);
-      return A[r] || (A[r] = !0, console.error(
+      return O[r] || (O[r] = !0, console.error(
         "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
       )), r = this.props.ref, r !== void 0 ? r : null;
     }
@@ -160,7 +160,7 @@ function Te() {
         _owner: w
       }, (N !== void 0 ? N : null) !== null ? Object.defineProperty(r, "ref", {
         enumerable: !1,
-        get: a
+        get: i
       }) : Object.defineProperty(r, "ref", { enumerable: !1, value: null }), r._store = {}, Object.defineProperty(r._store, "validated", {
         configurable: !1,
         enumerable: !1,
@@ -187,7 +187,7 @@ function Te() {
       var N = g.children;
       if (N !== void 0)
         if (w)
-          if (te(N)) {
+          if (ne(N)) {
             for (w = 0; w < N.length; w++)
               x(N[w]);
             Object.freeze && Object.freeze(N);
@@ -196,12 +196,12 @@ function Te() {
               "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
             );
         else x(N);
-      if (I.call(g, "key")) {
+      if (K.call(g, "key")) {
         N = t(r);
-        var L = Object.keys(g).filter(function(ne) {
-          return ne !== "key";
+        var L = Object.keys(g).filter(function(se) {
+          return se !== "key";
         });
-        w = 0 < L.length ? "{key: someKey, " + L.join(": ..., ") + ": ...}" : "{key: someKey}", U[N + w] || (L = 0 < L.length ? "{" + L.join(": ..., ") + ": ...}" : "{}", console.error(
+        w = 0 < L.length ? "{key: someKey, " + L.join(": ..., ") + ": ...}" : "{key: someKey}", X[N + w] || (L = 0 < L.length ? "{" + L.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
   let props = %s;
   <%s {...props} />
@@ -212,7 +212,7 @@ React keys must be passed directly to JSX without using spread:
           N,
           L,
           N
-        ), U[N + w] = !0);
+        ), X[N + w] = !0);
       }
       if (N = null, k !== void 0 && (l(k), N = "" + k), u(g) && (l(g.key), N = "" + g.key), "key" in g) {
         k = {};
@@ -237,7 +237,7 @@ React keys must be passed directly to JSX without using spread:
     function h(r) {
       return typeof r == "object" && r !== null && r.$$typeof === b;
     }
-    var f = ye, b = Symbol.for("react.transitional.element"), C = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), T = Symbol.for("react.strict_mode"), v = Symbol.for("react.profiler"), j = Symbol.for("react.consumer"), c = Symbol.for("react.context"), O = Symbol.for("react.forward_ref"), P = Symbol.for("react.suspense"), M = Symbol.for("react.suspense_list"), W = Symbol.for("react.memo"), E = Symbol.for("react.lazy"), ee = Symbol.for("react.activity"), re = Symbol.for("react.client.reference"), H = f.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, I = Object.prototype.hasOwnProperty, te = Array.isArray, z = console.createTask ? console.createTask : function() {
+    var f = Ce, b = Symbol.for("react.transitional.element"), C = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), T = Symbol.for("react.strict_mode"), v = Symbol.for("react.profiler"), j = Symbol.for("react.consumer"), c = Symbol.for("react.context"), P = Symbol.for("react.forward_ref"), z = Symbol.for("react.suspense"), M = Symbol.for("react.suspense_list"), H = Symbol.for("react.memo"), E = Symbol.for("react.lazy"), re = Symbol.for("react.activity"), te = Symbol.for("react.client.reference"), W = f.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, K = Object.prototype.hasOwnProperty, ne = Array.isArray, A = console.createTask ? console.createTask : function() {
       return null;
     };
     f = {
@@ -245,39 +245,39 @@ React keys must be passed directly to JSX without using spread:
         return r();
       }
     };
-    var V, A = {}, K = f.react_stack_bottom_frame.bind(
+    var V, O = {}, U = f.react_stack_bottom_frame.bind(
       f,
       d
-    )(), D = z(s(d)), U = {};
-    F.Fragment = y, F.jsx = function(r, g, k) {
-      var w = 1e4 > H.recentlyCreatedOwnerStacks++;
+    )(), D = A(s(d)), X = {};
+    I.Fragment = y, I.jsx = function(r, g, k) {
+      var w = 1e4 > W.recentlyCreatedOwnerStacks++;
       return m(
         r,
         g,
         k,
         !1,
-        w ? Error("react-stack-top-frame") : K,
-        w ? z(s(r)) : D
+        w ? Error("react-stack-top-frame") : U,
+        w ? A(s(r)) : D
       );
-    }, F.jsxs = function(r, g, k) {
-      var w = 1e4 > H.recentlyCreatedOwnerStacks++;
+    }, I.jsxs = function(r, g, k) {
+      var w = 1e4 > W.recentlyCreatedOwnerStacks++;
       return m(
         r,
         g,
         k,
         !0,
-        w ? Error("react-stack-top-frame") : K,
-        w ? z(s(r)) : D
+        w ? Error("react-stack-top-frame") : U,
+        w ? A(s(r)) : D
       );
     };
-  })()), F;
+  })()), I;
 }
-var xe;
-function Oe() {
-  return xe || (xe = 1, process.env.NODE_ENV === "production" ? Z.exports = Ee() : Z.exports = Te()), Z.exports;
+var be;
+function Ae() {
+  return be || (be = 1, process.env.NODE_ENV === "production" ? Z.exports = Pe() : Z.exports = ze()), Z.exports;
 }
-var e = Oe();
-const pe = {
+var e = Ae();
+const je = {
   light: {
     gridColor: "#ffffff",
     gridTextColor: "rgba(0, 0, 0, 0.87)",
@@ -303,47 +303,47 @@ const pe = {
     gridSelectedColor: "rgba(255, 255, 255, 0.12)"
   }
 };
-function Pe(t, i, l) {
-  const s = pe[t] ?? pe.light, o = t === "light" && !!i, d = i ?? s.gridColor, u = l ?? (o ? "#ffffff" : s.gridTextColor), n = l ?? (o ? "rgba(255, 255, 255, 0.72)" : s.gridMutedColor), a = o ? "rgba(255, 255, 255, 0.18)" : s.gridBorderColor, p = o ? "rgba(255, 255, 255, 0.08)" : s.gridHoverColor, m = o ? "rgba(255, 255, 255, 0.12)" : s.gridSelectedColor;
+function Me(t, a, l) {
+  const s = je[t] ?? je.light, o = t === "light" && !!a, d = a ?? s.gridColor, u = l ?? (o ? "#ffffff" : s.gridTextColor), n = l ?? (o ? "rgba(255, 255, 255, 0.72)" : s.gridMutedColor), i = o ? "rgba(255, 255, 255, 0.18)" : s.gridBorderColor, p = o ? "rgba(255, 255, 255, 0.08)" : s.gridHoverColor, m = o ? "rgba(255, 255, 255, 0.12)" : s.gridSelectedColor;
   return { themeSurfaceStyle: {
     "--fg-grid-surface": d,
     "--fg-grid-surface-text": u,
     "--fg-grid-surface-muted": n,
-    "--fg-grid-surface-border": a,
+    "--fg-grid-surface-border": i,
     "--fg-grid-surface-hover": p,
     "--fg-grid-surface-selected": m,
     colorScheme: t === "dark" || t === "blue" || o ? "dark" : "light"
   }, activeTheme: s };
 }
-function ze(t) {
-  const [i, l] = S(
+function De(t) {
+  const [a, l] = S(
     () => t.map((m) => m.key)
   ), [s, o] = S(null);
-  return ie(() => {
+  return Q(() => {
     l(t.map((m) => m.key));
-  }, [t]), { orderedColumns: Q(
-    () => i.map((m) => t.find((x) => x.key === m)).filter((m) => !!m),
-    [i, t]
+  }, [t]), { orderedColumns: ee(
+    () => a.map((m) => t.find((x) => x.key === m)).filter((m) => !!m),
+    [a, t]
   ), draggedColKey: s, handleDragStart: (m, x) => {
     o(x), m.dataTransfer.setData("text/plain", x);
   }, handleDragOver: (m) => {
     m.preventDefault();
   }, handleDrop: (m, x) => {
     if (m.preventDefault(), !s || s === x) return;
-    const h = [...i], f = h.indexOf(s), b = h.indexOf(x);
+    const h = [...a], f = h.indexOf(s), b = h.indexOf(x);
     h.splice(f, 1), h.splice(b, 0, s), l(h), o(null);
   }, moveColumn: (m, x) => {
-    const h = [...i], f = h.indexOf(m);
+    const h = [...a], f = h.indexOf(m);
     f !== -1 && (x === "left" && f > 0 ? [h[f], h[f - 1]] = [h[f - 1], h[f]] : x === "right" && f < h.length - 1 && ([h[f], h[f + 1]] = [h[f + 1], h[f]]), l(h));
   } };
 }
-function Ae() {
-  const [t, i] = S({}), [l, s] = S(null);
-  return ie(() => {
+function Le() {
+  const [t, a] = S({}), [l, s] = S(null);
+  return Q(() => {
     const d = (n) => {
       if (!l) return;
-      const a = n.clientX - l.startX, p = Math.max(l.startWidth + a, 50);
-      i((m) => ({ ...m, [l.key]: p }));
+      const i = n.clientX - l.startX, p = Math.max(l.startWidth + i, 50);
+      a((m) => ({ ...m, [l.key]: p }));
     }, u = () => {
       s(null);
     };
@@ -360,67 +360,67 @@ function Ae() {
     });
   } };
 }
-function Me(t, i) {
+function $e(t, a) {
   const [l, s] = S(() => {
     const o = /* @__PURE__ */ new Set();
-    return i && o.add("__selection"), t.forEach((d) => {
+    return a && o.add("__selection"), t.forEach((d) => {
       d.defaultHidden || o.add(d.key);
     }), o;
   });
   return { visibleColumnKeys: l, setVisibleColumnKeys: s };
 }
-function De(t, i) {
+function Be(t, a) {
   const [l, s] = S({ key: null, direction: null }), o = (u) => {
     let n = "asc";
-    l.key === u && (l.direction === "asc" ? n = "desc" : l.direction === "desc" && (n = null)), s({ key: u, direction: n }), i && i(u, n);
-  }, d = Q(() => i || !l.key || !l.direction ? t : [...t].sort((u, n) => {
-    const a = u[l.key], p = n[l.key];
-    if (a === p) return 0;
-    if (a == null) return 1;
+    l.key === u && (l.direction === "asc" ? n = "desc" : l.direction === "desc" && (n = null)), s({ key: u, direction: n }), a && a(u, n);
+  }, d = ee(() => a || !l.key || !l.direction ? t : [...t].sort((u, n) => {
+    const i = u[l.key], p = n[l.key];
+    if (i === p) return 0;
+    if (i == null) return 1;
     if (p == null) return -1;
-    const m = a < p ? -1 : 1;
+    const m = i < p ? -1 : 1;
     return l.direction === "asc" ? m : -m;
-  }), [t, l, i]);
+  }), [t, l, a]);
   return { sortConfig: l, handleSort: o, sortedData: d };
 }
-function Le({
+function He({
   data: t,
-  selectionMode: i,
+  selectionMode: a,
   selectedIds: l = [],
   onSelectionChange: s
 }) {
   return { handleSelectAll: (u) => {
-    s && i !== "single" && (u.target.checked ? s(
-      t.map((n, a) => n.id !== void 0 ? n.id : a)
+    s && a !== "single" && (u.target.checked ? s(
+      t.map((n, i) => n.id !== void 0 ? n.id : i)
     ) : s([]));
   }, handleSelectRow: (u, n) => {
     if (u.stopPropagation(), !s) return;
-    if (i === "single") {
+    if (a === "single") {
       s(u.target.checked ? [n] : []);
       return;
     }
-    const a = new Set(l);
-    u.target.checked ? a.add(n) : a.delete(n), s(Array.from(a));
+    const i = new Set(l);
+    u.target.checked ? i.add(n) : i.delete(n), s(Array.from(i));
   } };
 }
-function $e() {
-  const [t, i] = S(/* @__PURE__ */ new Set());
+function We() {
+  const [t, a] = S(/* @__PURE__ */ new Set());
   return { expandedRows: t, toggleRow: (s, o) => {
     const d = o.id !== void 0 ? o.id : s, u = new Set(t);
-    u.has(d) ? u.delete(d) : u.add(d), i(u);
+    u.has(d) ? u.delete(d) : u.add(d), a(u);
   } };
 }
-function Be(t, i, l) {
+function Ve(t, a, l) {
   const [s, o] = S(null), [d, u] = S(null), n = (f) => {
     u(f);
-  }, a = () => {
+  }, i = () => {
     u(null);
   }, p = (f) => {
     o(f), l && l(f);
   }, m = () => {
     o(null), l && l(null);
   }, x = (f) => {
-    const b = i.find((C) => C.key === f);
+    const b = a.find((C) => C.key === f);
     if (b != null && b.type) return b.type;
     for (const C of t) {
       const y = C[f];
@@ -428,8 +428,8 @@ function Be(t, i, l) {
         return typeof y == "number" ? "number" : "string";
     }
     return "string";
-  }, h = Q(() => !s || !s.value.trim() ? t : t.filter((f) => {
-    const b = f[s.columnKey], C = s.value.trim(), y = i.find((v) => v.key === s.columnKey);
+  }, h = ee(() => !s || !s.value.trim() ? t : t.filter((f) => {
+    const b = f[s.columnKey], C = s.value.trim(), y = a.find((v) => v.key === s.columnKey);
     if ((y == null ? void 0 : y.type) === "number" || typeof b == "number") {
       const v = Number(b), j = Number(C);
       if (isNaN(v) || isNaN(j)) return !0;
@@ -468,28 +468,28 @@ function Be(t, i, l) {
           return !0;
       }
     }
-  }), [t, s, i]);
+  }), [t, s, a]);
   return {
     filter: s,
     filteredData: h,
     filterPanelColumnKey: d,
     openFilterPanel: n,
-    closeFilterPanel: a,
+    closeFilterPanel: i,
     applyFilter: p,
     clearFilter: m,
     getColumnType: x
   };
 }
-function We({
+function Ye({
   filteredColumns: t,
-  gridStyle: i,
+  gridStyle: a,
   selectable: l,
   visibleColumnKeys: s,
   selectionMode: o,
   data: d,
   selectedIds: u,
   handleSelectAll: n,
-  sortConfig: a,
+  sortConfig: i,
   handleSort: p,
   allowSorting: m,
   allowReordering: x,
@@ -502,7 +502,7 @@ function We({
   handleOpenMenu: v,
   activeFilter: j
 }) {
-  return /* @__PURE__ */ e.jsxs("div", { className: "free-grid-header", style: i, children: [
+  return /* @__PURE__ */ e.jsxs("div", { className: "free-grid-header", style: a, children: [
     l && s.has("__selection") && /* @__PURE__ */ e.jsx("div", { className: "free-grid-header-cell free-grid-checkbox-cell", children: o !== "single" ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
       /* @__PURE__ */ e.jsx(
         "input",
@@ -524,11 +524,11 @@ function We({
       )
     ] }) : /* @__PURE__ */ e.jsx("span", { "aria-hidden": "true", style: { width: "18px", height: "18px" } }) }),
     t.map((c) => {
-      const O = m !== !1 && c.sortable !== !1, P = a.key === c.key, M = x !== !1 && c.draggable !== !1, W = h !== !1 && c.resizable !== !1;
+      const P = m !== !1 && c.sortable !== !1, z = i.key === c.key, M = x !== !1 && c.draggable !== !1, H = h !== !1 && c.resizable !== !1;
       return /* @__PURE__ */ e.jsxs(
         "div",
         {
-          className: `free-grid-header-cell ${O ? "sortable" : ""} ${P ? "active" : ""} ${f === c.key ? "dragging" : ""}`,
+          className: `free-grid-header-cell ${P ? "sortable" : ""} ${z ? "active" : ""} ${f === c.key ? "dragging" : ""}`,
           draggable: M,
           onDragStart: (E) => b(E, c.key),
           onDragOver: C,
@@ -538,16 +538,16 @@ function We({
               "div",
               {
                 className: "free-grid-header-content",
-                onClick: () => O && p(c.key),
+                onClick: () => P && p(c.key),
                 children: /* @__PURE__ */ e.jsxs("span", { className: "free-grid-header-text", children: [
                   c.header,
-                  P && /* @__PURE__ */ e.jsx("span", { className: `free-grid-sort-icon ${a.direction}`, children: a.direction === "asc" ? "↑" : "↓" }),
+                  z && /* @__PURE__ */ e.jsx("span", { className: `free-grid-sort-icon ${i.direction}`, children: i.direction === "asc" ? "↑" : "↓" }),
                   (j == null ? void 0 : j.columnKey) === c.key && /* @__PURE__ */ e.jsx("span", { className: "free-grid-filter-badge", title: "Filter active", children: /* @__PURE__ */ e.jsx("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" }) }) })
                 ] })
               }
             ),
             /* @__PURE__ */ e.jsx("button", { className: "free-grid-menu-button", onClick: (E) => v(E, c), children: /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" }) }) }),
-            W && /* @__PURE__ */ e.jsx(
+            H && /* @__PURE__ */ e.jsx(
               "div",
               {
                 className: "free-grid-resizer",
@@ -561,16 +561,16 @@ function We({
     })
   ] });
 }
-function He({
+function Fe({
   sortedData: t,
-  filteredColumns: i,
+  filteredColumns: a,
   gridStyle: l,
   selectable: s,
   visibleColumnKeys: o,
   selectedIds: d,
   renderChildView: u,
   stripedColors: n,
-  activeTheme: a,
+  activeTheme: i,
   handleSelectRow: p,
   expandedRows: m,
   toggleRow: x
@@ -578,9 +578,9 @@ function He({
   return /* @__PURE__ */ e.jsx("div", { className: "free-grid-body", children: t.map((h, f) => {
     const b = h.id !== void 0 ? h.id : f, C = m.has(b), y = d.includes(b), T = n && !y ? {
       "--fg-row-background": f % 2 === 0 ? n.odd : n.even,
-      "--fg-row-hover-background": a.gridHoverColor
+      "--fg-row-hover-background": i.gridHoverColor
     } : void 0;
-    return /* @__PURE__ */ e.jsxs(ye.Fragment, { children: [
+    return /* @__PURE__ */ e.jsxs(Ce.Fragment, { children: [
       /* @__PURE__ */ e.jsxs(
         "div",
         {
@@ -598,7 +598,7 @@ function He({
                 onClick: (v) => v.stopPropagation()
               }
             ) }),
-            i.map((v, j) => {
+            a.map((v, j) => {
               const c = h[v.key];
               return /* @__PURE__ */ e.jsx("div", { className: "free-grid-cell", children: v.render ? v.render(c, h) : c }, `cell-${f}-${j}`);
             })
@@ -609,11 +609,11 @@ function He({
     ] }, `row-${b}`);
   }) });
 }
-function Ve({ pagination: t }) {
-  const i = Math.min((t.page - 1) * t.pageSize + 1, t.total), l = Math.min(t.page * t.pageSize, t.total);
+function Ge({ pagination: t }) {
+  const a = Math.min((t.page - 1) * t.pageSize + 1, t.total), l = Math.min(t.page * t.pageSize, t.total);
   return /* @__PURE__ */ e.jsx("div", { className: "free-grid-footer", children: /* @__PURE__ */ e.jsxs("div", { className: "free-grid-pagination", children: [
     /* @__PURE__ */ e.jsxs("span", { children: [
-      i,
+      a,
       "-",
       l,
       " of ",
@@ -647,23 +647,23 @@ function Ve({ pagination: t }) {
     ] })
   ] }) });
 }
-function Ye({
+function qe({
   anchorEl: t,
-  containerRef: i,
+  containerRef: a,
   filteredColumns: l,
   popoverRef: s,
   handleSort: o,
   moveColumn: d,
   setVisibleColumnKeys: u,
   setShowManageDialog: n,
-  handleCloseMenu: a,
+  handleCloseMenu: i,
   allowFiltering: p,
   openFilterPanel: m,
   activeFilter: x
 }) {
   var y;
-  if (!i.current) return null;
-  const h = i.current.getBoundingClientRect(), f = t.element.getBoundingClientRect(), b = l.length > 0 && ((y = t.column) == null ? void 0 : y.key) === l[l.length - 1].key, C = {
+  if (!a.current) return null;
+  const h = a.current.getBoundingClientRect(), f = t.element.getBoundingClientRect(), b = l.length > 0 && ((y = t.column) == null ? void 0 : y.key) === l[l.length - 1].key, C = {
     top: f.bottom - h.top + 4,
     ...b ? { right: h.right - f.right } : { left: f.left - h.left }
   };
@@ -672,7 +672,7 @@ function Ye({
     {
       className: "free-grid-menu-item",
       onClick: () => {
-        n(!0), a();
+        n(!0), i();
       },
       children: [
         /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" }) }),
@@ -685,7 +685,7 @@ function Ye({
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          o(t.column.key), a();
+          o(t.column.key), i();
         },
         children: [
           /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" }) }),
@@ -698,7 +698,7 @@ function Ye({
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          o(t.column.key), a();
+          o(t.column.key), i();
         },
         children: [
           /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" }) }),
@@ -713,7 +713,7 @@ function Ye({
         className: "free-grid-menu-item",
         style: (x == null ? void 0 : x.columnKey) === t.column.key ? { color: "var(--fg-primary-color)" } : void 0,
         onClick: () => {
-          m(t.column.key), a();
+          m(t.column.key), i();
         },
         children: [
           /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" }) }),
@@ -727,7 +727,7 @@ function Ye({
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          d(t.column.key, "left"), a();
+          d(t.column.key, "left"), i();
         },
         children: [
           /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" }) }),
@@ -740,7 +740,7 @@ function Ye({
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          d(t.column.key, "right"), a();
+          d(t.column.key, "right"), i();
         },
         children: [
           /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" }) }),
@@ -757,7 +757,7 @@ function Ye({
           u((T) => {
             const v = new Set(T);
             return v.delete(t.column.key), v;
-          }), a();
+          }), i();
         },
         children: [
           /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2.27 4.27l2.28 2.28.46.46C3.1 8.35 1.61 10.06 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.54 3.27 2.27 4.27zM12 17c-2.76 0-5-2.24-5-5 0-.65.13-1.26.36-1.82l6.46 6.46c-.56.23-1.17.36-1.82.36z" }) }),
@@ -770,7 +770,7 @@ function Ye({
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          n(!0), a();
+          n(!0), i();
         },
         children: [
           /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" }) }),
@@ -780,9 +780,9 @@ function Ye({
     )
   ] }) });
 }
-function Ge({
+function Ie({
   manageRef: t,
-  columns: i,
+  columns: a,
   selectable: l,
   visibleColumnKeys: s,
   setVisibleColumnKeys: o,
@@ -818,11 +818,11 @@ function Ge({
                 {
                   type: "checkbox",
                   className: "free-grid-checkbox",
-                  checked: s.size === i.length + (l ? 1 : 0),
+                  checked: s.size === a.length + (l ? 1 : 0),
                   onChange: (n) => {
                     if (n.target.checked) {
-                      const a = new Set(i.map((p) => p.key));
-                      l && a.add("__selection"), o(a);
+                      const i = new Set(a.map((p) => p.key));
+                      l && i.add("__selection"), o(i);
                     } else
                       o(/* @__PURE__ */ new Set());
                   }
@@ -836,8 +836,8 @@ function Ge({
                 className: "free-grid-text-button",
                 onClick: () => {
                   const n = /* @__PURE__ */ new Set();
-                  l && n.add("__selection"), i.forEach((a) => {
-                    a.defaultHidden || n.add(a.key);
+                  l && n.add("__selection"), a.forEach((i) => {
+                    i.defaultHidden || n.add(i.key);
                   }), o(n);
                 },
                 children: "RESET"
@@ -854,15 +854,15 @@ function Ge({
                   checked: s.has("__selection"),
                   onChange: () => {
                     o((n) => {
-                      const a = new Set(n);
-                      return a.has("__selection") ? a.delete("__selection") : a.add("__selection"), a;
+                      const i = new Set(n);
+                      return i.has("__selection") ? i.delete("__selection") : i.add("__selection"), i;
                     });
                   }
                 }
               ),
               /* @__PURE__ */ e.jsx("span", { children: "Checkbox selection" })
             ] }),
-            i.filter((n) => n.header.toLowerCase().includes(d.toLowerCase())).map((n) => /* @__PURE__ */ e.jsxs("label", { className: "free-grid-dialog-row", children: [
+            a.filter((n) => n.header.toLowerCase().includes(d.toLowerCase())).map((n) => /* @__PURE__ */ e.jsxs("label", { className: "free-grid-dialog-row", children: [
               /* @__PURE__ */ e.jsx(
                 "input",
                 {
@@ -870,8 +870,8 @@ function Ge({
                   className: "free-grid-checkbox",
                   checked: s.has(n.key),
                   onChange: () => {
-                    o((a) => {
-                      const p = new Set(a);
+                    o((i) => {
+                      const p = new Set(i);
                       return p.has(n.key) ? p.delete(n.key) : p.add(n.key), p;
                     });
                   }
@@ -885,14 +885,14 @@ function Ge({
     }
   );
 }
-const be = [
+const ye = [
   { value: "contains", label: "Contains" },
   { value: "doesNotContain", label: "Does not contain" },
   { value: "equals", label: "Equals" },
   { value: "notEqual", label: "Not equal" },
   { value: "startsWith", label: "Starts with" },
   { value: "endsWith", label: "Ends with" }
-], je = [
+], ke = [
   { value: "=", label: "= Equal" },
   { value: "!=", label: "≠ Not equal" },
   { value: ">", label: "> Greater than" },
@@ -900,21 +900,21 @@ const be = [
   { value: ">=", label: "≥ Greater or equal" },
   { value: "<=", label: "≤ Less or equal" }
 ];
-function qe({
+function Ke({
   columns: t,
-  initialColumnKey: i,
+  initialColumnKey: a,
   existingFilter: l,
   getColumnType: s,
   onCommit: o,
   onClose: d
 }) {
-  const u = t.filter((c) => c.filterable !== !1), [n, a] = S(i), p = s(n), m = p === "number" ? je : be, [x, h] = S(
+  const u = t.filter((c) => c.filterable !== !1), [n, i] = S(a), p = s(n), m = p === "number" ? ke : ye, [x, h] = S(
     (l == null ? void 0 : l.operator) ?? m[0].value
-  ), [f, b] = S((l == null ? void 0 : l.value) ?? ""), C = (c, O, P) => {
-    P.trim() ? o({ columnKey: c, operator: O, value: P.trim() }) : o(null);
+  ), [f, b] = S((l == null ? void 0 : l.value) ?? ""), C = (c, P, z) => {
+    z.trim() ? o({ columnKey: c, operator: P, value: z.trim() }) : o(null);
   }, y = (c) => {
-    a(c);
-    const M = (s(c) === "number" ? je : be)[0].value;
+    i(c);
+    const M = (s(c) === "number" ? ke : ye)[0].value;
     h(M), b(""), o(null);
   }, T = (c) => {
     h(c), C(n, c, f);
@@ -967,16 +967,16 @@ function qe({
     ] })
   ] });
 }
-function Ie({
+function Xe({
   data: t,
-  columns: i,
+  columns: a,
   showHeader: l = !0,
   selectionMode: s = "multiple",
   stripedRows: o = !1,
   stripedRowOddColor: d,
   stripedRowEvenColor: u,
   theme: n = "light",
-  gridColor: a,
+  gridColor: i,
   gridTextColor: p,
   renderChildView: m,
   selectable: x,
@@ -989,42 +989,44 @@ function Ie({
   onSort: v,
   allowReordering: j = !0,
   allowResizing: c = !0,
-  allowFiltering: O = !1,
-  onFilterChange: P
+  allowFiltering: P = !1,
+  onFilterChange: z
 }) {
-  const { orderedColumns: M, draggedColKey: W, handleDragStart: E, handleDragOver: ee, handleDrop: re, moveColumn: H } = ze(i), { columnWidths: I, handleResizeStart: te } = Ae(), { visibleColumnKeys: z, setVisibleColumnKeys: V } = Me(i, x), {
-    filter: A,
-    filteredData: K,
+  const { orderedColumns: M, draggedColKey: H, handleDragStart: E, handleDragOver: re, handleDrop: te, moveColumn: W } = De(a), { columnWidths: K, handleResizeStart: ne } = Le(), { visibleColumnKeys: A, setVisibleColumnKeys: V } = $e(a, x), {
+    filter: O,
+    filteredData: U,
     filterPanelColumnKey: D,
-    openFilterPanel: U,
+    openFilterPanel: X,
     closeFilterPanel: r,
     applyFilter: g,
     clearFilter: k,
     getColumnType: w
-  } = Be(t, i, P), { sortConfig: $, handleSort: B, sortedData: N } = De(K, v), { handleSelectAll: L, handleSelectRow: Y } = Le({
+  } = Ve(t, a, z), { sortConfig: $, handleSort: B, sortedData: N } = Be(U, v), { handleSelectAll: L, handleSelectRow: Y } = He({
     data: t,
     selectionMode: s,
     selectedIds: h,
     onSelectionChange: f
-  }), { expandedRows: ne, toggleRow: ke } = $e(), [G, ce] = S(null), [se, de] = S(!1), [Ce, we] = S(""), le = J(null), oe = J(null), ae = J(null), ue = J(null);
-  ie(() => {
+  }), { expandedRows: se, toggleRow: we } = We(), [F, de] = S(null), [le, ue] = S(!1), [Ne, Re] = S(""), oe = G(null), ae = G(null), ie = G(null), fe = G(null), ce = G(null), [he, Se] = S(void 0);
+  Q(() => {
+    !O && ce.current && Se(ce.current.getBoundingClientRect().height);
+  }, [t, O, a, l, b == null ? void 0 : b.pageSize]), Q(() => {
     const R = (_) => {
-      G && le.current && !le.current.contains(_.target) && !G.element.contains(_.target) && fe(), se && oe.current && !oe.current.contains(_.target) && (_.target.closest(".free-grid-menu-item") || de(!1)), D && ae.current && !ae.current.contains(_.target) && !_.target.closest(".free-grid-filter-panel") && _.target.tagName !== "OPTION" && r();
+      F && oe.current && !oe.current.contains(_.target) && !F.element.contains(_.target) && ge(), le && ae.current && !ae.current.contains(_.target) && (_.target.closest(".free-grid-menu-item") || ue(!1)), D && ie.current && !ie.current.contains(_.target) && !_.target.closest(".free-grid-filter-panel") && _.target.tagName !== "OPTION" && r();
     };
     return document.addEventListener("mousedown", R), () => document.removeEventListener("mousedown", R);
-  }, [G, se, D]);
-  const Ne = (R, _, ge) => {
-    R.stopPropagation(), ce({ element: R.currentTarget, column: _, isSelection: ge });
-  }, fe = () => ce(null), X = Q(
-    () => M.filter((R) => z.has(R.key)),
-    [M, z]
-  ), { themeSurfaceStyle: Re, activeTheme: Se } = Pe(n, a, p), _e = o ? {
-    odd: d ?? (n === "light" && !a ? "rgba(0, 0, 0, 0.00)" : "rgba(255, 255, 255, 0.04)"),
-    even: u ?? (n === "light" && !a ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.08)")
-  } : null, he = {
+  }, [F, le, D, r]);
+  const _e = (R, _, ve) => {
+    R.stopPropagation(), de({ element: R.currentTarget, column: _, isSelection: ve });
+  }, ge = () => de(null), J = ee(
+    () => M.filter((R) => A.has(R.key)),
+    [M, A]
+  ), { themeSurfaceStyle: Ee, activeTheme: Te } = Me(n, i, p), Oe = o ? {
+    odd: d ?? (n === "light" && !i ? "rgba(0, 0, 0, 0.00)" : "rgba(255, 255, 255, 0.04)"),
+    even: u ?? (n === "light" && !i ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.08)")
+  } : null, me = {
     display: "grid",
-    gridTemplateColumns: `${x && z.has("__selection") ? "50px " : ""}${X.map((R) => {
-      const _ = I[R.key];
+    gridTemplateColumns: `${x && A.has("__selection") ? "50px " : ""}${J.map((R) => {
+      const _ = K[R.key];
       return _ ? typeof _ == "number" ? `${_}px` : _ : R.width ? typeof R.width == "number" ? `${R.width}px` : R.width : R.flex ? `${R.flex}fr` : "1fr";
     }).join(" ")}`
   };
@@ -1033,89 +1035,97 @@ function Ie({
     {
       className: `free-grid-container ${C}`,
       id: y,
-      ref: ue,
-      style: Re,
+      ref: fe,
+      style: Ee,
       children: [
-        /* @__PURE__ */ e.jsx("div", { className: "free-grid-scroll-container", children: /* @__PURE__ */ e.jsxs("div", { className: "free-grid-inner", children: [
-          l && /* @__PURE__ */ e.jsx(
-            We,
-            {
-              filteredColumns: X,
-              gridStyle: he,
-              selectable: x,
-              visibleColumnKeys: z,
-              selectionMode: s,
-              data: t,
-              selectedIds: h,
-              handleSelectAll: L,
-              sortConfig: $,
-              handleSort: B,
-              allowSorting: T,
-              allowReordering: j,
-              allowResizing: c,
-              draggedColKey: W,
-              handleDragStart: E,
-              handleDragOver: ee,
-              handleDrop: re,
-              handleResizeStart: te,
-              handleOpenMenu: Ne,
-              activeFilter: A
-            }
-          ),
-          /* @__PURE__ */ e.jsx(
-            He,
-            {
-              sortedData: N,
-              filteredColumns: X,
-              gridStyle: he,
-              selectable: x,
-              visibleColumnKeys: z,
-              selectedIds: h,
-              renderChildView: m,
-              stripedColors: _e,
-              activeTheme: Se,
-              handleSelectRow: Y,
-              expandedRows: ne,
-              toggleRow: ke
-            }
-          )
-        ] }) }),
-        b && /* @__PURE__ */ e.jsx(Ve, { pagination: b }),
-        G && /* @__PURE__ */ e.jsx(
-          Ye,
+        /* @__PURE__ */ e.jsx(
+          "div",
           {
-            anchorEl: G,
-            containerRef: ue,
-            filteredColumns: X,
-            popoverRef: le,
-            handleSort: B,
-            moveColumn: H,
-            setVisibleColumnKeys: V,
-            setShowManageDialog: de,
-            handleCloseMenu: fe,
-            allowFiltering: O,
-            openFilterPanel: U,
-            activeFilter: A
+            className: "free-grid-scroll-container",
+            ref: ce,
+            style: { minHeight: O && he ? `${he}px` : void 0 },
+            children: /* @__PURE__ */ e.jsxs("div", { className: "free-grid-inner", children: [
+              l && /* @__PURE__ */ e.jsx(
+                Ye,
+                {
+                  filteredColumns: J,
+                  gridStyle: me,
+                  selectable: x,
+                  visibleColumnKeys: A,
+                  selectionMode: s,
+                  data: t,
+                  selectedIds: h,
+                  handleSelectAll: L,
+                  sortConfig: $,
+                  handleSort: B,
+                  allowSorting: T,
+                  allowReordering: j,
+                  allowResizing: c,
+                  draggedColKey: H,
+                  handleDragStart: E,
+                  handleDragOver: re,
+                  handleDrop: te,
+                  handleResizeStart: ne,
+                  handleOpenMenu: _e,
+                  activeFilter: O
+                }
+              ),
+              /* @__PURE__ */ e.jsx(
+                Fe,
+                {
+                  sortedData: N,
+                  filteredColumns: J,
+                  gridStyle: me,
+                  selectable: x,
+                  visibleColumnKeys: A,
+                  selectedIds: h,
+                  renderChildView: m,
+                  stripedColors: Oe,
+                  activeTheme: Te,
+                  handleSelectRow: Y,
+                  expandedRows: se,
+                  toggleRow: we
+                }
+              )
+            ] })
           }
         ),
-        se && /* @__PURE__ */ e.jsx(
-          Ge,
-          {
-            manageRef: oe,
-            columns: i,
-            selectable: x,
-            visibleColumnKeys: z,
-            setVisibleColumnKeys: V,
-            searchTerm: Ce,
-            setSearchTerm: we
-          }
-        ),
-        O && D && /* @__PURE__ */ e.jsx("div", { ref: ae, children: /* @__PURE__ */ e.jsx(
+        b && /* @__PURE__ */ e.jsx(Ge, { pagination: b }),
+        F && /* @__PURE__ */ e.jsx(
           qe,
           {
-            columns: i,
+            anchorEl: F,
+            containerRef: fe,
+            filteredColumns: J,
+            popoverRef: oe,
+            handleSort: B,
+            moveColumn: W,
+            setVisibleColumnKeys: V,
+            setShowManageDialog: ue,
+            handleCloseMenu: ge,
+            allowFiltering: P,
+            openFilterPanel: X,
+            activeFilter: O
+          }
+        ),
+        le && /* @__PURE__ */ e.jsx(
+          Ie,
+          {
+            manageRef: ae,
+            columns: a,
+            selectable: x,
+            visibleColumnKeys: A,
+            setVisibleColumnKeys: V,
+            searchTerm: Ne,
+            setSearchTerm: Re
+          }
+        ),
+        P && D && /* @__PURE__ */ e.jsx("div", { ref: ie, children: /* @__PURE__ */ e.jsx(
+          Ke,
+          {
+            columns: a,
             initialColumnKey: D,
-            existingFilter: (A == null ? void 0 : A.columnKey) === D ? A : null,
+            existingFilter: (O == null ? void 0 : O.columnKey) === D ? O : null,
             getColumnType: w,
             onCommit: (R) => {
               R ? g(R) : k();
@@ -1128,5 +1138,5 @@ function Ie({
   );
 }
 export {
-  Ie as Grid
+  Xe as Grid
 };
