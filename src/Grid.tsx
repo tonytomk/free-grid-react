@@ -42,6 +42,10 @@ export function Grid<T extends { id?: string | number } | any>({
   allowResizing = true,
   allowFiltering = false,
   onFilterChange,
+  isEditable = false,
+  onCellEdit,
+  allowAddRow = false,
+  onAddRow,
 }: GridProps<T>) {
   // ── Hooks ─────────────────────────────────────────────────────────────────
   const { orderedColumns, draggedColKey, handleDragStart, handleDragOver, handleDrop, moveColumn } =
@@ -216,6 +220,10 @@ export function Grid<T extends { id?: string | number } | any>({
             handleSelectRow={handleSelectRow}
             expandedRows={expandedRows}
             toggleRow={toggleRow}
+            isEditable={isEditable}
+            onCellEdit={onCellEdit}
+            allowAddRow={allowAddRow}
+            onAddRow={onAddRow}
           />
         </div>
       </div>

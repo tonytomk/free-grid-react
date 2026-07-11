@@ -18,6 +18,10 @@ interface GridBodyProps<T> {
     handleSelectRow: (e: React.ChangeEvent<HTMLInputElement>, rowId: string | number) => void;
     expandedRows: Set<string | number>;
     toggleRow: (rowIndex: number, item: T) => void;
+    isEditable?: boolean;
+    onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
+    allowAddRow?: boolean;
+    onAddRow?: () => void;
 }
-export declare function GridBody<T>({ sortedData, filteredColumns, gridStyle, selectable, visibleColumnKeys, selectedIds, renderChildView, stripedColors, activeTheme, handleSelectRow, expandedRows, toggleRow, }: GridBodyProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function GridBody<T>({ sortedData, filteredColumns, gridStyle, selectable, visibleColumnKeys, selectedIds, renderChildView, stripedColors, activeTheme, handleSelectRow, expandedRows, toggleRow, isEditable, onCellEdit, allowAddRow, onAddRow, }: GridBodyProps<T>): import("react/jsx-runtime").JSX.Element;
 export {};

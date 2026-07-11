@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Column } from '../types';
 import { ActiveTheme } from '../utils/theme';
 
 interface StripedColors {
   odd: string;
   even: string;
+}
+
+interface EditingCell {
+  rowId: string | number;
+  columnKey: string;
 }
 
 interface GridBodyProps<T> {
@@ -20,6 +25,10 @@ interface GridBodyProps<T> {
   handleSelectRow: (e: React.ChangeEvent<HTMLInputElement>, rowId: string | number) => void;
   expandedRows: Set<string | number>;
   toggleRow: (rowIndex: number, item: T) => void;
+  isEditable?: boolean;
+  onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
+  allowAddRow?: boolean;
+  onAddRow?: () => void;
 }
 
 export function GridBody<T>({
@@ -35,7 +44,56 @@ export function GridBody<T>({
   handleSelectRow,
   expandedRows,
   toggleRow,
+  isEditable = false,
+  onCellEdit,
+  allowAddRow = false,
+  onAddRow,
 }: GridBodyProps<T>) {
+  const [editingCell, setEditingCell] = useState<EditingCell | null>(null);
+  const [editingValue, setEditingValue] = useState<string>('');
+
+  const commitEdit = (item: T, column: Column<T>) => {
+    if (!editingCell || !onCellEdit) {
+      setEditingCell(null);
+      return;
+    }
+
+    const value = editingValue;
+    onCellEdit(item, column.key, value);
+    setEditingCell(null);
+  };
+
+  const cancelEdit = () => {
+    setEditingCell(null);
+  };
+
+  const handleRowClick = (rowIndex: number, item: T) => {
+    if (allowAddRow && rowIndex === sortedData.length - 1) {
+      onAddRow?.();
+      return;
+    }
+
+    if (renderChildView) {
+      toggleRow(rowIndex, item);
+    }
+  };
+
+  const handleCellClick = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    column: Column<T>,
+    value: any,
+    rowId: string | number
+  ) => {
+    if (!onCellEdit) return;
+
+    const editable = column.isEditable ?? isEditable;
+    if (!editable) return;
+
+    event.stopPropagation();
+    setEditingCell({ rowId, columnKey: column.key as string });
+    setEditingValue(value !== undefined && value !== null ? String(value) : '');
+  };
+
   return (
     <div className="free-grid-body">
       {sortedData.map((item, rowIndex) => {
@@ -58,7 +116,7 @@ export function GridBody<T>({
                 isExpanded ? 'expanded' : ''
               } ${isSelected ? 'selected' : ''}`}
               style={{ ...gridStyle, ...rowStripeStyle }}
-              onClick={() => renderChildView && toggleRow(rowIndex, item)}
+              onClick={() => handleRowClick(rowIndex, item)}
             >
               {selectable && visibleColumnKeys.has('__selection') && (
                 <div className="free-grid-cell free-grid-checkbox-cell">
@@ -73,9 +131,42 @@ export function GridBody<T>({
               )}
               {filteredColumns.map((col, colIndex) => {
                 const value = (item as any)[col.key];
+                const editable = onCellEdit ? col.isEditable ?? isEditable : false;
+                const isCellEditing =
+                  editingCell?.rowId === rowId && editingCell?.columnKey === (col.key as string);
+
                 return (
-                  <div key={`cell-${rowIndex}-${colIndex}`} className="free-grid-cell">
-                    {col.render ? col.render(value, item) : value}
+                  <div
+                    key={`cell-${rowIndex}-${colIndex}`}
+                    className={`free-grid-cell ${editable ? 'editable' : ''}`}
+                    onClick={(e) => handleCellClick(e, col, value, rowId)}
+                  >
+                    {isCellEditing ? (
+                      col.editor ? (
+                        col.editor(value, item, setEditingValue, () => commitEdit(item, col), cancelEdit)
+                      ) : (
+                        <input
+                          className="free-grid-cell-input"
+                          autoFocus
+                          value={editingValue}
+                          onChange={(e) => setEditingValue(e.target.value)}
+                          onBlur={() => commitEdit(item, col)}
+                          onKeyDown={(e) => {
+                            if (e.key === 'Enter') {
+                              commitEdit(item, col);
+                            }
+                            if (e.key === 'Escape') {
+                              cancelEdit();
+                            }
+                          }}
+                          onClick={(e) => e.stopPropagation()}
+                        />
+                      )
+                    ) : col.render ? (
+                      col.render(value, item)
+                    ) : (
+                      value
+                    )}
                   </div>
                 );
               })}
@@ -89,3 +180,4 @@ export function GridBody<T>({
     </div>
   );
 }
+

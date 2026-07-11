@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { Grid } from '../src/Grid';
@@ -97,5 +97,45 @@ describe('Grid Component', () => {
     } finally {
       HTMLElement.prototype.getBoundingClientRect = originalGetBoundingClientRect;
     }
+  });
+
+  it('opens editable cell input and commits changes', () => {
+    const onCellEdit = vi.fn();
+    const editableColumns: Column<typeof data[0]>[] = [
+      { key: 'name', header: 'Name Cell', isEditable: true },
+      { key: 'role', header: 'Role Cell' },
+    ];
+
+    render(
+      <Grid
+        data={data}
+        columns={editableColumns}
+        isEditable={true}
+        onCellEdit={onCellEdit}
+      />
+    );
+
+    fireEvent.click(screen.getByText('John Doe'));
+    const input = screen.getByDisplayValue('John Doe');
+    fireEvent.change(input, { target: { value: 'John A.' } });
+    fireEvent.keyDown(input, { key: 'Enter', code: 'Enter', keyCode: 13 });
+
+    expect(onCellEdit).toHaveBeenCalledWith(data[0], 'name', 'John A.');
+  });
+
+  it('calls onAddRow when the last row is clicked and allowAddRow is enabled', () => {
+    const onAddRow = vi.fn();
+
+    render(
+      <Grid
+        data={data}
+        columns={columns}
+        allowAddRow={true}
+        onAddRow={onAddRow}
+      />
+    );
+
+    fireEvent.click(screen.getByText('Jane Smith'));
+    expect(onAddRow).toHaveBeenCalledTimes(1);
   });
 });

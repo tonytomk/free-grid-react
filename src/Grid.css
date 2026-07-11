@@ -364,6 +364,26 @@
   background-color: var(--fg-grid-surface-selected);
 }
 
+.free-grid-cell.editable {
+  cursor: pointer;
+}
+
+.free-grid-cell-input {
+  width: 100%;
+  border: 1px solid var(--fg-grid-surface-border);
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 0.875rem;
+  color: var(--fg-grid-surface-text);
+  background: var(--fg-grid-surface);
+  outline: none;
+}
+
+.free-grid-cell-input:focus {
+  border-color: var(--fg-primary-color);
+  box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.12);
+}
+
 .free-grid-cell {
   padding: 8px 12px;
   display: flex;

@@ -30,6 +30,14 @@ export interface Column<T> {
   minWidth?: number;
   type?: 'string' | 'number';   // override auto-detection for filtering
   filterable?: boolean;          // set false to exclude from filter panel
+  isEditable?: boolean;          // enable inline editing for this column
+  editor?: (
+    value: any,
+    row: T,
+    onChange: (value: any) => void,
+    onCommit: () => void,
+    onCancel: () => void
+  ) => React.ReactNode;
 }
 
 export type GridTheme = 'light' | 'dark' | 'blue';
@@ -64,4 +72,8 @@ export interface GridProps<T> {
   allowResizing?: boolean;
   allowFiltering?: boolean;
   onFilterChange?: (filter: ActiveFilter | null) => void;
+  isEditable?: boolean;
+  onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
+  allowAddRow?: boolean;
+  onAddRow?: () => void;
 }

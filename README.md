@@ -78,6 +78,10 @@ function App() {
 | `allowFiltering` | `boolean` | Enable/disable column filtering in the header menu |
 | `onFilterChange` | `(filter: ActiveFilter \| null) => void` | Callback when a filter is applied or cleared |
 | `onSort` | `function` | Callback when sorting changes |
+| `isEditable` | `boolean` | Enable inline editing for all editable columns |
+| `onCellEdit` | `(row, columnKey, value) => void` | Callback when an editable cell is committed |
+| `allowAddRow` | `boolean` | Enable adding a new row when the last row is clicked |
+| `onAddRow` | `() => void` | Callback invoked when the last row is clicked and `allowAddRow` is true |
 | `selectable` | `boolean` | Enable row selection checkboxes. |
 | `selectedIds` | `(string\|number)[]` | Managed array of selected row IDs. |
 | `onSelectionChange` | `(ids: any[]) => void` | Callback for selection changes. |
@@ -100,6 +104,8 @@ function App() {
 | `minWidth` | `number` | Minimum width in pixels when resizing (default: `50`) |
 | `type` | `'string' \| 'number'` | Data type used to determine filter operators (auto-detected if omitted) |
 | `filterable` | `boolean` | Whether this specific column should appear in the filter panel (default: `true`) |
+| `isEditable` | `boolean` | Enable inline editing for this column |
+| `editor` | `(value, row, onChange, onCommit, onCancel) => ReactNode` | Custom inline edit renderer for the cell |
 | `render` | `(val, row) => ReactNode` | Custom cell renderer. |
 
 ### Column Management
