@@ -5,6 +5,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.3.2] — 2026-07-11
+
+### Added
+- **Inline cell editing:** click editable cells to edit values directly in the grid.
+- **Configurable row addition:** enable `allowAddRow` and use `onAddRow` to add new rows when the last row is clicked.
+- **Editable column API:** `isEditable`, `onCellEdit`, and custom `editor` renderers for column-level editing control.
+
+---
+
 ## [0.3.0] — 2026-04-12
 
 ### Added

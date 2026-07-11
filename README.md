@@ -17,6 +17,8 @@ A lightweight, high-performance, and fully configurable React grid component bui
 - 📶 **Sorting**: Built-in support for ascending and descending sort on any column.
 - 🔍 **Filtering**: Column-specific filtering with dynamic string/number operator dropdowns.
 - 🧺 **Column Management**: Hide/Show individual columns via header menu.
+- ✍️ **Inline Editing**: Tap editable cells to edit values directly in the grid.
+- ➕ **Configurable Row Addition**: Optionally add a new row by clicking the last row.
 - ⚙️ **Manage Columns**: Search and toggle multiple columns visibility through a right-aligned popover.
 - 📄 **Pagination**: Integrated right-aligned pagination footer.
 - ⌨️ **TypeScript**: First-class support for types and interfaces.
@@ -44,13 +46,34 @@ const data = [
 ];
 
 function App() {
+  const [rows, setRows] = useState(data);
+
+  const handleCellEdit = (row, columnKey, value) => {
+    setRows((prev) =>
+      prev.map((item) =>
+        item.id === row.id ? { ...item, [columnKey]: value } : item
+      )
+    );
+  };
+
+  const handleAddRow = () => {
+    setRows((prev) => [
+      ...prev,
+      { id: prev.length + 1, name: '', email: '' },
+    ]);
+  };
+
   return (
     <Grid
-      data={data}
+      data={rows}
       columns={columns}
       selectable={true}
       theme="dark"
-      pagination={{ total: 2, page: 1, pageSize: 10 }}
+      isEditable={true}
+      onCellEdit={handleCellEdit}
+      allowAddRow={true}
+      onAddRow={handleAddRow}
+      pagination={{ total: rows.length, page: 1, pageSize: 10 }}
     />
   );
 }
@@ -79,7 +102,7 @@ function App() {
 | `onFilterChange` | `(filter: ActiveFilter \| null) => void` | Callback when a filter is applied or cleared |
 | `onSort` | `function` | Callback when sorting changes |
 | `isEditable` | `boolean` | Enable inline editing for all editable columns |
-| `onCellEdit` | `(row, columnKey, value) => void` | Callback when an editable cell is committed |
+| `onCellEdit` | `(row, columnKey, value) => void` | Callback when an editable cell is committed; update consumer data state here |
 | `allowAddRow` | `boolean` | Enable adding a new row when the last row is clicked |
 | `onAddRow` | `() => void` | Callback invoked when the last row is clicked and `allowAddRow` is true |
 | `selectable` | `boolean` | Enable row selection checkboxes. |
