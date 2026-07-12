@@ -1,5 +1,5 @@
-import Ce, { useState as O, useEffect as ne, useMemo as se, useRef as J } from "react";
-var te = { exports: {} }, Z = {};
+import we, { useState as A, useEffect as te, useMemo as ne, useRef as J } from "react";
+var re = { exports: {} }, Z = {};
 /**
  * @license React
  * react-jsx-runtime.production.js
@@ -9,27 +9,27 @@ var te = { exports: {} }, Z = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var xe;
-function De() {
-  if (xe) return Z;
-  xe = 1;
-  var t = Symbol.for("react.transitional.element"), o = Symbol.for("react.fragment");
-  function l(s, a, d) {
-    var u = null;
-    if (d !== void 0 && (u = "" + d), a.key !== void 0 && (u = "" + a.key), "key" in a) {
+var pe;
+function Le() {
+  if (pe) return Z;
+  pe = 1;
+  var t = Symbol.for("react.transitional.element"), a = Symbol.for("react.fragment");
+  function l(n, i, d) {
+    var f = null;
+    if (d !== void 0 && (f = "" + d), i.key !== void 0 && (f = "" + i.key), "key" in i) {
       d = {};
-      for (var n in a)
-        n !== "key" && (d[n] = a[n]);
-    } else d = a;
-    return a = d.ref, {
+      for (var s in i)
+        s !== "key" && (d[s] = i[s]);
+    } else d = i;
+    return i = d.ref, {
       $$typeof: t,
-      type: s,
-      key: u,
-      ref: a !== void 0 ? a : null,
+      type: n,
+      key: f,
+      ref: i !== void 0 ? i : null,
       props: d
     };
   }
-  return Z.Fragment = o, Z.jsx = l, Z.jsxs = l, Z;
+  return Z.Fragment = a, Z.jsx = l, Z.jsxs = l, Z;
 }
 var Q = {};
 /**
@@ -41,243 +41,243 @@ var Q = {};
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */
-var pe;
-function Le() {
-  return pe || (pe = 1, process.env.NODE_ENV !== "production" && (function() {
-    function t(e) {
-      if (e == null) return null;
-      if (typeof e == "function")
-        return e.$$typeof === B ? null : e.displayName || e.name || null;
-      if (typeof e == "string") return e;
-      switch (e) {
-        case y:
+var be;
+function $e() {
+  return be || (be = 1, process.env.NODE_ENV !== "production" && (function() {
+    function t(r) {
+      if (r == null) return null;
+      if (typeof r == "function")
+        return r.$$typeof === b ? null : r.displayName || r.name || null;
+      if (typeof r == "string") return r;
+      switch (r) {
+        case S:
           return "Fragment";
-        case p:
+        case x:
           return "Profiler";
-        case z:
+        case _:
           return "StrictMode";
-        case D:
+        case L:
           return "Suspense";
-        case $:
+        case M:
           return "SuspenseList";
-        case P:
+        case $:
           return "Activity";
       }
-      if (typeof e == "object")
-        switch (typeof e.tag == "number" && console.error(
+      if (typeof r == "object")
+        switch (typeof r.tag == "number" && console.error(
           "Received an unexpected object in getComponentNameFromType(). This is likely a bug in React. Please file an issue."
-        ), e.$$typeof) {
-          case N:
+        ), r.$$typeof) {
+          case R:
             return "Portal";
-          case c:
-            return e.displayName || "Context";
-          case k:
-            return (e._context.displayName || "Context") + ".Consumer";
-          case M:
-            var h = e.render;
-            return e = e.displayName, e || (e = h.displayName || h.name || "", e = e !== "" ? "ForwardRef(" + e + ")" : "ForwardRef"), e;
-          case w:
-            return h = e.displayName || null, h !== null ? h : t(e.type) || "Memo";
+          case h:
+            return r.displayName || "Context";
           case C:
-            h = e._payload, e = e._init;
+            return (r._context.displayName || "Context") + ".Consumer";
+          case E:
+            var o = r.render;
+            return r = r.displayName, r || (r = o.displayName || o.name || "", r = r !== "" ? "ForwardRef(" + r + ")" : "ForwardRef"), r;
+          case F:
+            return o = r.displayName || null, o !== null ? o : t(r.type) || "Memo";
+          case W:
+            o = r._payload, r = r._init;
             try {
-              return t(e(h));
+              return t(r(o));
             } catch {
             }
         }
       return null;
     }
-    function o(e) {
-      return "" + e;
+    function a(r) {
+      return "" + r;
     }
-    function l(e) {
+    function l(r) {
       try {
-        o(e);
-        var h = !1;
+        a(r);
+        var o = !1;
       } catch {
-        h = !0;
+        o = !0;
       }
-      if (h) {
-        h = console;
-        var j = h.error, S = typeof Symbol == "function" && Symbol.toStringTag && e[Symbol.toStringTag] || e.constructor.name || "Object";
+      if (o) {
+        o = console;
+        var j = o.error, N = typeof Symbol == "function" && Symbol.toStringTag && r[Symbol.toStringTag] || r.constructor.name || "Object";
         return j.call(
-          h,
+          o,
           "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
-          S
-        ), o(e);
+          N
+        ), a(r);
       }
     }
-    function s(e) {
-      if (e === y) return "<>";
-      if (typeof e == "object" && e !== null && e.$$typeof === C)
+    function n(r) {
+      if (r === S) return "<>";
+      if (typeof r == "object" && r !== null && r.$$typeof === W)
         return "<...>";
       try {
-        var h = t(e);
-        return h ? "<" + h + ">" : "<...>";
+        var o = t(r);
+        return o ? "<" + o + ">" : "<...>";
       } catch {
         return "<...>";
       }
     }
-    function a() {
-      var e = L.A;
-      return e === null ? null : e.getOwner();
+    function i() {
+      var r = T.A;
+      return r === null ? null : r.getOwner();
     }
     function d() {
       return Error("react-stack-top-frame");
     }
-    function u(e) {
-      if (Y.call(e, "key")) {
-        var h = Object.getOwnPropertyDescriptor(e, "key").get;
-        if (h && h.isReactWarning) return !1;
+    function f(r) {
+      if (w.call(r, "key")) {
+        var o = Object.getOwnPropertyDescriptor(r, "key").get;
+        if (o && o.isReactWarning) return !1;
       }
-      return e.key !== void 0;
+      return r.key !== void 0;
     }
-    function n(e, h) {
+    function s(r, o) {
       function j() {
-        H || (H = !0, console.error(
+        V || (V = !0, console.error(
           "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
-          h
+          o
         ));
       }
-      j.isReactWarning = !0, Object.defineProperty(e, "key", {
+      j.isReactWarning = !0, Object.defineProperty(r, "key", {
         get: j,
         configurable: !0
       });
     }
-    function i() {
-      var e = t(this.type);
-      return G[e] || (G[e] = !0, console.error(
+    function c() {
+      var r = t(this.type);
+      return y[r] || (y[r] = !0, console.error(
         "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
-      )), e = this.props.ref, e !== void 0 ? e : null;
+      )), r = this.props.ref, r !== void 0 ? r : null;
     }
-    function x(e, h, j, S, W, I) {
-      var R = j.ref;
-      return e = {
-        $$typeof: b,
-        type: e,
-        key: h,
+    function v(r, o, j, N, q, G) {
+      var O = j.ref;
+      return r = {
+        $$typeof: k,
+        type: r,
+        key: o,
         props: j,
-        _owner: S
-      }, (R !== void 0 ? R : null) !== null ? Object.defineProperty(e, "ref", {
+        _owner: N
+      }, (O !== void 0 ? O : null) !== null ? Object.defineProperty(r, "ref", {
         enumerable: !1,
-        get: i
-      }) : Object.defineProperty(e, "ref", { enumerable: !1, value: null }), e._store = {}, Object.defineProperty(e._store, "validated", {
+        get: c
+      }) : Object.defineProperty(r, "ref", { enumerable: !1, value: null }), r._store = {}, Object.defineProperty(r._store, "validated", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
         value: 0
-      }), Object.defineProperty(e, "_debugInfo", {
+      }), Object.defineProperty(r, "_debugInfo", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
         value: null
-      }), Object.defineProperty(e, "_debugStack", {
+      }), Object.defineProperty(r, "_debugStack", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-        value: W
-      }), Object.defineProperty(e, "_debugTask", {
+        value: q
+      }), Object.defineProperty(r, "_debugTask", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-        value: I
-      }), Object.freeze && (Object.freeze(e.props), Object.freeze(e)), e;
+        value: G
+      }), Object.freeze && (Object.freeze(r.props), Object.freeze(r)), r;
     }
-    function g(e, h, j, S, W, I) {
-      var R = h.children;
-      if (R !== void 0)
-        if (S)
-          if (_(R)) {
-            for (S = 0; S < R.length; S++)
-              v(R[S]);
-            Object.freeze && Object.freeze(R);
+    function m(r, o, j, N, q, G) {
+      var O = o.children;
+      if (O !== void 0)
+        if (N)
+          if (B(O)) {
+            for (N = 0; N < O.length; N++)
+              p(O[N]);
+            Object.freeze && Object.freeze(O);
           } else
             console.error(
               "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
             );
-        else v(R);
-      if (Y.call(h, "key")) {
-        R = t(e);
-        var V = Object.keys(h).filter(function(ee) {
-          return ee !== "key";
+        else p(O);
+      if (w.call(o, "key")) {
+        O = t(r);
+        var K = Object.keys(o).filter(function(se) {
+          return se !== "key";
         });
-        S = 0 < V.length ? "{key: someKey, " + V.join(": ..., ") + ": ...}" : "{key: someKey}", K[R + S] || (V = 0 < V.length ? "{" + V.join(": ..., ") + ": ...}" : "{}", console.error(
+        N = 0 < K.length ? "{key: someKey, " + K.join(": ..., ") + ": ...}" : "{key: someKey}", H[O + N] || (K = 0 < K.length ? "{" + K.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
   let props = %s;
   <%s {...props} />
 React keys must be passed directly to JSX without using spread:
   let props = %s;
   <%s key={someKey} {...props} />`,
-          S,
-          R,
-          V,
-          R
-        ), K[R + S] = !0);
+          N,
+          O,
+          K,
+          O
+        ), H[O + N] = !0);
       }
-      if (R = null, j !== void 0 && (l(j), R = "" + j), u(h) && (l(h.key), R = "" + h.key), "key" in h) {
+      if (O = null, j !== void 0 && (l(j), O = "" + j), f(o) && (l(o.key), O = "" + o.key), "key" in o) {
         j = {};
-        for (var U in h)
-          U !== "key" && (j[U] = h[U]);
-      } else j = h;
-      return R && n(
+        for (var U in o)
+          U !== "key" && (j[U] = o[U]);
+      } else j = o;
+      return O && s(
         j,
-        typeof e == "function" ? e.displayName || e.name || "Unknown" : e
-      ), x(
-        e,
-        R,
+        typeof r == "function" ? r.displayName || r.name || "Unknown" : r
+      ), v(
+        r,
+        O,
         j,
-        a(),
-        W,
-        I
+        i(),
+        q,
+        G
       );
     }
-    function v(e) {
-      m(e) ? e._store && (e._store.validated = 1) : typeof e == "object" && e !== null && e.$$typeof === C && (e._payload.status === "fulfilled" ? m(e._payload.value) && e._payload.value._store && (e._payload.value._store.validated = 1) : e._store && (e._store.validated = 1));
+    function p(r) {
+      g(r) ? r._store && (r._store.validated = 1) : typeof r == "object" && r !== null && r.$$typeof === W && (r._payload.status === "fulfilled" ? g(r._payload.value) && r._payload.value._store && (r._payload.value._store.validated = 1) : r._store && (r._store.validated = 1));
     }
-    function m(e) {
-      return typeof e == "object" && e !== null && e.$$typeof === b;
+    function g(r) {
+      return typeof r == "object" && r !== null && r.$$typeof === k;
     }
-    var f = Ce, b = Symbol.for("react.transitional.element"), N = Symbol.for("react.portal"), y = Symbol.for("react.fragment"), z = Symbol.for("react.strict_mode"), p = Symbol.for("react.profiler"), k = Symbol.for("react.consumer"), c = Symbol.for("react.context"), M = Symbol.for("react.forward_ref"), D = Symbol.for("react.suspense"), $ = Symbol.for("react.suspense_list"), w = Symbol.for("react.memo"), C = Symbol.for("react.lazy"), P = Symbol.for("react.activity"), B = Symbol.for("react.client.reference"), L = f.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, Y = Object.prototype.hasOwnProperty, _ = Array.isArray, F = console.createTask ? console.createTask : function() {
+    var u = we, k = Symbol.for("react.transitional.element"), R = Symbol.for("react.portal"), S = Symbol.for("react.fragment"), _ = Symbol.for("react.strict_mode"), x = Symbol.for("react.profiler"), C = Symbol.for("react.consumer"), h = Symbol.for("react.context"), E = Symbol.for("react.forward_ref"), L = Symbol.for("react.suspense"), M = Symbol.for("react.suspense_list"), F = Symbol.for("react.memo"), W = Symbol.for("react.lazy"), $ = Symbol.for("react.activity"), b = Symbol.for("react.client.reference"), T = u.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, w = Object.prototype.hasOwnProperty, B = Array.isArray, P = console.createTask ? console.createTask : function() {
       return null;
     };
-    f = {
-      react_stack_bottom_frame: function(e) {
-        return e();
+    u = {
+      react_stack_bottom_frame: function(r) {
+        return r();
       }
     };
-    var H, G = {}, q = f.react_stack_bottom_frame.bind(
-      f,
+    var V, y = {}, Y = u.react_stack_bottom_frame.bind(
+      u,
       d
-    )(), E = F(s(d)), K = {};
-    Q.Fragment = y, Q.jsx = function(e, h, j) {
-      var S = 1e4 > L.recentlyCreatedOwnerStacks++;
-      return g(
-        e,
-        h,
+    )(), I = P(n(d)), H = {};
+    Q.Fragment = S, Q.jsx = function(r, o, j) {
+      var N = 1e4 > T.recentlyCreatedOwnerStacks++;
+      return m(
+        r,
+        o,
         j,
         !1,
-        S ? Error("react-stack-top-frame") : q,
-        S ? F(s(e)) : E
+        N ? Error("react-stack-top-frame") : Y,
+        N ? P(n(r)) : I
       );
-    }, Q.jsxs = function(e, h, j) {
-      var S = 1e4 > L.recentlyCreatedOwnerStacks++;
-      return g(
-        e,
-        h,
+    }, Q.jsxs = function(r, o, j) {
+      var N = 1e4 > T.recentlyCreatedOwnerStacks++;
+      return m(
+        r,
+        o,
         j,
         !0,
-        S ? Error("react-stack-top-frame") : q,
-        S ? F(s(e)) : E
+        N ? Error("react-stack-top-frame") : Y,
+        N ? P(n(r)) : I
       );
     };
   })()), Q;
 }
-var be;
-function $e() {
-  return be || (be = 1, process.env.NODE_ENV === "production" ? te.exports = De() : te.exports = Le()), te.exports;
+var ye;
+function Be() {
+  return ye || (ye = 1, process.env.NODE_ENV === "production" ? re.exports = Le() : re.exports = $e()), re.exports;
 }
-var r = $e();
-const ye = {
+var e = Be();
+const ke = {
   light: {
     gridColor: "#ffffff",
     gridTextColor: "rgba(0, 0, 0, 0.87)",
@@ -303,639 +303,669 @@ const ye = {
     gridSelectedColor: "rgba(255, 255, 255, 0.12)"
   }
 };
-function Be(t, o, l) {
-  const s = ye[t] ?? ye.light, a = t === "light" && !!o, d = o ?? s.gridColor, u = l ?? (a ? "#ffffff" : s.gridTextColor), n = l ?? (a ? "rgba(255, 255, 255, 0.72)" : s.gridMutedColor), i = a ? "rgba(255, 255, 255, 0.18)" : s.gridBorderColor, x = a ? "rgba(255, 255, 255, 0.08)" : s.gridHoverColor, g = a ? "rgba(255, 255, 255, 0.12)" : s.gridSelectedColor;
+function He(t, a, l) {
+  const n = ke[t] ?? ke.light, i = t === "light" && !!a, d = a ?? n.gridColor, f = l ?? (i ? "#ffffff" : n.gridTextColor), s = l ?? (i ? "rgba(255, 255, 255, 0.72)" : n.gridMutedColor), c = i ? "rgba(255, 255, 255, 0.18)" : n.gridBorderColor, v = i ? "rgba(255, 255, 255, 0.08)" : n.gridHoverColor, m = i ? "rgba(255, 255, 255, 0.12)" : n.gridSelectedColor;
   return { themeSurfaceStyle: {
     "--fg-grid-surface": d,
-    "--fg-grid-surface-text": u,
-    "--fg-grid-surface-muted": n,
-    "--fg-grid-surface-border": i,
-    "--fg-grid-surface-hover": x,
-    "--fg-grid-surface-selected": g,
-    colorScheme: t === "dark" || t === "blue" || a ? "dark" : "light"
-  }, activeTheme: s };
+    "--fg-grid-surface-text": f,
+    "--fg-grid-surface-muted": s,
+    "--fg-grid-surface-border": c,
+    "--fg-grid-surface-hover": v,
+    "--fg-grid-surface-selected": m,
+    colorScheme: t === "dark" || t === "blue" || i ? "dark" : "light"
+  }, activeTheme: n };
 }
-function He(t) {
-  const [o, l] = O(
-    () => t.map((g) => g.key)
-  ), [s, a] = O(null);
-  return ne(() => {
-    l(t.map((g) => g.key));
-  }, [t]), { orderedColumns: se(
-    () => o.map((g) => t.find((v) => v.key === g)).filter((g) => !!g),
-    [o, t]
-  ), draggedColKey: s, handleDragStart: (g, v) => {
-    a(v), g.dataTransfer.setData("text/plain", v);
-  }, handleDragOver: (g) => {
-    g.preventDefault();
-  }, handleDrop: (g, v) => {
-    if (g.preventDefault(), !s || s === v) return;
-    const m = [...o], f = m.indexOf(s), b = m.indexOf(v);
-    m.splice(f, 1), m.splice(b, 0, s), l(m), a(null);
-  }, moveColumn: (g, v) => {
-    const m = [...o], f = m.indexOf(g);
-    f !== -1 && (v === "left" && f > 0 ? [m[f], m[f - 1]] = [m[f - 1], m[f]] : v === "right" && f < m.length - 1 && ([m[f], m[f + 1]] = [m[f + 1], m[f]]), l(m));
+function Ve(t) {
+  const [a, l] = A(
+    () => t.map((m) => m.key)
+  ), [n, i] = A(null);
+  return te(() => {
+    l(t.map((m) => m.key));
+  }, [t]), { orderedColumns: ne(
+    () => a.map((m) => t.find((p) => p.key === m)).filter((m) => !!m),
+    [a, t]
+  ), draggedColKey: n, handleDragStart: (m, p) => {
+    i(p), m.dataTransfer.setData("text/plain", p);
+  }, handleDragOver: (m) => {
+    m.preventDefault();
+  }, handleDrop: (m, p) => {
+    if (m.preventDefault(), !n || n === p) return;
+    const g = [...a], u = g.indexOf(n), k = g.indexOf(p);
+    g.splice(u, 1), g.splice(k, 0, n), l(g), i(null);
+  }, moveColumn: (m, p) => {
+    const g = [...a], u = g.indexOf(m);
+    u !== -1 && (p === "left" && u > 0 ? [g[u], g[u - 1]] = [g[u - 1], g[u]] : p === "right" && u < g.length - 1 && ([g[u], g[u + 1]] = [g[u + 1], g[u]]), l(g));
   } };
 }
 function We() {
-  const [t, o] = O({}), [l, s] = O(null);
-  return ne(() => {
-    const d = (n) => {
+  const [t, a] = A({}), [l, n] = A(null);
+  return te(() => {
+    const d = (s) => {
       if (!l) return;
-      const i = n.clientX - l.startX, x = Math.max(l.startWidth + i, 50);
-      o((g) => ({ ...g, [l.key]: x }));
-    }, u = () => {
-      s(null);
+      const c = s.clientX - l.startX, v = Math.max(l.startWidth + c, 50);
+      a((m) => ({ ...m, [l.key]: v }));
+    }, f = () => {
+      n(null);
     };
-    return l && (document.addEventListener("mousemove", d), document.addEventListener("mouseup", u)), () => {
-      document.removeEventListener("mousemove", d), document.removeEventListener("mouseup", u);
+    return l && (document.addEventListener("mousemove", d), document.addEventListener("mouseup", f)), () => {
+      document.removeEventListener("mousemove", d), document.removeEventListener("mouseup", f);
     };
-  }, [l]), { columnWidths: t, handleResizeStart: (d, u) => {
+  }, [l]), { columnWidths: t, handleResizeStart: (d, f) => {
     d.stopPropagation(), d.preventDefault();
-    const n = d.target.closest(".free-grid-header-cell");
-    n && s({
-      key: u,
+    const s = d.target.closest(".free-grid-header-cell");
+    s && n({
+      key: f,
       startX: d.clientX,
-      startWidth: n.getBoundingClientRect().width
+      startWidth: s.getBoundingClientRect().width
     });
   } };
 }
-function Ve(t, o) {
-  const [l, s] = O(() => {
-    const a = /* @__PURE__ */ new Set();
-    return o && a.add("__selection"), t.forEach((d) => {
-      d.defaultHidden || a.add(d.key);
-    }), a;
+function Ie(t, a) {
+  const [l, n] = A(() => {
+    const i = /* @__PURE__ */ new Set();
+    return a && i.add("__selection"), t.forEach((d) => {
+      d.defaultHidden || i.add(d.key);
+    }), i;
   });
-  return { visibleColumnKeys: l, setVisibleColumnKeys: s };
+  return { visibleColumnKeys: l, setVisibleColumnKeys: n };
 }
-function Fe(t, o) {
-  const [l, s] = O({ key: null, direction: null }), a = (u) => {
-    let n = "asc";
-    l.key === u && (l.direction === "asc" ? n = "desc" : l.direction === "desc" && (n = null)), s({ key: u, direction: n }), o && o(u, n);
-  }, d = se(() => o || !l.key || !l.direction ? t : [...t].sort((u, n) => {
-    const i = u[l.key], x = n[l.key];
-    if (i === x) return 0;
-    if (i == null) return 1;
-    if (x == null) return -1;
-    const g = i < x ? -1 : 1;
-    return l.direction === "asc" ? g : -g;
-  }), [t, l, o]);
-  return { sortConfig: l, handleSort: a, sortedData: d };
+function Fe(t, a) {
+  const [l, n] = A({ key: null, direction: null }), i = (f) => {
+    let s = "asc";
+    l.key === f && (l.direction === "asc" ? s = "desc" : l.direction === "desc" && (s = null)), n({ key: f, direction: s }), a && a(f, s);
+  }, d = ne(() => a || !l.key || !l.direction ? t : [...t].sort((f, s) => {
+    const c = f[l.key], v = s[l.key];
+    if (c === v) return 0;
+    if (c == null) return 1;
+    if (v == null) return -1;
+    const m = c < v ? -1 : 1;
+    return l.direction === "asc" ? m : -m;
+  }), [t, l, a]);
+  return { sortConfig: l, handleSort: i, sortedData: d };
 }
-function Ye({
+function Ke({
   data: t,
-  selectionMode: o,
+  selectionMode: a,
   selectedIds: l = [],
-  onSelectionChange: s
+  onSelectionChange: n
 }) {
-  return { handleSelectAll: (u) => {
-    s && o !== "single" && (u.target.checked ? s(
-      t.map((n, i) => n.id !== void 0 ? n.id : i)
-    ) : s([]));
-  }, handleSelectRow: (u, n) => {
-    if (u.stopPropagation(), !s) return;
-    if (o === "single") {
-      s(u.target.checked ? [n] : []);
+  return { handleSelectAll: (f) => {
+    n && a !== "single" && (f.target.checked ? n(
+      t.map((s, c) => s.id !== void 0 ? s.id : c)
+    ) : n([]));
+  }, handleSelectRow: (f, s) => {
+    if (f.stopPropagation(), !n) return;
+    if (a === "single") {
+      n(f.target.checked ? [s] : []);
       return;
     }
-    const i = new Set(l);
-    u.target.checked ? i.add(n) : i.delete(n), s(Array.from(i));
+    const c = new Set(l);
+    f.target.checked ? c.add(s) : c.delete(s), n(Array.from(c));
   } };
 }
-function Ge() {
-  const [t, o] = O(/* @__PURE__ */ new Set());
-  return { expandedRows: t, toggleRow: (s, a) => {
-    const d = a.id !== void 0 ? a.id : s, u = new Set(t);
-    u.has(d) ? u.delete(d) : u.add(d), o(u);
+function Ye() {
+  const [t, a] = A(/* @__PURE__ */ new Set());
+  return { expandedRows: t, toggleRow: (n, i) => {
+    const d = i.id !== void 0 ? i.id : n, f = new Set(t);
+    f.has(d) ? f.delete(d) : f.add(d), a(f);
   } };
 }
-function qe(t, o, l) {
-  const [s, a] = O(null), [d, u] = O(null), n = (f) => {
-    u(f);
-  }, i = () => {
-    u(null);
-  }, x = (f) => {
-    a(f), l && l(f);
-  }, g = () => {
-    a(null), l && l(null);
-  }, v = (f) => {
-    const b = o.find((N) => N.key === f);
-    if (b != null && b.type) return b.type;
-    for (const N of t) {
-      const y = N[f];
-      if (y != null)
-        return typeof y == "number" ? "number" : "string";
+function Ge(t, a, l) {
+  const [n, i] = A(null), [d, f] = A(null), s = (u) => {
+    f(u);
+  }, c = () => {
+    f(null);
+  }, v = (u) => {
+    i(u), l && l(u);
+  }, m = () => {
+    i(null), l && l(null);
+  }, p = (u) => {
+    const k = a.find((R) => R.key === u);
+    if (k != null && k.type) return k.type;
+    for (const R of t) {
+      const S = R[u];
+      if (S != null)
+        return typeof S == "number" ? "number" : "string";
     }
     return "string";
-  }, m = se(() => !s || !s.value.trim() ? t : t.filter((f) => {
-    const b = f[s.columnKey], N = s.value.trim(), y = o.find((p) => p.key === s.columnKey);
-    if ((y == null ? void 0 : y.type) === "number" || typeof b == "number") {
-      const p = Number(b), k = Number(N);
-      if (isNaN(p) || isNaN(k)) return !0;
-      switch (s.operator) {
+  }, g = ne(() => !n || !n.value.trim() ? t : t.filter((u) => {
+    const k = u[n.columnKey], R = n.value.trim(), S = a.find((x) => x.key === n.columnKey);
+    if ((S == null ? void 0 : S.type) === "number" || typeof k == "number") {
+      const x = Number(k), C = Number(R);
+      if (isNaN(x) || isNaN(C)) return !0;
+      switch (n.operator) {
         case "=":
-          return p === k;
+          return x === C;
         case "!=":
-          return p !== k;
+          return x !== C;
         case ">":
-          return p > k;
+          return x > C;
         case "<":
-          return p < k;
+          return x < C;
         case ">=":
-          return p >= k;
+          return x >= C;
         case "<=":
-          return p <= k;
+          return x <= C;
         default:
           return !0;
       }
     } else {
-      const p = String(b ?? "").toLowerCase(), k = N.toLowerCase();
-      switch (s.operator) {
+      const x = String(k ?? "").toLowerCase(), C = R.toLowerCase();
+      switch (n.operator) {
         case "contains":
-          return p.includes(k);
+          return x.includes(C);
         case "doesNotContain":
-          return !p.includes(k);
+          return !x.includes(C);
         case "equals":
-          return p === k;
+          return x === C;
         case "notEqual":
-          return p !== k;
+          return x !== C;
         case "startsWith":
-          return p.startsWith(k);
+          return x.startsWith(C);
         case "endsWith":
-          return p.endsWith(k);
+          return x.endsWith(C);
         default:
           return !0;
       }
     }
-  }), [t, s, o]);
+  }), [t, n, a]);
   return {
-    filter: s,
-    filteredData: m,
+    filter: n,
+    filteredData: g,
     filterPanelColumnKey: d,
-    openFilterPanel: n,
-    closeFilterPanel: i,
-    applyFilter: x,
-    clearFilter: g,
-    getColumnType: v
+    openFilterPanel: s,
+    closeFilterPanel: c,
+    applyFilter: v,
+    clearFilter: m,
+    getColumnType: p
   };
 }
-function Ke({
+function qe({
   filteredColumns: t,
-  gridStyle: o,
+  gridStyle: a,
   selectable: l,
-  visibleColumnKeys: s,
-  selectionMode: a,
-  data: d,
-  selectedIds: u,
-  handleSelectAll: n,
-  sortConfig: i,
-  handleSort: x,
-  allowSorting: g,
-  allowReordering: v,
-  allowResizing: m,
-  draggedColKey: f,
-  handleDragStart: b,
-  handleDragOver: N,
-  handleDrop: y,
-  handleResizeStart: z,
-  handleOpenMenu: p,
-  activeFilter: k
+  showRowNumbers: n = !1,
+  visibleColumnKeys: i,
+  selectionMode: d,
+  data: f,
+  selectedIds: s,
+  handleSelectAll: c,
+  sortConfig: v,
+  handleSort: m,
+  allowSorting: p,
+  allowReordering: g,
+  allowResizing: u,
+  draggedColKey: k,
+  handleDragStart: R,
+  handleDragOver: S,
+  handleDrop: _,
+  handleResizeStart: x,
+  handleOpenMenu: C,
+  activeFilter: h
 }) {
-  return /* @__PURE__ */ r.jsxs("div", { className: "free-grid-header", style: o, children: [
-    l && s.has("__selection") && /* @__PURE__ */ r.jsx("div", { className: "free-grid-header-cell free-grid-checkbox-cell", children: a !== "single" ? /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
-      /* @__PURE__ */ r.jsx(
+  return /* @__PURE__ */ e.jsxs("div", { className: "free-grid-header", style: a, children: [
+    n && /* @__PURE__ */ e.jsx("div", { className: "free-grid-header-cell free-grid-row-number-cell", "aria-label": "Row number column", children: /* @__PURE__ */ e.jsx("span", { className: "free-grid-header-text", children: "#" }) }),
+    l && i.has("__selection") && /* @__PURE__ */ e.jsx("div", { className: "free-grid-header-cell free-grid-checkbox-cell", children: d !== "single" ? /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+      /* @__PURE__ */ e.jsx(
         "input",
         {
           type: "checkbox",
           className: "free-grid-checkbox",
-          onChange: n,
-          checked: d.length > 0 && u.length === d.length
+          onChange: c,
+          checked: f.length > 0 && s.length === f.length
         }
       ),
-      /* @__PURE__ */ r.jsx(
+      /* @__PURE__ */ e.jsx(
         "button",
         {
           className: "free-grid-menu-button",
-          onClick: (c) => p(c, null, !0),
+          onClick: (E) => C(E, null, !0),
           style: { position: "absolute", right: "2px" },
           children: "⋮"
         }
       )
-    ] }) : /* @__PURE__ */ r.jsx("span", { "aria-hidden": "true", style: { width: "18px", height: "18px" } }) }),
-    t.map((c) => {
-      const M = g !== !1 && c.sortable !== !1, D = i.key === c.key, $ = v !== !1 && c.draggable !== !1, w = m !== !1 && c.resizable !== !1;
-      return /* @__PURE__ */ r.jsxs(
+    ] }) : /* @__PURE__ */ e.jsx("span", { "aria-hidden": "true", style: { width: "18px", height: "18px" } }) }),
+    t.map((E) => {
+      const L = p !== !1 && E.sortable !== !1, M = v.key === E.key, F = g !== !1 && E.draggable !== !1, W = u !== !1 && E.resizable !== !1;
+      return /* @__PURE__ */ e.jsxs(
         "div",
         {
-          className: `free-grid-header-cell ${M ? "sortable" : ""} ${D ? "active" : ""} ${f === c.key ? "dragging" : ""}`,
-          draggable: $,
-          onDragStart: (C) => b(C, c.key),
-          onDragOver: N,
-          onDrop: (C) => y(C, c.key),
+          className: `free-grid-header-cell ${L ? "sortable" : ""} ${M ? "active" : ""} ${k === E.key ? "dragging" : ""}`,
+          draggable: F,
+          onDragStart: ($) => R($, E.key),
+          onDragOver: S,
+          onDrop: ($) => _($, E.key),
           children: [
-            /* @__PURE__ */ r.jsx(
+            /* @__PURE__ */ e.jsx(
               "div",
               {
                 className: "free-grid-header-content",
-                onClick: () => M && x(c.key),
-                children: /* @__PURE__ */ r.jsxs("span", { className: "free-grid-header-text", children: [
-                  c.header,
-                  D && /* @__PURE__ */ r.jsx("span", { className: `free-grid-sort-icon ${i.direction}`, children: i.direction === "asc" ? "↑" : "↓" }),
-                  (k == null ? void 0 : k.columnKey) === c.key && /* @__PURE__ */ r.jsx("span", { className: "free-grid-filter-badge", title: "Filter active", children: /* @__PURE__ */ r.jsx("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" }) }) })
+                onClick: () => L && m(E.key),
+                children: /* @__PURE__ */ e.jsxs("span", { className: "free-grid-header-text", children: [
+                  E.header,
+                  M && /* @__PURE__ */ e.jsx("span", { className: `free-grid-sort-icon ${v.direction}`, children: v.direction === "asc" ? "↑" : "↓" }),
+                  (h == null ? void 0 : h.columnKey) === E.key && /* @__PURE__ */ e.jsx("span", { className: "free-grid-filter-badge", title: "Filter active", children: /* @__PURE__ */ e.jsx("svg", { width: "12", height: "12", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" }) }) })
                 ] })
               }
             ),
-            /* @__PURE__ */ r.jsx("button", { className: "free-grid-menu-button", onClick: (C) => p(C, c), children: /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" }) }) }),
-            w && /* @__PURE__ */ r.jsx(
+            /* @__PURE__ */ e.jsx("button", { className: "free-grid-menu-button", onClick: ($) => C($, E), children: /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z" }) }) }),
+            W && /* @__PURE__ */ e.jsx(
               "div",
               {
                 className: "free-grid-resizer",
-                onMouseDown: (C) => z(C, c.key)
+                onMouseDown: ($) => x($, E.key)
               }
             )
           ]
         },
-        c.key
+        E.key
       );
     })
   ] });
 }
-function Ie({
+function Ue({
   sortedData: t,
-  filteredColumns: o,
+  filteredColumns: a,
   gridStyle: l,
-  selectable: s,
-  visibleColumnKeys: a,
-  selectedIds: d,
-  renderChildView: u,
-  stripedColors: n,
-  activeTheme: i,
-  handleSelectRow: x,
-  expandedRows: g,
-  toggleRow: v,
-  isEditable: m = !1,
-  onCellEdit: f,
-  allowAddRow: b = !1,
-  onAddRow: N
+  selectable: n,
+  showRowNumbers: i = !1,
+  visibleColumnKeys: d,
+  selectedIds: f,
+  renderChildView: s,
+  stripedColors: c,
+  activeTheme: v,
+  handleSelectRow: m,
+  expandedRows: p,
+  toggleRow: g,
+  isEditable: u = !1,
+  onCellEdit: k,
+  allowAddRow: R = !1,
+  onAddRow: S
 }) {
-  const [y, z] = O(null), [p, k] = O(""), c = (w, C) => {
-    if (!y || !f) {
-      z(null);
+  const [_, x] = A(null), [C, h] = A(""), E = (b, T) => b.id !== void 0 ? b.id : T, L = (b, T) => {
+    for (let w = b; w < t.length; w += 1) {
+      const B = w === b ? T + 1 : 0;
+      for (let P = B; P < a.length; P += 1) {
+        const y = a[P].isEditable ?? u;
+        if (k && y)
+          return { rowIndex: w, colIndex: P };
+      }
+    }
+    return null;
+  }, M = (b, T, w) => {
+    if (!_ || !k) {
+      x(null);
       return;
     }
-    const P = p;
-    f(w, C.key, P), z(null);
-  }, M = () => {
-    z(null);
-  }, D = (w, C) => {
-    if (b && w === t.length - 1) {
-      N == null || N();
+    const B = C;
+    if (k(b, T.key, B), w) {
+      const P = t[w.rowIndex], V = a[w.colIndex], y = P[V.key] ?? "";
+      x({
+        rowId: E(P, w.rowIndex),
+        columnKey: V.key
+      }), h(
+        y != null ? String(y) : ""
+      );
+    } else
+      x(null);
+  }, F = () => {
+    x(null);
+  }, W = (b, T) => {
+    if (R && b === t.length - 1) {
+      S == null || S();
       return;
     }
-    u && v(w, C);
-  }, $ = (w, C, P, B) => {
-    !f || !(C.isEditable ?? m) || (w.stopPropagation(), z({ rowId: B, columnKey: C.key }), k(P != null ? String(P) : ""));
+    s && g(b, T);
+  }, $ = (b, T, w, B) => {
+    !k || !(T.isEditable ?? u) || (b.stopPropagation(), x({ rowId: B, columnKey: T.key }), h(w != null ? String(w) : ""));
   };
-  return /* @__PURE__ */ r.jsx("div", { className: "free-grid-body", children: t.map((w, C) => {
-    const P = w.id !== void 0 ? w.id : C, B = g.has(P), L = d.includes(P), Y = n && !L ? {
-      "--fg-row-background": C % 2 === 0 ? n.odd : n.even,
-      "--fg-row-hover-background": i.gridHoverColor
+  return /* @__PURE__ */ e.jsx("div", { className: "free-grid-body", children: t.map((b, T) => {
+    const w = b.id !== void 0 ? b.id : T, B = p.has(w), P = f.includes(w), V = c && !P ? {
+      "--fg-row-background": T % 2 === 0 ? c.odd : c.even,
+      "--fg-row-hover-background": v.gridHoverColor
     } : void 0;
-    return /* @__PURE__ */ r.jsxs(Ce.Fragment, { children: [
-      /* @__PURE__ */ r.jsxs(
+    return /* @__PURE__ */ e.jsxs(we.Fragment, { children: [
+      /* @__PURE__ */ e.jsxs(
         "div",
         {
-          className: `free-grid-row ${u ? "expandable" : ""} ${B ? "expanded" : ""} ${L ? "selected" : ""}`,
-          style: { ...l, ...Y },
-          onClick: () => D(C, w),
+          className: `free-grid-row ${s ? "expandable" : ""} ${B ? "expanded" : ""} ${P ? "selected" : ""}`,
+          style: { ...l, ...V },
+          onClick: () => W(T, b),
           children: [
-            s && a.has("__selection") && /* @__PURE__ */ r.jsx("div", { className: "free-grid-cell free-grid-checkbox-cell", children: /* @__PURE__ */ r.jsx(
+            i && /* @__PURE__ */ e.jsx("div", { className: "free-grid-cell free-grid-row-number-cell", children: T + 1 }),
+            n && d.has("__selection") && /* @__PURE__ */ e.jsx("div", { className: "free-grid-cell free-grid-checkbox-cell", children: /* @__PURE__ */ e.jsx(
               "input",
               {
                 type: "checkbox",
                 className: "free-grid-checkbox",
-                checked: L,
-                onChange: (_) => x(_, P),
-                onClick: (_) => _.stopPropagation()
+                checked: P,
+                onChange: (y) => m(y, w),
+                onClick: (y) => y.stopPropagation()
               }
             ) }),
-            o.map((_, F) => {
-              const H = w[_.key], G = f ? _.isEditable ?? m : !1, q = (y == null ? void 0 : y.rowId) === P && (y == null ? void 0 : y.columnKey) === _.key;
-              return /* @__PURE__ */ r.jsx(
+            a.map((y, Y) => {
+              const I = b[y.key], H = k ? y.isEditable ?? u : !1, r = (_ == null ? void 0 : _.rowId) === w && (_ == null ? void 0 : _.columnKey) === y.key;
+              return /* @__PURE__ */ e.jsx(
                 "div",
                 {
-                  className: `free-grid-cell ${G ? "editable" : ""}`,
-                  onClick: (E) => $(E, _, H, P),
-                  children: q ? _.editor ? _.editor(H, w, k, () => c(w, _), M) : /* @__PURE__ */ r.jsx(
+                  className: `free-grid-cell ${H ? "editable" : ""}`,
+                  onClick: (o) => $(o, y, I, w),
+                  children: r ? y.editor ? y.editor(I, b, h, () => M(b, y), F) : /* @__PURE__ */ e.jsx(
                     "input",
                     {
                       className: "free-grid-cell-input",
                       autoFocus: !0,
-                      value: p,
-                      onChange: (E) => k(E.target.value),
-                      onBlur: () => c(w, _),
-                      onKeyDown: (E) => {
-                        E.key === "Enter" && c(w, _), E.key === "Escape" && M();
+                      value: C,
+                      onChange: (o) => h(o.target.value),
+                      onBlur: () => {
+                        (_ == null ? void 0 : _.rowId) !== w || (_ == null ? void 0 : _.columnKey) !== y.key || M(b, y);
                       },
-                      onClick: (E) => E.stopPropagation()
+                      onKeyDown: (o) => {
+                        if (o.key === "Tab") {
+                          o.preventDefault();
+                          const j = L(T, Y);
+                          j ? M(b, y, j) : M(b, y);
+                        }
+                        o.key === "Enter" && M(b, y), o.key === "Escape" && F();
+                      },
+                      onClick: (o) => o.stopPropagation()
                     }
-                  ) : _.render ? _.render(H, w) : H
+                  ) : y.render ? y.render(I, b) : I
                 },
-                `cell-${C}-${F}`
+                `cell-${T}-${Y}`
               );
             })
           ]
         }
       ),
-      B && u && /* @__PURE__ */ r.jsx("div", { className: "free-grid-child-view", children: u(w) })
-    ] }, `row-${P}`);
+      B && s && /* @__PURE__ */ e.jsx("div", { className: "free-grid-child-view", children: s(b) })
+    ] }, `row-${w}`);
   }) });
 }
-function Ue({ pagination: t }) {
-  const o = Math.min((t.page - 1) * t.pageSize + 1, t.total), l = Math.min(t.page * t.pageSize, t.total);
-  return /* @__PURE__ */ r.jsx("div", { className: "free-grid-footer", children: /* @__PURE__ */ r.jsxs("div", { className: "free-grid-pagination", children: [
-    /* @__PURE__ */ r.jsxs("span", { children: [
-      o,
+function Xe({ pagination: t }) {
+  const a = Math.min((t.page - 1) * t.pageSize + 1, t.total), l = Math.min(t.page * t.pageSize, t.total);
+  return /* @__PURE__ */ e.jsx("div", { className: "free-grid-footer", children: /* @__PURE__ */ e.jsxs("div", { className: "free-grid-pagination", children: [
+    /* @__PURE__ */ e.jsxs("span", { children: [
+      a,
       "-",
       l,
       " of ",
       t.total
     ] }),
-    /* @__PURE__ */ r.jsxs("div", { className: "free-grid-pagination-actions", children: [
-      /* @__PURE__ */ r.jsx(
+    /* @__PURE__ */ e.jsxs("div", { className: "free-grid-pagination-actions", children: [
+      /* @__PURE__ */ e.jsx(
         "button",
         {
           className: "free-grid-icon-button",
           disabled: t.page <= 1,
           onClick: () => {
-            var s;
-            return (s = t.onPageChange) == null ? void 0 : s.call(t, t.page - 1);
+            var n;
+            return (n = t.onPageChange) == null ? void 0 : n.call(t, t.page - 1);
           },
-          children: /* @__PURE__ */ r.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" }) })
+          children: /* @__PURE__ */ e.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" }) })
         }
       ),
-      /* @__PURE__ */ r.jsx(
+      /* @__PURE__ */ e.jsx(
         "button",
         {
           className: "free-grid-icon-button",
           disabled: t.page * t.pageSize >= t.total,
           onClick: () => {
-            var s;
-            return (s = t.onPageChange) == null ? void 0 : s.call(t, t.page + 1);
+            var n;
+            return (n = t.onPageChange) == null ? void 0 : n.call(t, t.page + 1);
           },
-          children: /* @__PURE__ */ r.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" }) })
+          children: /* @__PURE__ */ e.jsx("svg", { width: "24", height: "24", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z" }) })
         }
       )
     ] })
   ] }) });
 }
-function Xe({
+function Je({
   anchorEl: t,
-  containerRef: o,
+  containerRef: a,
   filteredColumns: l,
-  popoverRef: s,
-  handleSort: a,
+  popoverRef: n,
+  handleSort: i,
   moveColumn: d,
-  setVisibleColumnKeys: u,
-  setShowManageDialog: n,
-  handleCloseMenu: i,
-  allowFiltering: x,
-  openFilterPanel: g,
-  activeFilter: v
+  setVisibleColumnKeys: f,
+  setShowManageDialog: s,
+  handleCloseMenu: c,
+  allowFiltering: v,
+  openFilterPanel: m,
+  activeFilter: p
 }) {
-  var y;
-  if (!o.current) return null;
-  const m = o.current.getBoundingClientRect(), f = t.element.getBoundingClientRect(), b = l.length > 0 && ((y = t.column) == null ? void 0 : y.key) === l[l.length - 1].key, N = {
-    top: f.bottom - m.top + 4,
-    ...b ? { right: m.right - f.right } : { left: f.left - m.left }
+  var S;
+  if (!a.current) return null;
+  const g = a.current.getBoundingClientRect(), u = t.element.getBoundingClientRect(), k = l.length > 0 && ((S = t.column) == null ? void 0 : S.key) === l[l.length - 1].key, R = {
+    top: u.bottom - g.top + 4,
+    ...k ? { right: g.right - u.right } : { left: u.left - g.left }
   };
-  return /* @__PURE__ */ r.jsx("div", { ref: s, className: "free-grid-popover", style: N, children: t.isSelection ? /* @__PURE__ */ r.jsxs(
+  return /* @__PURE__ */ e.jsx("div", { ref: n, className: "free-grid-popover", style: R, children: t.isSelection ? /* @__PURE__ */ e.jsxs(
     "div",
     {
       className: "free-grid-menu-item",
       onClick: () => {
-        n(!0), i();
+        s(!0), c();
       },
       children: [
-        /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" }) }),
+        /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" }) }),
         "Manage columns"
       ]
     }
-  ) : /* @__PURE__ */ r.jsxs(r.Fragment, { children: [
-    /* @__PURE__ */ r.jsxs(
+  ) : /* @__PURE__ */ e.jsxs(e.Fragment, { children: [
+    /* @__PURE__ */ e.jsxs(
       "div",
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          a(t.column.key), i();
+          i(t.column.key), c();
         },
         children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" }) }),
+          /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z" }) }),
           "Sort by ASC"
         ]
       }
     ),
-    /* @__PURE__ */ r.jsxs(
+    /* @__PURE__ */ e.jsxs(
       "div",
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          a(t.column.key), i();
+          i(t.column.key), c();
         },
         children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" }) }),
+          /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z" }) }),
           "Sort by DESC"
         ]
       }
     ),
-    /* @__PURE__ */ r.jsx("div", { className: "free-grid-menu-divider" }),
-    x && t.column.filterable !== !1 && /* @__PURE__ */ r.jsxs(
+    /* @__PURE__ */ e.jsx("div", { className: "free-grid-menu-divider" }),
+    v && t.column.filterable !== !1 && /* @__PURE__ */ e.jsxs(
       "div",
       {
         className: "free-grid-menu-item",
-        style: (v == null ? void 0 : v.columnKey) === t.column.key ? { color: "var(--fg-primary-color)" } : void 0,
+        style: (p == null ? void 0 : p.columnKey) === t.column.key ? { color: "var(--fg-primary-color)" } : void 0,
         onClick: () => {
-          g(t.column.key), i();
+          m(t.column.key), c();
         },
         children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" }) }),
+          /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" }) }),
           "Filter"
         ]
       }
     ),
-    /* @__PURE__ */ r.jsx("div", { className: "free-grid-menu-divider" }),
-    /* @__PURE__ */ r.jsxs(
+    /* @__PURE__ */ e.jsx("div", { className: "free-grid-menu-divider" }),
+    /* @__PURE__ */ e.jsxs(
       "div",
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          d(t.column.key, "left"), i();
+          d(t.column.key, "left"), c();
         },
         children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" }) }),
+          /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z" }) }),
           "Move left"
         ]
       }
     ),
-    /* @__PURE__ */ r.jsxs(
+    /* @__PURE__ */ e.jsxs(
       "div",
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          d(t.column.key, "right"), i();
+          d(t.column.key, "right"), c();
         },
         children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" }) }),
+          /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" }) }),
           "Move right"
         ]
       }
     ),
-    /* @__PURE__ */ r.jsx("div", { className: "free-grid-menu-divider" }),
-    /* @__PURE__ */ r.jsxs(
+    /* @__PURE__ */ e.jsx("div", { className: "free-grid-menu-divider" }),
+    /* @__PURE__ */ e.jsxs(
       "div",
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          u((z) => {
-            const p = new Set(z);
-            return p.delete(t.column.key), p;
-          }), i();
+          f((_) => {
+            const x = new Set(_);
+            return x.delete(t.column.key), x;
+          }), c();
         },
         children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2.27 4.27l2.28 2.28.46.46C3.1 8.35 1.61 10.06 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.54 3.27 2.27 4.27zM12 17c-2.76 0-5-2.24-5-5 0-.65.13-1.26.36-1.82l6.46 6.46c-.56.23-1.17.36-1.82.36z" }) }),
+          /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M12 7c2.76 0 5 2.24 5 5 0 .65-.13 1.26-.36 1.82l2.92 2.92c1.51-1.26 2.7-2.89 3.44-4.74-1.73-4.39-6-7.5-11-7.5-1.4 0-2.74.25-3.98.7l2.16 2.16C10.74 7.13 11.35 7 12 7zM2.27 4.27l2.28 2.28.46.46C3.1 8.35 1.61 10.06 1 12c1.73 4.39 6 7.5 11 7.5 1.55 0 3.03-.3 4.38-.84l.42.42L19.73 22 21 20.73 3.54 3.27 2.27 4.27zM12 17c-2.76 0-5-2.24-5-5 0-.65.13-1.26.36-1.82l6.46 6.46c-.56.23-1.17.36-1.82.36z" }) }),
           "Hide column"
         ]
       }
     ),
-    /* @__PURE__ */ r.jsxs(
+    /* @__PURE__ */ e.jsxs(
       "div",
       {
         className: "free-grid-menu-item",
         onClick: () => {
-          n(!0), i();
+          s(!0), c();
         },
         children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ r.jsx("path", { d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" }) }),
+          /* @__PURE__ */ e.jsx("svg", { width: "18", height: "18", viewBox: "0 0 24 24", fill: "currentColor", children: /* @__PURE__ */ e.jsx("path", { d: "M4 10.5c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0-6c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zm0 12c-.83 0-1.5.67-1.5 1.5s.67 1.5 1.5 1.5 1.5-.67 1.5-1.5-.67-1.5-1.5-1.5zM7 19h14v-2H7v2zm0-6h14v-2H7v2zm0-8v2h14V5H7z" }) }),
           "Manage columns"
         ]
       }
     )
   ] }) });
 }
-function Je({
+function Ze({
   manageRef: t,
-  columns: o,
+  columns: a,
   selectable: l,
-  visibleColumnKeys: s,
-  setVisibleColumnKeys: a,
+  visibleColumnKeys: n,
+  setVisibleColumnKeys: i,
   searchTerm: d,
-  setSearchTerm: u
+  setSearchTerm: f
 }) {
-  return /* @__PURE__ */ r.jsxs(
+  return /* @__PURE__ */ e.jsxs(
     "div",
     {
       ref: t,
       className: "free-grid-manage-popover",
-      onClick: (n) => n.stopPropagation(),
+      onClick: (s) => s.stopPropagation(),
       children: [
-        /* @__PURE__ */ r.jsx("div", { className: "free-grid-dialog-header", children: /* @__PURE__ */ r.jsxs("div", { className: "free-grid-search-container", children: [
-          /* @__PURE__ */ r.jsx("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "currentColor", style: { opacity: 0.5 }, children: /* @__PURE__ */ r.jsx("path", { d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" }) }),
-          /* @__PURE__ */ r.jsx(
+        /* @__PURE__ */ e.jsx("div", { className: "free-grid-dialog-header", children: /* @__PURE__ */ e.jsxs("div", { className: "free-grid-search-container", children: [
+          /* @__PURE__ */ e.jsx("svg", { width: "20", height: "20", viewBox: "0 0 24 24", fill: "currentColor", style: { opacity: 0.5 }, children: /* @__PURE__ */ e.jsx("path", { d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" }) }),
+          /* @__PURE__ */ e.jsx(
             "input",
             {
               type: "text",
               placeholder: "Search...",
               value: d,
-              onChange: (n) => u(n.target.value),
+              onChange: (s) => f(s.target.value),
               className: "free-grid-search-input",
               autoFocus: !0
             }
           )
         ] }) }),
-        /* @__PURE__ */ r.jsxs("div", { className: "free-grid-dialog-content", children: [
-          /* @__PURE__ */ r.jsxs("div", { className: "free-grid-dialog-actions", children: [
-            /* @__PURE__ */ r.jsxs("label", { className: "free-grid-dialog-row", children: [
-              /* @__PURE__ */ r.jsx(
+        /* @__PURE__ */ e.jsxs("div", { className: "free-grid-dialog-content", children: [
+          /* @__PURE__ */ e.jsxs("div", { className: "free-grid-dialog-actions", children: [
+            /* @__PURE__ */ e.jsxs("label", { className: "free-grid-dialog-row", children: [
+              /* @__PURE__ */ e.jsx(
                 "input",
                 {
                   type: "checkbox",
                   className: "free-grid-checkbox",
-                  checked: s.size === o.length + (l ? 1 : 0),
-                  onChange: (n) => {
-                    if (n.target.checked) {
-                      const i = new Set(o.map((x) => x.key));
-                      l && i.add("__selection"), a(i);
+                  checked: n.size === a.length + (l ? 1 : 0),
+                  onChange: (s) => {
+                    if (s.target.checked) {
+                      const c = new Set(a.map((v) => v.key));
+                      l && c.add("__selection"), i(c);
                     } else
-                      a(/* @__PURE__ */ new Set());
+                      i(/* @__PURE__ */ new Set());
                   }
                 }
               ),
-              /* @__PURE__ */ r.jsx("span", { children: "Show/Hide All" })
+              /* @__PURE__ */ e.jsx("span", { children: "Show/Hide All" })
             ] }),
-            /* @__PURE__ */ r.jsx(
+            /* @__PURE__ */ e.jsx(
               "button",
               {
                 className: "free-grid-text-button",
                 onClick: () => {
-                  const n = /* @__PURE__ */ new Set();
-                  l && n.add("__selection"), o.forEach((i) => {
-                    i.defaultHidden || n.add(i.key);
-                  }), a(n);
+                  const s = /* @__PURE__ */ new Set();
+                  l && s.add("__selection"), a.forEach((c) => {
+                    c.defaultHidden || s.add(c.key);
+                  }), i(s);
                 },
                 children: "RESET"
               }
             )
           ] }),
-          /* @__PURE__ */ r.jsxs("div", { className: "free-grid-columns-list", children: [
-            l && "checkbox selection".includes(d.toLowerCase()) && /* @__PURE__ */ r.jsxs("label", { className: "free-grid-dialog-row", children: [
-              /* @__PURE__ */ r.jsx(
+          /* @__PURE__ */ e.jsxs("div", { className: "free-grid-columns-list", children: [
+            l && "checkbox selection".includes(d.toLowerCase()) && /* @__PURE__ */ e.jsxs("label", { className: "free-grid-dialog-row", children: [
+              /* @__PURE__ */ e.jsx(
                 "input",
                 {
                   type: "checkbox",
                   className: "free-grid-checkbox",
-                  checked: s.has("__selection"),
+                  checked: n.has("__selection"),
                   onChange: () => {
-                    a((n) => {
-                      const i = new Set(n);
-                      return i.has("__selection") ? i.delete("__selection") : i.add("__selection"), i;
+                    i((s) => {
+                      const c = new Set(s);
+                      return c.has("__selection") ? c.delete("__selection") : c.add("__selection"), c;
                     });
                   }
                 }
               ),
-              /* @__PURE__ */ r.jsx("span", { children: "Checkbox selection" })
+              /* @__PURE__ */ e.jsx("span", { children: "Checkbox selection" })
             ] }),
-            o.filter((n) => n.header.toLowerCase().includes(d.toLowerCase())).map((n) => /* @__PURE__ */ r.jsxs("label", { className: "free-grid-dialog-row", children: [
-              /* @__PURE__ */ r.jsx(
+            a.filter((s) => s.header.toLowerCase().includes(d.toLowerCase())).map((s) => /* @__PURE__ */ e.jsxs("label", { className: "free-grid-dialog-row", children: [
+              /* @__PURE__ */ e.jsx(
                 "input",
                 {
                   type: "checkbox",
                   className: "free-grid-checkbox",
-                  checked: s.has(n.key),
+                  checked: n.has(s.key),
                   onChange: () => {
-                    a((i) => {
-                      const x = new Set(i);
-                      return x.has(n.key) ? x.delete(n.key) : x.add(n.key), x;
+                    i((c) => {
+                      const v = new Set(c);
+                      return v.has(s.key) ? v.delete(s.key) : v.add(s.key), v;
                     });
                   }
                 }
               ),
-              /* @__PURE__ */ r.jsx("span", { children: n.header })
-            ] }, n.key))
+              /* @__PURE__ */ e.jsx("span", { children: s.header })
+            ] }, s.key))
           ] })
         ] })
       ]
     }
   );
 }
-const ke = [
+const je = [
   { value: "contains", label: "Contains" },
   { value: "doesNotContain", label: "Does not contain" },
   { value: "equals", label: "Equals" },
   { value: "notEqual", label: "Not equal" },
   { value: "startsWith", label: "Starts with" },
   { value: "endsWith", label: "Ends with" }
-], je = [
+], Ce = [
   { value: "=", label: "= Equal" },
   { value: "!=", label: "≠ Not equal" },
   { value: ">", label: "> Greater than" },
@@ -943,245 +973,248 @@ const ke = [
   { value: ">=", label: "≥ Greater or equal" },
   { value: "<=", label: "≤ Less or equal" }
 ];
-function Ze({
+function Qe({
   columns: t,
-  initialColumnKey: o,
+  initialColumnKey: a,
   existingFilter: l,
-  getColumnType: s,
-  onCommit: a,
+  getColumnType: n,
+  onCommit: i,
   onClose: d
 }) {
-  const u = t.filter((c) => c.filterable !== !1), [n, i] = O(o), x = s(n), g = x === "number" ? je : ke, [v, m] = O(
-    (l == null ? void 0 : l.operator) ?? g[0].value
-  ), [f, b] = O((l == null ? void 0 : l.value) ?? ""), N = (c, M, D) => {
-    D.trim() ? a({ columnKey: c, operator: M, value: D.trim() }) : a(null);
-  }, y = (c) => {
-    i(c);
-    const $ = (s(c) === "number" ? je : ke)[0].value;
-    m($), b(""), a(null);
-  }, z = (c) => {
-    m(c), N(n, c, f);
-  }, p = (c) => {
-    c.key === "Enter" && N(n, v, f);
-  }, k = () => {
-    N(n, v, f);
+  const f = t.filter((h) => h.filterable !== !1), [s, c] = A(a), v = n(s), m = v === "number" ? Ce : je, [p, g] = A(
+    (l == null ? void 0 : l.operator) ?? m[0].value
+  ), [u, k] = A((l == null ? void 0 : l.value) ?? ""), R = (h, E, L) => {
+    L.trim() ? i({ columnKey: h, operator: E, value: L.trim() }) : i(null);
+  }, S = (h) => {
+    c(h);
+    const M = (n(h) === "number" ? Ce : je)[0].value;
+    g(M), k(""), i(null);
+  }, _ = (h) => {
+    g(h), R(s, h, u);
+  }, x = (h) => {
+    h.key === "Enter" && R(s, p, u);
+  }, C = () => {
+    R(s, p, u);
   };
-  return /* @__PURE__ */ r.jsxs("div", { className: "free-grid-filter-panel", onClick: (c) => c.stopPropagation(), children: [
-    /* @__PURE__ */ r.jsx("button", { className: "free-grid-filter-close", onClick: d, title: "Close", children: "×" }),
-    /* @__PURE__ */ r.jsxs("div", { className: "free-grid-filter-field", children: [
-      /* @__PURE__ */ r.jsx("span", { className: "free-grid-filter-label", children: "Column" }),
-      /* @__PURE__ */ r.jsx(
+  return /* @__PURE__ */ e.jsxs("div", { className: "free-grid-filter-panel", onClick: (h) => h.stopPropagation(), children: [
+    /* @__PURE__ */ e.jsx("button", { className: "free-grid-filter-close", onClick: d, title: "Close", children: "×" }),
+    /* @__PURE__ */ e.jsxs("div", { className: "free-grid-filter-field", children: [
+      /* @__PURE__ */ e.jsx("span", { className: "free-grid-filter-label", children: "Column" }),
+      /* @__PURE__ */ e.jsx(
         "select",
         {
           className: "free-grid-filter-select",
-          value: n,
-          onChange: (c) => y(c.target.value),
-          children: u.map((c) => /* @__PURE__ */ r.jsx("option", { value: c.key, children: c.header }, c.key))
+          value: s,
+          onChange: (h) => S(h.target.value),
+          children: f.map((h) => /* @__PURE__ */ e.jsx("option", { value: h.key, children: h.header }, h.key))
         }
       )
     ] }),
-    /* @__PURE__ */ r.jsxs("div", { className: "free-grid-filter-field", children: [
-      /* @__PURE__ */ r.jsx("span", { className: "free-grid-filter-label", children: "Operator" }),
-      /* @__PURE__ */ r.jsx(
+    /* @__PURE__ */ e.jsxs("div", { className: "free-grid-filter-field", children: [
+      /* @__PURE__ */ e.jsx("span", { className: "free-grid-filter-label", children: "Operator" }),
+      /* @__PURE__ */ e.jsx(
         "select",
         {
           className: "free-grid-filter-select",
-          value: v,
-          onChange: (c) => z(c.target.value),
-          children: g.map((c) => /* @__PURE__ */ r.jsx("option", { value: c.value, children: c.label }, c.value))
+          value: p,
+          onChange: (h) => _(h.target.value),
+          children: m.map((h) => /* @__PURE__ */ e.jsx("option", { value: h.value, children: h.label }, h.value))
         }
       )
     ] }),
-    /* @__PURE__ */ r.jsxs("div", { className: "free-grid-filter-field free-grid-filter-value-field", children: [
-      /* @__PURE__ */ r.jsx("span", { className: "free-grid-filter-label", children: "Value" }),
-      /* @__PURE__ */ r.jsx(
+    /* @__PURE__ */ e.jsxs("div", { className: "free-grid-filter-field free-grid-filter-value-field", children: [
+      /* @__PURE__ */ e.jsx("span", { className: "free-grid-filter-label", children: "Value" }),
+      /* @__PURE__ */ e.jsx(
         "input",
         {
-          type: x === "number" ? "number" : "text",
+          type: v === "number" ? "number" : "text",
           className: "free-grid-filter-input",
           placeholder: "Filter value…",
-          value: f,
-          onChange: (c) => b(c.target.value),
-          onKeyDown: p,
-          onBlur: k,
+          value: u,
+          onChange: (h) => k(h.target.value),
+          onKeyDown: x,
+          onBlur: C,
           autoFocus: !0
         }
       )
     ] })
   ] });
 }
-function er({
+function rr({
   data: t,
-  columns: o,
+  columns: a,
   showHeader: l = !0,
-  selectionMode: s = "multiple",
-  stripedRows: a = !1,
-  stripedRowOddColor: d,
-  stripedRowEvenColor: u,
-  theme: n = "light",
-  gridColor: i,
-  gridTextColor: x,
-  renderChildView: g,
-  selectable: v,
-  selectedIds: m = [],
-  onSelectionChange: f,
-  pagination: b,
-  className: N = "",
-  id: y,
-  allowSorting: z = !0,
-  onSort: p,
-  allowReordering: k = !0,
-  allowResizing: c = !0,
-  allowFiltering: M = !1,
-  onFilterChange: D,
-  isEditable: $ = !1,
-  onCellEdit: w,
-  allowAddRow: C = !1,
-  onAddRow: P
+  rowNumbers: n = !1,
+  selectionMode: i = "multiple",
+  stripedRows: d = !1,
+  stripedRowOddColor: f,
+  stripedRowEvenColor: s,
+  theme: c = "light",
+  gridColor: v,
+  gridTextColor: m,
+  renderChildView: p,
+  selectable: g,
+  selectedIds: u = [],
+  onSelectionChange: k,
+  pagination: R,
+  className: S = "",
+  id: _,
+  allowSorting: x = !0,
+  onSort: C,
+  allowReordering: h = !0,
+  allowResizing: E = !0,
+  allowFiltering: L = !1,
+  onFilterChange: M,
+  isEditable: F = !1,
+  onCellEdit: W,
+  allowAddRow: $ = !1,
+  onAddRow: b
 }) {
-  const { orderedColumns: B, draggedColKey: L, handleDragStart: Y, handleDragOver: _, handleDrop: F, moveColumn: H } = He(o), { columnWidths: G, handleResizeStart: q } = We(), { visibleColumnKeys: E, setVisibleColumnKeys: K } = Ve(o, v), {
-    filter: e,
-    filteredData: h,
-    filterPanelColumnKey: j,
-    openFilterPanel: S,
-    closeFilterPanel: W,
-    applyFilter: I,
-    clearFilter: R,
-    getColumnType: V
-  } = qe(t, o, D), { sortConfig: U, handleSort: ee, sortedData: we } = Fe(h, p), { handleSelectAll: Ne, handleSelectRow: Se } = Ye({
+  const { orderedColumns: T, draggedColKey: w, handleDragStart: B, handleDragOver: P, handleDrop: V, moveColumn: y } = Ve(a), { columnWidths: Y, handleResizeStart: I } = We(), { visibleColumnKeys: H, setVisibleColumnKeys: r } = Ie(a, g), {
+    filter: o,
+    filteredData: j,
+    filterPanelColumnKey: N,
+    openFilterPanel: q,
+    closeFilterPanel: G,
+    applyFilter: O,
+    clearFilter: K,
+    getColumnType: U
+  } = Ge(t, a, M), { sortConfig: se, handleSort: de, sortedData: Ne } = Fe(j, C), { handleSelectAll: Re, handleSelectRow: Se } = Ke({
     data: t,
-    selectionMode: s,
-    selectedIds: m,
-    onSelectionChange: f
-  }), { expandedRows: Re, toggleRow: _e } = Ge(), [X, de] = O(null), [le, ue] = O(!1), [Ee, Te] = O(""), ae = J(null), oe = J(null), ie = J(null), fe = J(null), ce = J(null), [he, Oe] = O(void 0);
-  ne(() => {
-    !e && ce.current && Oe(ce.current.getBoundingClientRect().height);
-  }, [t, e, o, l, b == null ? void 0 : b.pageSize]), ne(() => {
-    const T = (A) => {
-      X && ae.current && !ae.current.contains(A.target) && !X.element.contains(A.target) && ge(), le && oe.current && !oe.current.contains(A.target) && (A.target.closest(".free-grid-menu-item") || ue(!1)), j && ie.current && !ie.current.contains(A.target) && !A.target.closest(".free-grid-filter-panel") && A.target.tagName !== "OPTION" && W();
+    selectionMode: i,
+    selectedIds: u,
+    onSelectionChange: k
+  }), { expandedRows: _e, toggleRow: Ee } = Ye(), [X, ue] = A(null), [le, fe] = A(!1), [Te, Oe] = A(""), oe = J(null), ae = J(null), ie = J(null), he = J(null), ce = J(null), [ge, Pe] = A(void 0);
+  te(() => {
+    !o && ce.current && Pe(ce.current.getBoundingClientRect().height);
+  }, [t, o, a, l, R == null ? void 0 : R.pageSize]), te(() => {
+    const z = (D) => {
+      X && oe.current && !oe.current.contains(D.target) && !X.element.contains(D.target) && me(), le && ae.current && !ae.current.contains(D.target) && (D.target.closest(".free-grid-menu-item") || fe(!1)), N && ie.current && !ie.current.contains(D.target) && !D.target.closest(".free-grid-filter-panel") && D.target.tagName !== "OPTION" && G();
     };
-    return document.addEventListener("mousedown", T), () => document.removeEventListener("mousedown", T);
-  }, [X, le, j, W]);
-  const Pe = (T, A, ve) => {
-    T.stopPropagation(), de({ element: T.currentTarget, column: A, isSelection: ve });
-  }, ge = () => de(null), re = se(
-    () => B.filter((T) => E.has(T.key)),
-    [B, E]
-  ), { themeSurfaceStyle: ze, activeTheme: Ae } = Be(n, i, x), Me = a ? {
-    odd: d ?? (n === "light" && !i ? "rgba(0, 0, 0, 0.00)" : "rgba(255, 255, 255, 0.04)"),
-    even: u ?? (n === "light" && !i ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.08)")
-  } : null, me = {
+    return document.addEventListener("mousedown", z), () => document.removeEventListener("mousedown", z);
+  }, [X, le, N, G]);
+  const ze = (z, D, xe) => {
+    z.stopPropagation(), ue({ element: z.currentTarget, column: D, isSelection: xe });
+  }, me = () => ue(null), ee = ne(
+    () => T.filter((z) => H.has(z.key)),
+    [T, H]
+  ), { themeSurfaceStyle: Ae, activeTheme: Me } = He(c, v, m), De = d ? {
+    odd: f ?? (c === "light" && !v ? "rgba(0, 0, 0, 0.00)" : "rgba(255, 255, 255, 0.04)"),
+    even: s ?? (c === "light" && !v ? "rgba(0, 0, 0, 0.03)" : "rgba(255, 255, 255, 0.08)")
+  } : null, ve = {
     display: "grid",
-    gridTemplateColumns: `${v && E.has("__selection") ? "50px " : ""}${re.map((T) => {
-      const A = G[T.key];
-      return A ? typeof A == "number" ? `${A}px` : A : T.width ? typeof T.width == "number" ? `${T.width}px` : T.width : T.flex ? `${T.flex}fr` : "1fr";
+    gridTemplateColumns: `${n ? "48px " : ""}${g && H.has("__selection") ? "50px " : ""}${ee.map((z) => {
+      const D = Y[z.key];
+      return D ? typeof D == "number" ? `${D}px` : D : z.width ? typeof z.width == "number" ? `${z.width}px` : z.width : z.flex ? `${z.flex}fr` : "1fr";
     }).join(" ")}`
   };
-  return /* @__PURE__ */ r.jsxs(
+  return /* @__PURE__ */ e.jsxs(
     "div",
     {
-      className: `free-grid-container ${N}`,
-      id: y,
-      ref: fe,
-      style: ze,
+      className: `free-grid-container ${S}`,
+      id: _,
+      ref: he,
+      style: Ae,
       children: [
-        /* @__PURE__ */ r.jsx(
+        /* @__PURE__ */ e.jsx(
           "div",
           {
             className: "free-grid-scroll-container",
             ref: ce,
-            style: { minHeight: e && he ? `${he}px` : void 0 },
-            children: /* @__PURE__ */ r.jsxs("div", { className: "free-grid-inner", children: [
-              l && /* @__PURE__ */ r.jsx(
-                Ke,
+            style: { minHeight: o && ge ? `${ge}px` : void 0 },
+            children: /* @__PURE__ */ e.jsxs("div", { className: "free-grid-inner", children: [
+              l && /* @__PURE__ */ e.jsx(
+                qe,
                 {
-                  filteredColumns: re,
-                  gridStyle: me,
-                  selectable: v,
-                  visibleColumnKeys: E,
-                  selectionMode: s,
+                  filteredColumns: ee,
+                  gridStyle: ve,
+                  selectable: g,
+                  visibleColumnKeys: H,
+                  selectionMode: i,
+                  showRowNumbers: n,
                   data: t,
-                  selectedIds: m,
-                  handleSelectAll: Ne,
-                  sortConfig: U,
-                  handleSort: ee,
-                  allowSorting: z,
-                  allowReordering: k,
-                  allowResizing: c,
-                  draggedColKey: L,
-                  handleDragStart: Y,
-                  handleDragOver: _,
-                  handleDrop: F,
-                  handleResizeStart: q,
-                  handleOpenMenu: Pe,
-                  activeFilter: e
+                  selectedIds: u,
+                  handleSelectAll: Re,
+                  sortConfig: se,
+                  handleSort: de,
+                  allowSorting: x,
+                  allowReordering: h,
+                  allowResizing: E,
+                  draggedColKey: w,
+                  handleDragStart: B,
+                  handleDragOver: P,
+                  handleDrop: V,
+                  handleResizeStart: I,
+                  handleOpenMenu: ze,
+                  activeFilter: o
                 }
               ),
-              /* @__PURE__ */ r.jsx(
-                Ie,
+              /* @__PURE__ */ e.jsx(
+                Ue,
                 {
-                  sortedData: we,
-                  filteredColumns: re,
-                  gridStyle: me,
-                  selectable: v,
-                  visibleColumnKeys: E,
-                  selectedIds: m,
-                  renderChildView: g,
-                  stripedColors: Me,
-                  activeTheme: Ae,
+                  sortedData: Ne,
+                  filteredColumns: ee,
+                  gridStyle: ve,
+                  selectable: g,
+                  showRowNumbers: n,
+                  visibleColumnKeys: H,
+                  selectedIds: u,
+                  renderChildView: p,
+                  stripedColors: De,
+                  activeTheme: Me,
                   handleSelectRow: Se,
-                  expandedRows: Re,
-                  toggleRow: _e,
-                  isEditable: $,
-                  onCellEdit: w,
-                  allowAddRow: C,
-                  onAddRow: P
+                  expandedRows: _e,
+                  toggleRow: Ee,
+                  isEditable: F,
+                  onCellEdit: W,
+                  allowAddRow: $,
+                  onAddRow: b
                 }
               )
             ] })
           }
         ),
-        b && /* @__PURE__ */ r.jsx(Ue, { pagination: b }),
-        X && /* @__PURE__ */ r.jsx(
-          Xe,
-          {
-            anchorEl: X,
-            containerRef: fe,
-            filteredColumns: re,
-            popoverRef: ae,
-            handleSort: ee,
-            moveColumn: H,
-            setVisibleColumnKeys: K,
-            setShowManageDialog: ue,
-            handleCloseMenu: ge,
-            allowFiltering: M,
-            openFilterPanel: S,
-            activeFilter: e
-          }
-        ),
-        le && /* @__PURE__ */ r.jsx(
+        R && /* @__PURE__ */ e.jsx(Xe, { pagination: R }),
+        X && /* @__PURE__ */ e.jsx(
           Je,
           {
-            manageRef: oe,
-            columns: o,
-            selectable: v,
-            visibleColumnKeys: E,
-            setVisibleColumnKeys: K,
-            searchTerm: Ee,
-            setSearchTerm: Te
+            anchorEl: X,
+            containerRef: he,
+            filteredColumns: ee,
+            popoverRef: oe,
+            handleSort: de,
+            moveColumn: y,
+            setVisibleColumnKeys: r,
+            setShowManageDialog: fe,
+            handleCloseMenu: me,
+            allowFiltering: L,
+            openFilterPanel: q,
+            activeFilter: o
           }
         ),
-        M && j && /* @__PURE__ */ r.jsx("div", { ref: ie, children: /* @__PURE__ */ r.jsx(
+        le && /* @__PURE__ */ e.jsx(
           Ze,
           {
-            columns: o,
-            initialColumnKey: j,
-            existingFilter: (e == null ? void 0 : e.columnKey) === j ? e : null,
-            getColumnType: V,
-            onCommit: (T) => {
-              T ? I(T) : R();
+            manageRef: ae,
+            columns: a,
+            selectable: g,
+            visibleColumnKeys: H,
+            setVisibleColumnKeys: r,
+            searchTerm: Te,
+            setSearchTerm: Oe
+          }
+        ),
+        L && N && /* @__PURE__ */ e.jsx("div", { ref: ie, children: /* @__PURE__ */ e.jsx(
+          Qe,
+          {
+            columns: a,
+            initialColumnKey: N,
+            existingFilter: (o == null ? void 0 : o.columnKey) === N ? o : null,
+            getColumnType: U,
+            onCommit: (z) => {
+              z ? O(z) : K();
             },
-            onClose: W
+            onClose: G
           }
         ) })
       ]
@@ -1189,5 +1222,5 @@ function er({
   );
 }
 export {
-  er as Grid
+  rr as Grid
 };

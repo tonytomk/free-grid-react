@@ -8,6 +8,7 @@ interface GridHeaderProps<T> {
     filteredColumns: Column<T>[];
     gridStyle: React.CSSProperties;
     selectable?: boolean;
+    showRowNumbers?: boolean;
     visibleColumnKeys: Set<string>;
     selectionMode?: 'single' | 'multiple';
     data: T[];
@@ -26,5 +27,5 @@ interface GridHeaderProps<T> {
     handleOpenMenu: (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => void;
     activeFilter: ActiveFilter | null;
 }
-export declare function GridHeader<T>({ filteredColumns, gridStyle, selectable, visibleColumnKeys, selectionMode, data, selectedIds, handleSelectAll, sortConfig, handleSort, allowSorting, allowReordering, allowResizing, draggedColKey, handleDragStart, handleDragOver, handleDrop, handleResizeStart, handleOpenMenu, activeFilter, }: GridHeaderProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function GridHeader<T>({ filteredColumns, gridStyle, selectable, showRowNumbers, visibleColumnKeys, selectionMode, data, selectedIds, handleSelectAll, sortConfig, handleSort, allowSorting, allowReordering, allowResizing, draggedColKey, handleDragStart, handleDragOver, handleDrop, handleResizeStart, handleOpenMenu, activeFilter, }: GridHeaderProps<T>): import("react/jsx-runtime").JSX.Element;
 export {};

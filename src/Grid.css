@@ -81,6 +81,13 @@
   justify-content: center;
 }
 
+.free-grid-header-cell.free-grid-row-number-cell {
+  justify-content: center;
+  padding: 0 8px;
+  min-width: 48px;
+  max-width: 48px;
+}
+
 .free-grid-header-cell.free-grid-checkbox-cell::after {
   display: none;
 }
@@ -366,6 +373,15 @@
 
 .free-grid-cell.editable {
   cursor: pointer;
+}
+
+.free-grid-cell.free-grid-row-number-cell {
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  color: var(--fg-grid-surface-muted);
+  min-width: 48px;
+  max-width: 48px;
 }
 
 .free-grid-cell-input {

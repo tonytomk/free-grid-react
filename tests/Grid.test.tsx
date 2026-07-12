@@ -38,6 +38,13 @@ describe('Grid Component', () => {
     expect(screen.getByText('Jane Smith')).toBeInTheDocument();
   });
 
+  it('renders incremental row numbers when rowNumbers is enabled', () => {
+    render(<Grid data={data} columns={columns} rowNumbers={true} />);
+
+    expect(screen.getByText('1')).toBeInTheDocument();
+    expect(screen.getByText('2')).toBeInTheDocument();
+  });
+
   it('toggles column visibility when managing columns', () => {
     render(<Grid data={data} columns={columns} />);
 

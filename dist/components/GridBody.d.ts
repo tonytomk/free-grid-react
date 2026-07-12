@@ -10,6 +10,7 @@ interface GridBodyProps<T> {
     filteredColumns: Column<T>[];
     gridStyle: React.CSSProperties;
     selectable?: boolean;
+    showRowNumbers?: boolean;
     visibleColumnKeys: Set<string>;
     selectedIds: (string | number)[];
     renderChildView?: (item: T) => React.ReactNode;
@@ -23,5 +24,5 @@ interface GridBodyProps<T> {
     allowAddRow?: boolean;
     onAddRow?: () => void;
 }
-export declare function GridBody<T>({ sortedData, filteredColumns, gridStyle, selectable, visibleColumnKeys, selectedIds, renderChildView, stripedColors, activeTheme, handleSelectRow, expandedRows, toggleRow, isEditable, onCellEdit, allowAddRow, onAddRow, }: GridBodyProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function GridBody<T>({ sortedData, filteredColumns, gridStyle, selectable, showRowNumbers, visibleColumnKeys, selectedIds, renderChildView, stripedColors, activeTheme, handleSelectRow, expandedRows, toggleRow, isEditable, onCellEdit, allowAddRow, onAddRow, }: GridBodyProps<T>): import("react/jsx-runtime").JSX.Element;
 export {};

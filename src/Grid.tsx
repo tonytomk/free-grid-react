@@ -22,6 +22,7 @@ export function Grid<T extends { id?: string | number } | any>({
   data,
   columns,
   showHeader = true,
+  rowNumbers = false,
   selectionMode = 'multiple',
   stripedRows = false,
   stripedRowOddColor,
@@ -157,8 +158,8 @@ export function Grid<T extends { id?: string | number } | any>({
   const gridStyle: React.CSSProperties = {
     display: 'grid',
     gridTemplateColumns: `${
-      selectable && visibleColumnKeys.has('__selection') ? '50px ' : ''
-    }${visibleColumns
+      rowNumbers ? '48px ' : ''
+    }${selectable && visibleColumnKeys.has('__selection') ? '50px ' : ''}${visibleColumns
       .map((col) => {
         const manualWidth = columnWidths[col.key as string];
         if (manualWidth) return typeof manualWidth === 'number' ? `${manualWidth}px` : manualWidth;
@@ -190,6 +191,7 @@ export function Grid<T extends { id?: string | number } | any>({
               selectable={selectable}
               visibleColumnKeys={visibleColumnKeys}
               selectionMode={selectionMode}
+              showRowNumbers={rowNumbers}
               data={data}
               selectedIds={selectedIds}
               handleSelectAll={handleSelectAll}
@@ -212,6 +214,7 @@ export function Grid<T extends { id?: string | number } | any>({
             filteredColumns={visibleColumns}
             gridStyle={gridStyle}
             selectable={selectable}
+            showRowNumbers={rowNumbers}
             visibleColumnKeys={visibleColumnKeys}
             selectedIds={selectedIds}
             renderChildView={renderChildView}

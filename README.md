@@ -2,6 +2,11 @@
 
 A lightweight, high-performance, and fully configurable React grid component built with CSS Grid and TypeScript.
 
+Release: 0.3.5 — 2026-07-12
+
+- **Added:** Configurable row numbering with the `rowNumbers` prop for displaying incrementing row labels.
+- **Fixed:** Inline editing now supports `Tab` navigation between editable cells; `Tab` moves to the next editable column (and wraps to the next row when needed).
+
 ## Demo
 
 - Demo app: https://tonytomk.github.io/free-grid-react-demo/
@@ -19,6 +24,7 @@ A lightweight, high-performance, and fully configurable React grid component bui
 - 🧺 **Column Management**: Hide/Show individual columns via header menu.
 - ✍️ **Inline Editing**: Tap editable cells to edit values directly in the grid.
 - ⌨️ **Tab Navigation During Edit**: Press `Tab` to move to the next editable cell in the row, or the next row when at the end of a row.
+- 🔢 **Configurable Row Numbering**: Optionally show an incrementing row-number column.
 - ➕ **Configurable Row Addition**: Optionally add a new row by clicking the last row.
 - ⚙️ **Manage Columns**: Search and toggle multiple columns visibility through a right-aligned popover.
 - 📄 **Pagination**: Integrated right-aligned pagination footer.
@@ -71,6 +77,7 @@ function App() {
       selectable={true}
       theme="dark"
       isEditable={true}
+      rowNumbers={true}
       onCellEdit={handleCellEdit}
       allowAddRow={true}
       onAddRow={handleAddRow}
@@ -89,6 +96,7 @@ function App() {
 | `data` | `any[]` | Array of data objects to display. |
 | `columns` | `Column[]` | Configuration for columns. |
 | `showHeader` | `boolean` | Whether to show the grid header (default: `true`). |
+| `rowNumbers` | `boolean` | Show an incrementing row-number column on the left. Defaults to `false`. |
 | `selectionMode` | `single \| multiple` | Row selection behavior. Defaults to `multiple`. |
 | `stripedRows` | `boolean` | Optional alternating row colors. Defaults to `false`. |
 | `stripedRowOddColor` | `string` | Custom color for odd striped rows. |

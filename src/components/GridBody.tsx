@@ -17,6 +17,7 @@ interface GridBodyProps<T> {
   filteredColumns: Column<T>[];
   gridStyle: React.CSSProperties;
   selectable?: boolean;
+  showRowNumbers?: boolean;
   visibleColumnKeys: Set<string>;
   selectedIds: (string | number)[];
   renderChildView?: (item: T) => React.ReactNode;
@@ -36,6 +37,7 @@ export function GridBody<T>({
   filteredColumns,
   gridStyle,
   selectable,
+  showRowNumbers = false,
   visibleColumnKeys,
   selectedIds,
   renderChildView,
@@ -85,7 +87,7 @@ export function GridBody<T>({
     if (nextCell) {
       const nextItem = sortedData[nextCell.rowIndex];
       const nextColumn = filteredColumns[nextCell.colIndex];
-      const nextValue = nextItem[nextColumn.key] ?? '';
+      const nextValue = (nextItem as any)[nextColumn.key] ?? '';
       setEditingCell({
         rowId: getRowId(nextItem, nextCell.rowIndex),
         columnKey: nextColumn.key as string,
@@ -153,6 +155,11 @@ export function GridBody<T>({
               style={{ ...gridStyle, ...rowStripeStyle }}
               onClick={() => handleRowClick(rowIndex, item)}
             >
+              {showRowNumbers && (
+                <div className="free-grid-cell free-grid-row-number-cell">
+                  {rowIndex + 1}
+                </div>
+              )}
               {selectable && visibleColumnKeys.has('__selection') && (
                 <div className="free-grid-cell free-grid-checkbox-cell">
                   <input
