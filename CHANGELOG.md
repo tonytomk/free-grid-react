@@ -9,6 +9,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 - **Configurable row numbering:** enable the `rowNumbers` prop to display an incrementing row-number column on the left side of the grid.
+- **Custom row-number header:** use `rowNumberHeader` to customize the label shown in the row-number column header.
 
 ### Fixed
 - **Inline editing tab navigation:** pressing `Tab` now commits the current cell and moves focus to the next editable cell, wrapping to the next row when needed. Rebuilt distribution to include this fix.

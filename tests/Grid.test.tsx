@@ -45,6 +45,12 @@ describe('Grid Component', () => {
     expect(screen.getByText('2')).toBeInTheDocument();
   });
 
+  it('uses a custom header label for the row number column', () => {
+    render(<Grid data={data} columns={columns} rowNumbers={true} rowNumberHeader="ID" />);
+
+    expect(screen.getByText('ID')).toBeInTheDocument();
+  });
+
   it('toggles column visibility when managing columns', () => {
     render(<Grid data={data} columns={columns} />);
 

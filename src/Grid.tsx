@@ -23,6 +23,7 @@ export function Grid<T extends { id?: string | number } | any>({
   columns,
   showHeader = true,
   rowNumbers = false,
+  rowNumberHeader = '#',
   selectionMode = 'multiple',
   stripedRows = false,
   stripedRowOddColor,
@@ -192,6 +193,7 @@ export function Grid<T extends { id?: string | number } | any>({
               visibleColumnKeys={visibleColumnKeys}
               selectionMode={selectionMode}
               showRowNumbers={rowNumbers}
+              rowNumberHeader={rowNumberHeader}
               data={data}
               selectedIds={selectedIds}
               handleSelectAll={handleSelectAll}

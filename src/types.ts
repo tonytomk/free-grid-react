@@ -48,6 +48,7 @@ export interface GridProps<T> {
   showHeader?: boolean;
   rowHeight?: string | number;
   rowNumbers?: boolean;
+  rowNumberHeader?: React.ReactNode;
   selectionMode?: 'single' | 'multiple';
   stripedRows?: boolean;
   stripedRowOddColor?: string;

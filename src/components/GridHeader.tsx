@@ -11,6 +11,7 @@ interface GridHeaderProps<T> {
   gridStyle: React.CSSProperties;
   selectable?: boolean;
   showRowNumbers?: boolean;
+  rowNumberHeader?: React.ReactNode;
   visibleColumnKeys: Set<string>;
   selectionMode?: 'single' | 'multiple';
   data: T[];
@@ -35,6 +36,7 @@ export function GridHeader<T>({
   gridStyle,
   selectable,
   showRowNumbers = false,
+  rowNumberHeader = '#',
   visibleColumnKeys,
   selectionMode,
   data,
@@ -57,7 +59,7 @@ export function GridHeader<T>({
     <div className="free-grid-header" style={gridStyle}>
       {showRowNumbers && (
         <div className="free-grid-header-cell free-grid-row-number-cell" aria-label="Row number column">
-          <span className="free-grid-header-text">#</span>
+          <span className="free-grid-header-text">{rowNumberHeader}</span>
         </div>
       )}
       {selectable && visibleColumnKeys.has('__selection') && (

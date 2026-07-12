@@ -4,7 +4,7 @@ A lightweight, high-performance, and fully configurable React grid component bui
 
 Release: 0.3.5 — 2026-07-12
 
-- **Added:** Configurable row numbering with the `rowNumbers` prop for displaying incrementing row labels.
+- **Added:** Configurable row numbering with the `rowNumbers` prop for displaying incrementing row labels, plus `rowNumberHeader` for customizing the left-side header text.
 - **Fixed:** Inline editing now supports `Tab` navigation between editable cells; `Tab` moves to the next editable column (and wraps to the next row when needed).
 
 ## Demo
@@ -97,6 +97,7 @@ function App() {
 | `columns` | `Column[]` | Configuration for columns. |
 | `showHeader` | `boolean` | Whether to show the grid header (default: `true`). |
 | `rowNumbers` | `boolean` | Show an incrementing row-number column on the left. Defaults to `false`. |
+| `rowNumberHeader` | `ReactNode` | Custom header label for the row-number column. Defaults to `#`. |
 | `selectionMode` | `single \| multiple` | Row selection behavior. Defaults to `multiple`. |
 | `stripedRows` | `boolean` | Optional alternating row colors. Defaults to `false`. |
 | `stripedRowOddColor` | `string` | Custom color for odd striped rows. |
