@@ -52,7 +52,28 @@ export function GridBody<T>({
   const [editingCell, setEditingCell] = useState<EditingCell | null>(null);
   const [editingValue, setEditingValue] = useState<string>('');
 
-  const commitEdit = (item: T, column: Column<T>) => {
+  const getRowId = (item: T, rowIndex: number) =>
+    (item as any).id !== undefined ? (item as any).id : rowIndex;
+
+  const getNextEditableCell = (currentRowIndex: number, currentColIndex: number) => {
+    for (let nextRow = currentRowIndex; nextRow < sortedData.length; nextRow += 1) {
+      const startCol = nextRow === currentRowIndex ? currentColIndex + 1 : 0;
+      for (let nextCol = startCol; nextCol < filteredColumns.length; nextCol += 1) {
+        const nextColumn = filteredColumns[nextCol];
+        const editable = nextColumn.isEditable ?? isEditable;
+        if (onCellEdit && editable) {
+          return { rowIndex: nextRow, colIndex: nextCol };
+        }
+      }
+    }
+    return null;
+  };
+
+  const commitEdit = (
+    item: T,
+    column: Column<T>,
+    nextCell?: { rowIndex: number; colIndex: number }
+  ) => {
     if (!editingCell || !onCellEdit) {
       setEditingCell(null);
       return;
@@ -60,7 +81,21 @@ export function GridBody<T>({
 
     const value = editingValue;
     onCellEdit(item, column.key, value);
-    setEditingCell(null);
+
+    if (nextCell) {
+      const nextItem = sortedData[nextCell.rowIndex];
+      const nextColumn = filteredColumns[nextCell.colIndex];
+      const nextValue = nextItem[nextColumn.key] ?? '';
+      setEditingCell({
+        rowId: getRowId(nextItem, nextCell.rowIndex),
+        columnKey: nextColumn.key as string,
+      });
+      setEditingValue(
+        nextValue !== undefined && nextValue !== null ? String(nextValue) : ''
+      );
+    } else {
+      setEditingCell(null);
+    }
   };
 
   const cancelEdit = () => {
@@ -150,8 +185,25 @@ export function GridBody<T>({
                           autoFocus
                           value={editingValue}
                           onChange={(e) => setEditingValue(e.target.value)}
-                          onBlur={() => commitEdit(item, col)}
+                          onBlur={() => {
+                            if (
+                              editingCell?.rowId !== rowId ||
+                              editingCell?.columnKey !== (col.key as string)
+                            ) {
+                              return;
+                            }
+                            commitEdit(item, col);
+                          }}
                           onKeyDown={(e) => {
+                            if (e.key === 'Tab') {
+                              e.preventDefault();
+                              const nextCell = getNextEditableCell(rowIndex, colIndex);
+                              if (nextCell) {
+                                commitEdit(item, col, nextCell);
+                              } else {
+                                commitEdit(item, col);
+                              }
+                            }
                             if (e.key === 'Enter') {
                               commitEdit(item, col);
                             }

@@ -18,6 +18,7 @@ A lightweight, high-performance, and fully configurable React grid component bui
 - 🔍 **Filtering**: Column-specific filtering with dynamic string/number operator dropdowns.
 - 🧺 **Column Management**: Hide/Show individual columns via header menu.
 - ✍️ **Inline Editing**: Tap editable cells to edit values directly in the grid.
+- ⌨️ **Tab Navigation During Edit**: Press `Tab` to move to the next editable cell in the row, or the next row when at the end of a row.
 - ➕ **Configurable Row Addition**: Optionally add a new row by clicking the last row.
 - ⚙️ **Manage Columns**: Search and toggle multiple columns visibility through a right-aligned popover.
 - 📄 **Pagination**: Integrated right-aligned pagination footer.

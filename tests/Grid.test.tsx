@@ -123,6 +123,30 @@ describe('Grid Component', () => {
     expect(onCellEdit).toHaveBeenCalledWith(data[0], 'name', 'John A.');
   });
 
+  it('tabs to the next editable cell when Tab is pressed', () => {
+    const onCellEdit = vi.fn();
+    const editableColumns: Column<typeof data[0]>[] = [
+      { key: 'name', header: 'Name Cell', isEditable: true },
+      { key: 'role', header: 'Role Cell', isEditable: true },
+    ];
+
+    render(
+      <Grid
+        data={data}
+        columns={editableColumns}
+        isEditable={true}
+        onCellEdit={onCellEdit}
+      />
+    );
+
+    fireEvent.click(screen.getByText('John Doe'));
+    const nameInput = screen.getByDisplayValue('John Doe');
+    fireEvent.keyDown(nameInput, { key: 'Tab', code: 'Tab', keyCode: 9 });
+
+    expect(onCellEdit).toHaveBeenCalledWith(data[0], 'name', 'John Doe');
+    expect(screen.getByDisplayValue('Admin')).toBeInTheDocument();
+  });
+
   it('calls onAddRow when the last row is clicked and allowAddRow is enabled', () => {
     const onAddRow = vi.fn();
 

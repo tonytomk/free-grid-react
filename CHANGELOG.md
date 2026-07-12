@@ -5,6 +5,11 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.3.3] — 2026-07-12
+
+### Fixed
+- **Inline editing tab navigation:** pressing `Tab` now commits the current cell and moves focus to the next editable cell, wrapping to the next row when needed.
+
 ## [0.3.2] — 2026-07-11
 
 ### Added
