@@ -77,5 +77,6 @@ export interface GridProps<T> {
   isEditable?: boolean;
   onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
   allowAddRow?: boolean;
-  onAddRow?: () => void;
+  addRowOnLastRowEdit?: boolean;
+  onAddRow?: (row?: Partial<T>) => void;
 }

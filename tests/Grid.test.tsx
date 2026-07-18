@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import '@testing-library/jest-dom/vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within } from '@testing-library/react';
 import { Grid } from '../src/Grid';
 import { Column } from '../src/types';
 
@@ -174,5 +174,38 @@ describe('Grid Component', () => {
 
     fireEvent.click(screen.getByText('Jane Smith'));
     expect(onAddRow).toHaveBeenCalledTimes(1);
+  });
+
+  it('adds a new row when user types into the last placeholder row first column and tabs out', () => {
+    const onAddRow = vi.fn();
+    const editableColumns: Column<typeof data[0]>[] = [
+      { key: 'name', header: 'Name Cell', isEditable: true },
+      { key: 'role', header: 'Role Cell' },
+    ];
+
+    const { container } = render(
+      <Grid
+        data={data}
+        columns={editableColumns}
+        allowAddRow={true}
+        addRowOnLastRowEdit={true}
+        onAddRow={onAddRow}
+      />
+    );
+
+    const rows = container.querySelectorAll('.free-grid-row');
+    const placeholderRow = rows[rows.length - 1];
+    const firstCell = placeholderRow.querySelector('.free-grid-cell.editable');
+
+    expect(firstCell).toBeInTheDocument();
+    fireEvent.click(firstCell!);
+
+    const input = container.querySelector('.free-grid-cell-input');
+    expect(input).toBeInTheDocument();
+
+    fireEvent.change(input!, { target: { value: 'New user' } });
+    fireEvent.keyDown(input!, { key: 'Tab', code: 'Tab', keyCode: 9 });
+
+    expect(onAddRow).toHaveBeenCalledWith({ name: 'New user' });
   });
 });

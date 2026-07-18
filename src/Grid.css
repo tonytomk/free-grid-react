@@ -125,6 +125,7 @@
 
 .free-grid-header-text {
   flex: 1;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -404,6 +405,7 @@
   padding: 8px 12px;
   display: flex;
   align-items: center;
+  min-width: 0;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

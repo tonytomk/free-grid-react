@@ -22,7 +22,8 @@ interface GridBodyProps<T> {
     isEditable?: boolean;
     onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
     allowAddRow?: boolean;
-    onAddRow?: () => void;
+    addRowOnLastRowEdit?: boolean;
+    onAddRow?: (row?: Partial<T>) => void;
 }
-export declare function GridBody<T>({ sortedData, filteredColumns, gridStyle, selectable, showRowNumbers, visibleColumnKeys, selectedIds, renderChildView, stripedColors, activeTheme, handleSelectRow, expandedRows, toggleRow, isEditable, onCellEdit, allowAddRow, onAddRow, }: GridBodyProps<T>): import("react/jsx-runtime").JSX.Element;
+export declare function GridBody<T>({ sortedData, filteredColumns, gridStyle, selectable, showRowNumbers, visibleColumnKeys, selectedIds, renderChildView, stripedColors, activeTheme, handleSelectRow, expandedRows, toggleRow, isEditable, onCellEdit, allowAddRow, addRowOnLastRowEdit, onAddRow, }: GridBodyProps<T>): import("react/jsx-runtime").JSX.Element;
 export {};

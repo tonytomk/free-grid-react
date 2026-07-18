@@ -2,7 +2,7 @@
 
 A lightweight, high-performance, and fully configurable React grid component built with CSS Grid and TypeScript.
 
-Release: 0.3.5 — 2026-07-12
+Release: 0.3.8 — 2026-07-12
 
 - **Added:** Configurable row numbering with the `rowNumbers` prop for displaying incrementing row labels, plus `rowNumberHeader` for customizing the left-side header text.
 - **Fixed:** Inline editing now supports `Tab` navigation between editable cells; `Tab` moves to the next editable column (and wraps to the next row when needed).
@@ -25,7 +25,7 @@ Release: 0.3.5 — 2026-07-12
 - ✍️ **Inline Editing**: Tap editable cells to edit values directly in the grid.
 - ⌨️ **Tab Navigation During Edit**: Press `Tab` to move to the next editable cell in the row, or the next row when at the end of a row.
 - 🔢 **Configurable Row Numbering**: Optionally show an incrementing row-number column.
-- ➕ **Configurable Row Addition**: Optionally add a new row by clicking the last row.
+- ➕ **Configurable Row Addition**: Optionally add a new row by clicking the last row, or enable `addRowOnLastRowEdit` to create a new row by editing the first data column of the placeholder last row and tabbing out.
 - ⚙️ **Manage Columns**: Search and toggle multiple columns visibility through a right-aligned popover.
 - 📄 **Pagination**: Integrated right-aligned pagination footer.
 - ⌨️ **TypeScript**: First-class support for types and interfaces.
@@ -63,10 +63,14 @@ function App() {
     );
   };
 
-  const handleAddRow = () => {
+  const handleAddRow = (newRow) => {
     setRows((prev) => [
       ...prev,
-      { id: prev.length + 1, name: '', email: '' },
+      {
+        id: prev.length + 1,
+        name: newRow?.name ?? '',
+        email: newRow?.email ?? '',
+      },
     ]);
   };
 
@@ -80,6 +84,7 @@ function App() {
       rowNumbers={true}
       onCellEdit={handleCellEdit}
       allowAddRow={true}
+      addRowOnLastRowEdit={true}
       onAddRow={handleAddRow}
       pagination={{ total: rows.length, page: 1, pageSize: 10 }}
     />
@@ -113,8 +118,9 @@ function App() {
 | `onSort` | `function` | Callback when sorting changes |
 | `isEditable` | `boolean` | Enable inline editing for all editable columns |
 | `onCellEdit` | `(row, columnKey, value) => void` | Callback when an editable cell is committed; update consumer data state here |
-| `allowAddRow` | `boolean` | Enable adding a new row when the last row is clicked |
-| `onAddRow` | `() => void` | Callback invoked when the last row is clicked and `allowAddRow` is true |
+| `allowAddRow` | `boolean` | Enable row-add support. When `addRowOnLastRowEdit` is false, clicking the last row triggers `onAddRow`. |
+| `addRowOnLastRowEdit` | `boolean` | When true, show a persistent empty last row and create a new row by editing the first data column and tabbing out. |
+| `onAddRow` | `(row?: Partial<T>) => void` | Callback invoked when a new row is created. If `addRowOnLastRowEdit` is true, the payload contains the partial new row values. |
 | `selectable` | `boolean` | Enable row selection checkboxes. |
 | `selectedIds` | `(string\|number)[]` | Managed array of selected row IDs. |
 | `onSelectionChange` | `(ids: any[]) => void` | Callback for selection changes. |

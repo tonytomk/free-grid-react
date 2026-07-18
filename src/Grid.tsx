@@ -47,6 +47,7 @@ export function Grid<T extends { id?: string | number } | any>({
   isEditable = false,
   onCellEdit,
   allowAddRow = false,
+  addRowOnLastRowEdit = false,
   onAddRow,
 }: GridProps<T>) {
   // ── Hooks ─────────────────────────────────────────────────────────────────
@@ -228,6 +229,7 @@ export function Grid<T extends { id?: string | number } | any>({
             isEditable={isEditable}
             onCellEdit={onCellEdit}
             allowAddRow={allowAddRow}
+            addRowOnLastRowEdit={addRowOnLastRowEdit}
             onAddRow={onAddRow}
           />
         </div>

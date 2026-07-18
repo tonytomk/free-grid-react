@@ -29,7 +29,8 @@ interface GridBodyProps<T> {
   isEditable?: boolean;
   onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
   allowAddRow?: boolean;
-  onAddRow?: () => void;
+  addRowOnLastRowEdit?: boolean;
+  onAddRow?: (row?: Partial<T>) => void;
 }
 
 export function GridBody<T>({
@@ -49,16 +50,19 @@ export function GridBody<T>({
   isEditable = false,
   onCellEdit,
   allowAddRow = false,
+  addRowOnLastRowEdit = false,
   onAddRow,
 }: GridBodyProps<T>) {
   const [editingCell, setEditingCell] = useState<EditingCell | null>(null);
   const [editingValue, setEditingValue] = useState<string>('');
+  const [newRowValues, setNewRowValues] = useState<Partial<T>>({});
 
+  const rowsToRender = allowAddRow && addRowOnLastRowEdit ? [...sortedData, ({} as T)] : sortedData;
   const getRowId = (item: T, rowIndex: number) =>
     (item as any).id !== undefined ? (item as any).id : rowIndex;
 
   const getNextEditableCell = (currentRowIndex: number, currentColIndex: number) => {
-    for (let nextRow = currentRowIndex; nextRow < sortedData.length; nextRow += 1) {
+    for (let nextRow = currentRowIndex; nextRow < rowsToRender.length; nextRow += 1) {
       const startCol = nextRow === currentRowIndex ? currentColIndex + 1 : 0;
       for (let nextCol = startCol; nextCol < filteredColumns.length; nextCol += 1) {
         const nextColumn = filteredColumns[nextCol];
@@ -74,18 +78,33 @@ export function GridBody<T>({
   const commitEdit = (
     item: T,
     column: Column<T>,
+    rowIndex: number,
+    colIndex: number,
     nextCell?: { rowIndex: number; colIndex: number }
   ) => {
+    const isPlaceholderRow = allowAddRow && addRowOnLastRowEdit && rowIndex === sortedData.length;
+    const value = editingValue;
+
+    if (isPlaceholderRow && onAddRow && colIndex === 0 && value.trim() !== '') {
+      const newRow = {
+        ...newRowValues,
+        [column.key as string]: value,
+      } as Partial<T>;
+      onAddRow(newRow);
+      setNewRowValues({});
+      setEditingCell(null);
+      return;
+    }
+
     if (!editingCell || !onCellEdit) {
       setEditingCell(null);
       return;
     }
 
-    const value = editingValue;
     onCellEdit(item, column.key, value);
 
     if (nextCell) {
-      const nextItem = sortedData[nextCell.rowIndex];
+      const nextItem = rowsToRender[nextCell.rowIndex];
       const nextColumn = filteredColumns[nextCell.colIndex];
       const nextValue = (nextItem as any)[nextColumn.key] ?? '';
       setEditingCell({
@@ -104,13 +123,13 @@ export function GridBody<T>({
     setEditingCell(null);
   };
 
-  const handleRowClick = (rowIndex: number, item: T) => {
-    if (allowAddRow && rowIndex === sortedData.length - 1) {
+  const handleRowClick = (rowIndex: number, item: T, isPlaceholderRow: boolean) => {
+    if (allowAddRow && !addRowOnLastRowEdit && rowIndex === sortedData.length - 1) {
       onAddRow?.();
       return;
     }
 
-    if (renderChildView) {
+    if (renderChildView && !isPlaceholderRow) {
       toggleRow(rowIndex, item);
     }
   };
@@ -119,12 +138,18 @@ export function GridBody<T>({
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
     column: Column<T>,
     value: any,
-    rowId: string | number
+    rowId: string | number,
+    rowIndex: number,
+    colIndex: number
   ) => {
-    if (!onCellEdit) return;
+    const isPlaceholderRow = allowAddRow && addRowOnLastRowEdit && rowIndex === sortedData.length;
+    const isFirstDataColumn = colIndex === 0;
+    const editableBase = onCellEdit ? column.isEditable ?? isEditable : false;
+    const canEditPlaceholder = isPlaceholderRow && isFirstDataColumn && allowAddRow && addRowOnLastRowEdit;
+    const editable = editableBase || canEditPlaceholder;
 
-    const editable = column.isEditable ?? isEditable;
     if (!editable) return;
+    if (!onCellEdit && !canEditPlaceholder) return;
 
     event.stopPropagation();
     setEditingCell({ rowId, columnKey: column.key as string });
@@ -133,8 +158,13 @@ export function GridBody<T>({
 
   return (
     <div className="free-grid-body">
-      {sortedData.map((item, rowIndex) => {
-        const rowId = (item as any).id !== undefined ? (item as any).id : rowIndex;
+      {rowsToRender.map((item, rowIndex) => {
+        const isPlaceholderRow = allowAddRow && addRowOnLastRowEdit && rowIndex === sortedData.length;
+        const rowId = isPlaceholderRow
+          ? `new-row-${rowIndex}`
+          : (item as any).id !== undefined
+          ? (item as any).id
+          : rowIndex;
         const isExpanded = expandedRows.has(rowId);
         const isSelected = selectedIds.includes(rowId);
         const rowStripeStyle =
@@ -153,11 +183,11 @@ export function GridBody<T>({
                 isExpanded ? 'expanded' : ''
               } ${isSelected ? 'selected' : ''}`}
               style={{ ...gridStyle, ...rowStripeStyle }}
-              onClick={() => handleRowClick(rowIndex, item)}
+              onClick={() => handleRowClick(rowIndex, item, isPlaceholderRow)}
             >
               {showRowNumbers && (
                 <div className="free-grid-cell free-grid-row-number-cell">
-                  {rowIndex + 1}
+                  {!isPlaceholderRow ? rowIndex + 1 : ''}
                 </div>
               )}
               {selectable && visibleColumnKeys.has('__selection') && (
@@ -173,7 +203,10 @@ export function GridBody<T>({
               )}
               {filteredColumns.map((col, colIndex) => {
                 const value = (item as any)[col.key];
-                const editable = onCellEdit ? col.isEditable ?? isEditable : false;
+                const isPlaceholderRow = allowAddRow && addRowOnLastRowEdit && rowIndex === sortedData.length;
+                const isFirstDataColumn = colIndex === 0;
+                const editableBase = onCellEdit ? col.isEditable ?? isEditable : false;
+                const editable = editableBase || (isPlaceholderRow && isFirstDataColumn && allowAddRow && addRowOnLastRowEdit);
                 const isCellEditing =
                   editingCell?.rowId === rowId && editingCell?.columnKey === (col.key as string);
 
@@ -181,17 +214,26 @@ export function GridBody<T>({
                   <div
                     key={`cell-${rowIndex}-${colIndex}`}
                     className={`free-grid-cell ${editable ? 'editable' : ''}`}
-                    onClick={(e) => handleCellClick(e, col, value, rowId)}
+                    onClick={(e) => handleCellClick(e, col, value, rowId, rowIndex, colIndex)}
                   >
                     {isCellEditing ? (
                       col.editor ? (
-                        col.editor(value, item, setEditingValue, () => commitEdit(item, col), cancelEdit)
+                        col.editor(value, item, setEditingValue, () => commitEdit(item, col, rowIndex, colIndex), cancelEdit)
                       ) : (
                         <input
                           className="free-grid-cell-input"
                           autoFocus
                           value={editingValue}
-                          onChange={(e) => setEditingValue(e.target.value)}
+                          onChange={(e) => {
+                            const nextValue = e.target.value;
+                            setEditingValue(nextValue);
+                            if (isPlaceholderRow) {
+                              setNewRowValues((prev) => ({
+                                ...prev,
+                                [col.key as string]: nextValue as any,
+                              }));
+                            }
+                          }}
                           onBlur={() => {
                             if (
                               editingCell?.rowId !== rowId ||
@@ -199,20 +241,20 @@ export function GridBody<T>({
                             ) {
                               return;
                             }
-                            commitEdit(item, col);
+                            commitEdit(item, col, rowIndex, colIndex);
                           }}
                           onKeyDown={(e) => {
                             if (e.key === 'Tab') {
                               e.preventDefault();
                               const nextCell = getNextEditableCell(rowIndex, colIndex);
                               if (nextCell) {
-                                commitEdit(item, col, nextCell);
+                                commitEdit(item, col, rowIndex, colIndex, nextCell);
                               } else {
-                                commitEdit(item, col);
+                                commitEdit(item, col, rowIndex, colIndex);
                               }
                             }
                             if (e.key === 'Enter') {
-                              commitEdit(item, col);
+                              commitEdit(item, col, rowIndex, colIndex);
                             }
                             if (e.key === 'Escape') {
                               cancelEdit();

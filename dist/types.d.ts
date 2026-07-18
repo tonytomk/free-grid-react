@@ -30,6 +30,7 @@ export interface GridProps<T> {
     showHeader?: boolean;
     rowHeight?: string | number;
     rowNumbers?: boolean;
+    rowNumberHeader?: React.ReactNode;
     selectionMode?: 'single' | 'multiple';
     stripedRows?: boolean;
     stripedRowOddColor?: string;
@@ -58,5 +59,6 @@ export interface GridProps<T> {
     isEditable?: boolean;
     onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
     allowAddRow?: boolean;
-    onAddRow?: () => void;
+    addRowOnLastRowEdit?: boolean;
+    onAddRow?: (row?: Partial<T>) => void;
 }
