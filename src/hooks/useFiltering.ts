@@ -1,12 +1,12 @@
 import { useState, useMemo } from 'react';
-import { Column, ActiveFilter } from '../types';
+import { Column, ActiveFilter, GridFilter } from '../types';
 
 export function useFiltering<T>(
   data: T[],
   columns: Column<T>[],
-  onFilterChange?: (filter: ActiveFilter | null) => void
+  onFilterChange?: (filter: GridFilter | null) => void
 ) {
-  const [filter, setFilter] = useState<ActiveFilter | null>(null);
+  const [filter, setFilter] = useState<GridFilter | null>(null);
   const [filterPanelColumnKey, setFilterPanelColumnKey] = useState<string | null>(null);
 
   const openFilterPanel = (columnKey: string) => {
@@ -17,7 +17,7 @@ export function useFiltering<T>(
     setFilterPanelColumnKey(null);
   };
 
-  const applyFilter = (newFilter: ActiveFilter) => {
+  const applyFilter = (newFilter: GridFilter) => {
     setFilter(newFilter);
     if (onFilterChange) onFilterChange(newFilter);
   };
@@ -40,41 +40,57 @@ export function useFiltering<T>(
     return 'string';
   };
 
+  const matchesFilter = (item: T, itemFilter: ActiveFilter) => {
+    const rawValue = (item as any)[itemFilter.columnKey];
+    const filterVal = itemFilter.value.trim();
+    const col = columns.find((c) => c.key === itemFilter.columnKey);
+    const isNumber = col?.type === 'number' || typeof rawValue === 'number';
+
+    if (isNumber) {
+      const numVal = Number(rawValue);
+      const numFilter = Number(filterVal);
+      if (isNaN(numVal) || isNaN(numFilter)) return true;
+      switch (itemFilter.operator) {
+        case '=':  return numVal === numFilter;
+        case '!=': return numVal !== numFilter;
+        case '>':  return numVal >  numFilter;
+        case '<':  return numVal <  numFilter;
+        case '>=': return numVal >= numFilter;
+        case '<=': return numVal <= numFilter;
+        default:   return true;
+      }
+    }
+
+    const strVal = String(rawValue ?? '').toLowerCase();
+    const strFilter = filterVal.toLowerCase();
+    switch (itemFilter.operator) {
+      case 'contains':       return strVal.includes(strFilter);
+      case 'doesNotContain': return !strVal.includes(strFilter);
+      case 'equals':         return strVal === strFilter;
+      case 'notEqual':       return strVal !== strFilter;
+      case 'startsWith':     return strVal.startsWith(strFilter);
+      case 'endsWith':       return strVal.endsWith(strFilter);
+      default:               return true;
+    }
+  };
+
   const filteredData = useMemo(() => {
-    if (!filter || !filter.value.trim()) return data;
+    if (!filter) return data;
+
+    const activeFilters = 'filters' in filter
+      ? filter.filters.filter((itemFilter) => itemFilter.value.trim())
+      : filter.value.trim()
+        ? [filter]
+        : [];
+
+    if (!activeFilters.length) return data;
 
     return data.filter((item) => {
-      const rawValue = (item as any)[filter.columnKey];
-      const filterVal = filter.value.trim();
-      const col = columns.find((c) => c.key === filter.columnKey);
-      const isNumber = col?.type === 'number' || typeof rawValue === 'number';
-
-      if (isNumber) {
-        const numVal = Number(rawValue);
-        const numFilter = Number(filterVal);
-        if (isNaN(numVal) || isNaN(numFilter)) return true;
-        switch (filter.operator) {
-          case '=':  return numVal === numFilter;
-          case '!=': return numVal !== numFilter;
-          case '>':  return numVal >  numFilter;
-          case '<':  return numVal <  numFilter;
-          case '>=': return numVal >= numFilter;
-          case '<=': return numVal <= numFilter;
-          default:   return true;
-        }
-      } else {
-        const strVal    = String(rawValue ?? '').toLowerCase();
-        const strFilter = filterVal.toLowerCase();
-        switch (filter.operator) {
-          case 'contains':      return strVal.includes(strFilter);
-          case 'doesNotContain': return !strVal.includes(strFilter);
-          case 'equals':        return strVal === strFilter;
-          case 'notEqual':      return strVal !== strFilter;
-          case 'startsWith':    return strVal.startsWith(strFilter);
-          case 'endsWith':      return strVal.endsWith(strFilter);
-          default:              return true;
-        }
+      if ('filters' in filter && filter.logic === 'or') {
+        return activeFilters.some((itemFilter) => matchesFilter(item, itemFilter));
       }
+
+      return activeFilters.every((itemFilter) => matchesFilter(item, itemFilter));
     });
   }, [data, filter, columns]);
 

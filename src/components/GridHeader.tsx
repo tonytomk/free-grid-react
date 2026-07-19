@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, ActiveFilter } from '../types';
+import { Column, GridFilter } from '../types';
 
 interface SortConfig {
   key: string | null;
@@ -28,7 +28,7 @@ interface GridHeaderProps<T> {
   handleDrop: (e: React.DragEvent, targetKey: string) => void;
   handleResizeStart: (e: React.MouseEvent, key: string) => void;
   handleOpenMenu: (e: React.MouseEvent, column: Column<T> | null, isSelection?: boolean) => void;
-  activeFilter: ActiveFilter | null;
+  activeFilter: GridFilter | null;
 }
 
 export function GridHeader<T>({
@@ -55,6 +55,16 @@ export function GridHeader<T>({
   handleOpenMenu,
   activeFilter,
 }: GridHeaderProps<T>) {
+  const hasActiveFilter = (columnKey: string) => {
+    if (!activeFilter) return false;
+    if ('filters' in activeFilter) {
+      return activeFilter.filters.some(
+        (itemFilter) => itemFilter.columnKey === columnKey && itemFilter.value.trim()
+      );
+    }
+    return activeFilter.columnKey === columnKey && activeFilter.value.trim();
+  };
+
   return (
     <div className="free-grid-header" style={gridStyle}>
       {showRowNumbers && (
@@ -113,7 +123,7 @@ export function GridHeader<T>({
                     {sortConfig.direction === 'asc' ? '↑' : '↓'}
                   </span>
                 )}
-                {activeFilter?.columnKey === col.key && (
+                {hasActiveFilter(col.key as string) && (
                   <span className="free-grid-filter-badge" title="Filter active">
                     <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
                       <path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z" />

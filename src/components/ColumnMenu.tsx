@@ -1,5 +1,5 @@
 import React from 'react';
-import { Column, ActiveFilter } from '../types';
+import { Column, GridFilter } from '../types';
 
 interface ColumnMenuProps<T> {
   anchorEl: { element: HTMLElement; column: Column<T> | null; isSelection?: boolean };
@@ -13,7 +13,7 @@ interface ColumnMenuProps<T> {
   handleCloseMenu: () => void;
   allowFiltering: boolean;
   openFilterPanel: (columnKey: string) => void;
-  activeFilter: ActiveFilter | null;
+  activeFilter: GridFilter | null;
 }
 
 export function ColumnMenu<T>({
@@ -43,6 +43,16 @@ export function ColumnMenu<T>({
     ...(isLastColumn
       ? { right: containerRect.right - anchorRect.right }
       : { left: anchorRect.left - containerRect.left }),
+  };
+
+  const isFilterActive = (columnKey: string) => {
+    if (!activeFilter) return false;
+    if ('filters' in activeFilter) {
+      return activeFilter.filters.some(
+        (itemFilter) => itemFilter.columnKey === columnKey && itemFilter.value.trim()
+      );
+    }
+    return activeFilter.columnKey === columnKey && activeFilter.value.trim();
   };
 
   return (
@@ -85,7 +95,7 @@ export function ColumnMenu<T>({
           {allowFiltering && anchorEl.column!.filterable !== false && (
             <div
               className="free-grid-menu-item"
-              style={activeFilter?.columnKey === anchorEl.column!.key
+              style={isFilterActive(anchorEl.column!.key as string)
                 ? { color: 'var(--fg-primary-color)' }
                 : undefined}
               onClick={() => {

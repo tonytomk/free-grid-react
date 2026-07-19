@@ -1,5 +1,5 @@
 import { default as React } from 'react';
-import { Column, ActiveFilter } from '../types';
+import { Column, GridFilter } from '../types';
 interface ColumnMenuProps<T> {
     anchorEl: {
         element: HTMLElement;
@@ -16,7 +16,7 @@ interface ColumnMenuProps<T> {
     handleCloseMenu: () => void;
     allowFiltering: boolean;
     openFilterPanel: (columnKey: string) => void;
-    activeFilter: ActiveFilter | null;
+    activeFilter: GridFilter | null;
 }
 export declare function ColumnMenu<T>({ anchorEl, containerRef, filteredColumns, popoverRef, handleSort, moveColumn, setVisibleColumnKeys, setShowManageDialog, handleCloseMenu, allowFiltering, openFilterPanel, activeFilter, }: ColumnMenuProps<T>): import("react/jsx-runtime").JSX.Element | null;
 export {};

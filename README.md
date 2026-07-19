@@ -2,10 +2,10 @@
 
 A lightweight, high-performance, and fully configurable React grid component built with CSS Grid and TypeScript.
 
-Release: 0.3.8 — 2026-07-12
+Release: 0.3.9 — 2026-07-18
 
-- **Added:** Configurable row numbering with the `rowNumbers` prop for displaying incrementing row labels, plus `rowNumberHeader` for customizing the left-side header text.
-- **Fixed:** Inline editing now supports `Tab` navigation between editable cells; `Tab` moves to the next editable column (and wraps to the next row when needed).
+- **Added:** Placeholder last-row add mode via `addRowOnLastRowEdit`, with partial row payloads from `onAddRow`.
+- **Added:** Multi-filter panel support is available in the current development branch, including add/remove filter rows and shared `and` / `or` logic.
 
 ## Demo
 
@@ -20,7 +20,7 @@ Release: 0.3.8 — 2026-07-12
 - 🔘 **Selection**: Built-in checkbox selection with "Select All" support.
 - 📁 **Child Views**: Easily expand rows to show detailed child components.
 - 📶 **Sorting**: Built-in support for ascending and descending sort on any column.
-- 🔍 **Filtering**: Column-specific filtering with dynamic string/number operator dropdowns.
+- 🔍 **Filtering**: Column filtering with dynamic string/number operators, plus multi-filter `and` / `or` criteria.
 - 🧺 **Column Management**: Hide/Show individual columns via header menu.
 - ✍️ **Inline Editing**: Tap editable cells to edit values directly in the grid.
 - ⌨️ **Tab Navigation During Edit**: Press `Tab` to move to the next editable cell in the row, or the next row when at the end of a row.
@@ -114,7 +114,7 @@ function App() {
 | `allowReordering` | `boolean` | `true` | Enable/disable column drag-and-drop reordering |
 | `allowResizing` | `boolean` | `true` | Enable/disable interactive column resizing |
 | `allowFiltering` | `boolean` | Enable/disable column filtering in the header menu |
-| `onFilterChange` | `(filter: ActiveFilter \| null) => void` | Callback when a filter is applied or cleared |
+| `onFilterChange` | `(filter: GridFilter \| null) => void` | Callback when filters are applied or cleared |
 | `onSort` | `function` | Callback when sorting changes |
 | `isEditable` | `boolean` | Enable inline editing for all editable columns |
 | `onCellEdit` | `(row, columnKey, value) => void` | Callback when an editable cell is committed; update consumer data state here |
@@ -126,6 +126,30 @@ function App() {
 | `onSelectionChange` | `(ids: any[]) => void` | Callback for selection changes. |
 | `renderChildView` | `(row: any) => ReactNode` | Render function for expanded row content. |
 | `pagination` | `PaginationProps` | Pagination configuration. |
+
+### Filtering
+
+Enable filtering with `allowFiltering`. The filter panel lets users add or remove criteria rows, then choose a single shared logic mode:
+
+- The first filter row has no logic selector.
+- The second filter row controls whether all criteria use `and` or `or`.
+- Additional filter rows show the selected logic as disabled, so the full filter set stays consistent.
+- Empty criteria are ignored; clearing all criteria sends `null` to `onFilterChange`.
+
+```ts
+type ActiveFilter = {
+  columnKey: string;
+  operator: FilterOperator;
+  value: string;
+};
+
+type GridFilter =
+  | ActiveFilter
+  | {
+      logic: 'and' | 'or';
+      filters: ActiveFilter[];
+    };
+```
 
 ### Column Properties
 
@@ -153,6 +177,7 @@ The grid provides built-in tools for managing columns:
 - **Visibility**: Toggle columns via the "Manage columns" dialog.
 - **Reordering**: Drag and drop header cells to change their order, or use "Move left/right" in the column menu.
 - **Resizing**: Hover between header cells and drag the handle to adjust column widths.
+- **Filtering**: Add multiple filter rows from the filter panel. The second row controls whether all active filters use `and` or `or`; later rows display the same logic as disabled controls for consistency.
 - **Persistence**: The grid maintains internal state for column order and widths (you can lift this state if needed by passing controlled props in future updates).
 - **Search & Reset**: Search for columns, toggle visibility globally, or reset to defaults.
 

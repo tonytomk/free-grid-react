@@ -271,7 +271,7 @@ export function Grid<T extends { id?: string | number } | any>({
           <FilterPanel
             columns={columns}
             initialColumnKey={filterPanelColumnKey}
-            existingFilter={filter?.columnKey === filterPanelColumnKey ? filter : null}
+            existingFilter={filter}
             getColumnType={getColumnType}
             onCommit={(f) => { if (f) applyFilter(f); else clearFilter(); }}
             onClose={closeFilterPanel}

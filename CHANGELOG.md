@@ -5,6 +5,15 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [Unreleased] — 2026-07-19
+
+### Added
+- **Multi-filter panel:** users can add and remove multiple filter criteria from the filter panel.
+- **Shared filter logic:** the second filter row selects `and` or `or` logic for the whole filter set; later rows display the selected logic as disabled.
+- **Grouped filter API:** `onFilterChange` can now receive a `GridFilter` group containing `logic` and `filters`, while single-filter usage remains supported.
+
+---
+
 ## [0.3.9] — 2026-07-18
 
 ### Added

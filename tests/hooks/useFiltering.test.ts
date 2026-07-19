@@ -56,6 +56,43 @@ describe('useFiltering hook', () => {
     ]);
   });
 
+  it('filters multiple criteria with AND logic', () => {
+    const { result } = renderHook(() => useFiltering(data, columns));
+
+    act(() => {
+      result.current.applyFilter({
+        logic: 'and',
+        filters: [
+          { columnKey: 'name', operator: 'contains', value: 'li' },
+          { columnKey: 'age', operator: '>', value: '30' },
+        ],
+      });
+    });
+
+    expect(result.current.filteredData).toEqual([
+      { id: 3, name: 'Charlie', age: 35 },
+    ]);
+  });
+
+  it('filters multiple criteria with OR logic', () => {
+    const { result } = renderHook(() => useFiltering(data, columns));
+
+    act(() => {
+      result.current.applyFilter({
+        logic: 'or',
+        filters: [
+          { columnKey: 'name', operator: 'equals', value: 'Alice' },
+          { columnKey: 'age', operator: '<', value: '30' },
+        ],
+      });
+    });
+
+    expect(result.current.filteredData).toEqual([
+      { id: 1, name: 'Alice', age: 30 },
+      { id: 2, name: 'Bob', age: 25 },
+    ]);
+  });
+
   it('clears filter when applied safely', () => {
     const { result } = renderHook(() => useFiltering(data, columns));
 

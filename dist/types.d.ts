@@ -6,6 +6,12 @@ export interface ActiveFilter {
     operator: FilterOperator;
     value: string;
 }
+export type FilterLogicOperator = 'and' | 'or';
+export interface ActiveFilterGroup {
+    logic: FilterLogicOperator;
+    filters: ActiveFilter[];
+}
+export type GridFilter = ActiveFilter | ActiveFilterGroup;
 export interface Column<T> {
     key: keyof T | string;
     header: React.ReactNode;
@@ -55,7 +61,7 @@ export interface GridProps<T> {
     allowReordering?: boolean;
     allowResizing?: boolean;
     allowFiltering?: boolean;
-    onFilterChange?: (filter: ActiveFilter | null) => void;
+    onFilterChange?: (filter: GridFilter | null) => void;
     isEditable?: boolean;
     onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;
     allowAddRow?: boolean;
