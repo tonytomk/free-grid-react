@@ -70,6 +70,25 @@ describe('Grid Component', () => {
     expect(screen.getByPlaceholderText('Search...')).toBeInTheDocument();
   });
 
+  it('hides multi-filter controls when allowMultiFilter is false', () => {
+    render(
+      <Grid
+        data={data}
+        columns={columns}
+        allowFiltering={true}
+        filterOptions={{ allowMultiFilter: false }}
+      />
+    );
+
+    const menuButtons = screen.getAllByRole('button');
+    fireEvent.click(menuButtons[0]);
+    fireEvent.click(screen.getByText(/Filter/i));
+
+    expect(screen.queryByText(/Add filter/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Remove all/i)).not.toBeInTheDocument();
+    expect(screen.queryByTitle('Remove filter')).not.toBeInTheDocument();
+  });
+
   it('retains fixed height when data is filtered', () => {
     const originalGetBoundingClientRect = HTMLElement.prototype.getBoundingClientRect;
     HTMLElement.prototype.getBoundingClientRect = () => ({

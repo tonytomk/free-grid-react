@@ -5,6 +5,7 @@ import {
   FilterLogicOperator,
   FilterOperator,
   GridFilter,
+  GridFilterOptions,
   NumberFilterOperator,
   StringFilterOperator,
 } from '../types';
@@ -32,9 +33,9 @@ interface FilterPanelProps<T> {
   initialColumnKey: string;
   existingFilter: GridFilter | null;
   getColumnType: (key: string) => 'string' | 'number';
+  filterOptions?: GridFilterOptions;
   /** Called with filters to apply, or null to clear. */
   onCommit: (filter: GridFilter | null) => void;
-  onClose: () => void;
 }
 
 const createFilter = (
@@ -60,24 +61,36 @@ export function FilterPanel<T>({
   initialColumnKey,
   existingFilter,
   getColumnType,
+  filterOptions,
   onCommit,
-  onClose,
 }: FilterPanelProps<T>) {
+  const allowMultiFilter = filterOptions?.allowMultiFilter === true;
+  const defaultLogic = filterOptions?.defaultLogic ?? 'and';
+  const maxFilters = filterOptions?.maxFilters;
+
   const filterableColumns = columns.filter((col) => col.filterable !== false);
 
   const initialRules = useMemo(() => {
-    if (!existingFilter) return [createFilter(initialColumnKey, getColumnType)];
-    if ('filters' in existingFilter) {
-      return existingFilter.filters.length
+    let rules: ActiveFilter[];
+    if (!existingFilter) {
+      rules = [createFilter(initialColumnKey, getColumnType)];
+    } else if ('filters' in existingFilter) {
+      rules = existingFilter.filters.length
         ? existingFilter.filters
         : [createFilter(initialColumnKey, getColumnType)];
+    } else {
+      rules = [existingFilter];
     }
-    return [existingFilter];
-  }, [existingFilter, getColumnType, initialColumnKey]);
+    if (!allowMultiFilter) {
+      return [rules[0] ?? createFilter(initialColumnKey, getColumnType)];
+    }
+    return rules;
+  }, [allowMultiFilter, existingFilter, getColumnType, initialColumnKey]);
 
-  const [logic, setLogic] = useState<FilterLogicOperator>(
-    existingFilter && 'filters' in existingFilter ? existingFilter.logic : 'and'
-  );
+  const [logic, setLogic] = useState<FilterLogicOperator>(() => {
+    if (existingFilter && 'filters' in existingFilter) return existingFilter.logic;
+    return defaultLogic;
+  });
   const [filters, setFilters] = useState<ActiveFilter[]>(initialRules);
 
   const getOperators = (columnKey: string) => {
@@ -85,7 +98,8 @@ export function FilterPanel<T>({
   };
 
   const commit = (nextFilters: ActiveFilter[] = filters, nextLogic: FilterLogicOperator = logic) => {
-    const activeFilters = nextFilters
+    const scopedFilters = allowMultiFilter ? nextFilters : nextFilters.slice(0, 1);
+    const activeFilters = scopedFilters
       .map((itemFilter) => ({ ...itemFilter, value: itemFilter.value.trim() }))
       .filter((itemFilter) => itemFilter.value);
 
@@ -123,11 +137,19 @@ export function FilterPanel<T>({
   };
 
   const addFilter = () => {
+    if (!allowMultiFilter) return;
+    if (maxFilters !== undefined && filters.length >= maxFilters) return;
     const nextFilters = [...filters, createFilter(initialColumnKey, getColumnType)];
     setFilters(nextFilters);
   };
 
   const removeFilter = (index: number) => {
+    if (!allowMultiFilter) {
+      const cleared = [createFilter(filters[0]?.columnKey ?? initialColumnKey, getColumnType)];
+      setFilters(cleared);
+      onCommit(null);
+      return;
+    }
     const nextFilters = filters.filter((_, itemIndex) => itemIndex !== index);
     setFilters(nextFilters.length ? nextFilters : [createFilter(initialColumnKey, getColumnType)]);
     commit(nextFilters);
@@ -144,38 +166,55 @@ export function FilterPanel<T>({
     commit(filters, nextLogic);
   };
 
+  const canAddFilter =
+    allowMultiFilter && (maxFilters === undefined || filters.length < maxFilters);
+
   return (
     <div className="free-grid-filter-panel" onClick={(e) => e.stopPropagation()}>
+
       <div className="free-grid-filter-rules">
         {filters.map((itemFilter, index) => {
           const colType = getColumnType(itemFilter.columnKey);
           const operators = getOperators(itemFilter.columnKey);
+          const isFirstRow = index === 0;
 
           return (
-            <div className="free-grid-filter-row" key={index}>
-              <button
-                className="free-grid-filter-remove"
-                onClick={() => removeFilter(index)}
-                title="Remove filter"
-              >
-                ×
-              </button>
-
-              {index === 0 ? (
-                <span className="free-grid-filter-logic-spacer" />
-              ) : (
-                <div className="free-grid-filter-field free-grid-filter-logic-field">
-                  <select
-                    aria-label="Filter logic"
-                    className="free-grid-filter-select"
-                    value={logic}
-                    disabled={index > 1}
-                    onChange={(e) => handleLogicChange(e.target.value as FilterLogicOperator)}
+            <div
+              className={`free-grid-filter-row ${allowMultiFilter ? 'free-grid-filter-row-multi' : 'free-grid-filter-row-single'}`}
+              key={index}
+            >
+              {allowMultiFilter && (
+                filters.length > 1 ? (
+                  <button
+                    className="free-grid-filter-remove"
+                    onClick={() => removeFilter(index)}
+                    title="Remove filter"
+                    type="button"
                   >
-                    <option value="and">And</option>
-                    <option value="or">Or</option>
-                  </select>
-                </div>
+                    ×
+                  </button>
+                ) : (
+                  <div className="free-grid-filter-spacer" />
+                )
+              )}
+
+              {allowMultiFilter && (
+                isFirstRow ? (
+                  <div className="free-grid-filter-logic-spacer" />
+                ) : (
+                  <div className="free-grid-filter-field free-grid-filter-logic-field">
+                    <span className="free-grid-filter-label">Logic</span>
+                    <select
+                      aria-label="Filter logic"
+                      className="free-grid-filter-select"
+                      value={logic}
+                      onChange={(e) => handleLogicChange(e.target.value as FilterLogicOperator)}
+                    >
+                      <option value="and">And</option>
+                      <option value="or">Or</option>
+                    </select>
+                  </div>
+                )
               )}
 
               <div className="free-grid-filter-field">
@@ -226,20 +265,31 @@ export function FilterPanel<T>({
         })}
       </div>
 
-      <div className="free-grid-filter-actions">
-        <button className="free-grid-filter-action" onClick={addFilter}>
-          <span aria-hidden="true">＋</span>
-          Add filter
-        </button>
-        <button className="free-grid-filter-action" onClick={removeAllFilters}>
-          <span aria-hidden="true">▣</span>
-          Remove all
-        </button>
-      </div>
-
-      <button className="free-grid-filter-close" onClick={onClose} title="Close">
-        ×
-      </button>
+      {allowMultiFilter && (
+        <div className="free-grid-filter-actions">
+          <button
+            className="free-grid-filter-action"
+            onClick={addFilter}
+            disabled={!canAddFilter}
+            type="button"
+          >
+            <span className="free-grid-filter-action-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z" />
+              </svg>
+            </span>
+            Add filter
+          </button>
+          <button className="free-grid-filter-action" onClick={removeAllFilters} type="button">
+            <span className="free-grid-filter-action-icon" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z" />
+              </svg>
+            </span>
+            Remove all
+          </button>
+        </div>
+      )}
     </div>
   );
 }

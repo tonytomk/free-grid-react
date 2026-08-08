@@ -43,6 +43,7 @@ export function Grid<T extends { id?: string | number } | any>({
   allowReordering = true,
   allowResizing = true,
   allowFiltering = false,
+  filterOptions,
   onFilterChange,
   isEditable = false,
   onCellEdit,
@@ -62,6 +63,25 @@ export function Grid<T extends { id?: string | number } | any>({
   const { filter, filteredData, filterPanelColumnKey, openFilterPanel, closeFilterPanel,
           applyFilter, clearFilter, getColumnType } =
     useFiltering(data, columns, onFilterChange);
+
+  const [filterPanelStyle, setFilterPanelStyle] = useState<React.CSSProperties | null>(null);
+
+  const handleOpenFilterPanel = (columnKey: string) => {
+    openFilterPanel(columnKey);
+    if (!containerRef.current || !anchorEl?.element) return;
+
+    const containerRect = containerRef.current.getBoundingClientRect();
+    const anchorRect = anchorEl.element.getBoundingClientRect();
+    const width = Math.min(720, containerRect.width - 32);
+    let left = anchorRect.left - containerRect.left;
+    if (left + width + 12 > containerRect.width) {
+      left = Math.max(12, containerRect.width - width - 12);
+    }
+    if (left < 12) left = 12;
+    const top = anchorRect.bottom - containerRect.top + 8;
+
+    setFilterPanelStyle({ top, left, width });
+  };
 
   const { sortConfig, handleSort, sortedData } = useSorting(filteredData, onSort);
 
@@ -249,7 +269,7 @@ export function Grid<T extends { id?: string | number } | any>({
           setShowManageDialog={setShowManageDialog}
           handleCloseMenu={handleCloseMenu}
           allowFiltering={allowFiltering}
-          openFilterPanel={openFilterPanel}
+          openFilterPanel={handleOpenFilterPanel}
           activeFilter={filter}
         />
       )}
@@ -267,14 +287,18 @@ export function Grid<T extends { id?: string | number } | any>({
       )}
 
       {allowFiltering && filterPanelColumnKey && (
-        <div ref={filterRef}>
+        <div
+          ref={filterRef}
+          className="free-grid-filter-popover"
+          style={filterPanelStyle || undefined}
+        >
           <FilterPanel
             columns={columns}
             initialColumnKey={filterPanelColumnKey}
             existingFilter={filter}
             getColumnType={getColumnType}
+            filterOptions={filterOptions}
             onCommit={(f) => { if (f) applyFilter(f); else clearFilter(); }}
-            onClose={closeFilterPanel}
           />
         </div>
       )}

@@ -5,7 +5,9 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [Unreleased] — 2026-07-19
+## [Unreleased]
+
+## [0.4.1] — 2026-08-08
 
 ### Added
 - **Multi-filter panel:** users can add and remove multiple filter criteria from the filter panel.

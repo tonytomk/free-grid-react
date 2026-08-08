@@ -2,10 +2,10 @@
 
 A lightweight, high-performance, and fully configurable React grid component built with CSS Grid and TypeScript.
 
-Release: 0.3.9 — 2026-07-18
+Release: 0.4.1 — 2026-08-08
 
+- **Added:** Multi-filter panel support, including add/remove filter rows and shared `and` / `or` logic.
 - **Added:** Placeholder last-row add mode via `addRowOnLastRowEdit`, with partial row payloads from `onAddRow`.
-- **Added:** Multi-filter panel support is available in the current development branch, including add/remove filter rows and shared `and` / `or` logic.
 
 ## Demo
 
@@ -114,6 +114,7 @@ function App() {
 | `allowReordering` | `boolean` | `true` | Enable/disable column drag-and-drop reordering |
 | `allowResizing` | `boolean` | `true` | Enable/disable interactive column resizing |
 | `allowFiltering` | `boolean` | Enable/disable column filtering in the header menu |
+| `filterOptions` | `GridFilterOptions` | Multi-filter panel behavior (see Filtering) |
 | `onFilterChange` | `(filter: GridFilter \| null) => void` | Callback when filters are applied or cleared |
 | `onSort` | `function` | Callback when sorting changes |
 | `isEditable` | `boolean` | Enable inline editing for all editable columns |
@@ -135,6 +136,22 @@ Enable filtering with `allowFiltering`. The filter panel lets users add or remov
 - The second filter row controls whether all criteria use `and` or `or`.
 - Additional filter rows show the selected logic as disabled, so the full filter set stays consistent.
 - Empty criteria are ignored; clearing all criteria sends `null` to `onFilterChange`.
+
+Configure multi-filter behavior with `filterOptions`:
+
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| `allowMultiFilter` | `boolean` | `true` | When `false`, only one criterion row is shown (no Add/Remove all, no AND/OR). |
+| `defaultLogic` | `'and' \| 'or'` | `'and'` | Initial logic when multiple criteria are active. |
+| `maxFilters` | `number` | — | Optional cap on filter rows when multi-filter is enabled. |
+
+```ts
+<Grid
+  allowFiltering
+  filterOptions={{ allowMultiFilter: true, defaultLogic: 'and', maxFilters: 5 }}
+  onFilterChange={(filter) => console.log(filter)}
+/>
+```
 
 ```ts
 type ActiveFilter = {

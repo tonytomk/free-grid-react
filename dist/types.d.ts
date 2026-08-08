@@ -12,6 +12,15 @@ export interface ActiveFilterGroup {
     filters: ActiveFilter[];
 }
 export type GridFilter = ActiveFilter | ActiveFilterGroup;
+/** Options for the column filter / multi-filter panel. */
+export interface GridFilterOptions {
+    /** Allow multiple filter rows and AND/OR logic. Default `false`. */
+    allowMultiFilter?: boolean;
+    /** Default logic when more than one criterion is active. Default `'and'`. */
+    defaultLogic?: FilterLogicOperator;
+    /** Maximum number of filter rows when multi-filter is enabled. */
+    maxFilters?: number;
+}
 export interface Column<T> {
     key: keyof T | string;
     header: React.ReactNode;
@@ -61,6 +70,8 @@ export interface GridProps<T> {
     allowReordering?: boolean;
     allowResizing?: boolean;
     allowFiltering?: boolean;
+    /** Filter panel behavior (single vs multi-filter, default logic, row limit). */
+    filterOptions?: GridFilterOptions;
     onFilterChange?: (filter: GridFilter | null) => void;
     isEditable?: boolean;
     onCellEdit?: (row: T, columnKey: keyof T | string, value: any) => void;

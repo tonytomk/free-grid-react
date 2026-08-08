@@ -498,71 +498,62 @@
 }
 
 /* ── Filter Panel ────────────────────────────────────────────────────────── */
-.free-grid-filter-panel {
+.free-grid-filter-popover {
   position: absolute;
-  top: 56px;
-  right: 12px;
-  left: auto;
   z-index: 1000;
+}
+
+.free-grid-filter-panel {
+  position: relative;
   background: var(--fg-grid-surface);
-  border-radius: 6px;
-  box-shadow: 0 4px 6px -2px rgba(0, 0, 0, 0.12),
-              0 12px 16px -4px rgba(0, 0, 0, 0.14);
-  padding: 14px 16px 0 16px;
+  color: var(--fg-grid-surface-text);
+  border-radius: 16px;
+  border: 1px solid var(--fg-grid-surface-border);
+  box-shadow: 0 18px 32px rgba(0, 0, 0, 0.12);
+  padding: 24px 14px 14px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-width: 620px;
+  box-sizing: border-box;
+  width: min(720px, calc(100vw - 32px));
+  max-width: 100%;
+  overflow: hidden;
   animation: fadeIn 0.15s ease-out;
 }
 
-.free-grid-filter-close {
-  position: absolute;
-  top: 12px;
-  right: 16px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.3rem;
-  line-height: 1;
-  color: var(--fg-grid-surface-muted);
-  width: 26px;
-  height: 26px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  flex-shrink: 0;
-  transition: background-color 0.2s, color 0.2s;
-  padding: 0;
-}
-
-.free-grid-filter-close:hover {
-  background-color: var(--fg-grid-surface-hover);
-  color: var(--fg-grid-surface-text);
-}
+/* Removed dismiss button (no longer used) */
 
 .free-grid-filter-rules {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   width: 100%;
+  max-width: 100%;
 }
 
 .free-grid-filter-row {
-  display: flex;
-  align-items: center;
+  display: grid;
   gap: 12px;
-  min-height: 52px;
+  column-gap: 12px;
+  width: 100%;
+  align-items: center;
+  min-width: 0;
+}
+
+.free-grid-filter-row-single {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.free-grid-filter-row-multi {
+  grid-template-columns: 36px 1fr 1fr 1fr 1fr;
 }
 
 .free-grid-filter-remove {
-  background: none;
-  border: none;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   cursor: pointer;
   font-size: 1.3rem;
   line-height: 1;
-  color: var(--fg-grid-surface-muted);
+  color: rgba(255, 255, 255, 0.9);
   width: 28px;
   height: 28px;
   display: flex;
@@ -570,51 +561,65 @@
   justify-content: center;
   border-radius: 50%;
   flex-shrink: 0;
-  transition: background-color 0.2s, color 0.2s;
+  transition: background-color 0.2s, color 0.2s, transform 0.2s;
   padding: 0;
+  background: rgba(255, 255, 255, 0.05);
 }
 
 .free-grid-filter-remove:hover {
-  background-color: var(--fg-grid-surface-hover);
-  color: var(--fg-grid-surface-text);
+  background-color: rgba(255, 255, 255, 0.12);
+  color: white;
+  transform: scale(1.03);
 }
 
-.free-grid-filter-logic-spacer,
-.free-grid-filter-logic-field {
-  width: 82px;
-  flex-shrink: 0;
+.free-grid-filter-spacer {
+  width: 36px;
+  visibility: hidden;
+}
+
+.free-grid-filter-logic-spacer {
+  visibility: hidden;
 }
 
 .free-grid-filter-field {
   position: relative;
   border: 1px solid var(--fg-grid-surface-border);
-  border-radius: 4px;
-  padding: 6px 10px 4px;
-  min-width: 130px;
-  transition: border-color 0.2s;
+  border-radius: 12px;
+  padding: 8px 12px;
+  max-width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  background: var(--fg-grid-surface);
+}
+
+.free-grid-filter-field:first-of-type {
+  min-height: 44px;
 }
 
 .free-grid-filter-field:has(select:disabled) {
-  opacity: 0.55;
+  opacity: 0.8;
 }
 
 .free-grid-filter-field:focus-within {
-  border-color: var(--fg-primary-color);
+  border-color: #2d7df5;
+  box-shadow: 0 0 0 3px rgba(45, 125, 245, 0.12);
 }
 
 .free-grid-filter-value-field {
-  min-width: 160px;
+  min-width: 140px;
+  max-width: 1fr;
 }
 
 .free-grid-filter-label {
   position: absolute;
-  top: -8px;
-  left: 8px;
-  font-size: 0.65rem;
-  font-weight: 500;
+  top: -7px;
+  left: 14px;
+  font-size: 0.7rem;
+  font-weight: 600;
   color: var(--fg-grid-surface-muted);
   background: var(--fg-grid-surface);
-  padding: 0 3px;
+  padding: 0 6px;
   pointer-events: none;
   transition: color 0.2s;
   white-space: nowrap;
@@ -628,11 +633,13 @@
 .free-grid-filter-input {
   border: none;
   background: transparent;
-  font-size: 0.875rem;
+  font-size: 0.9rem;
   color: var(--fg-grid-surface-text);
   outline: none;
   width: 100%;
-  padding: 2px 0;
+  padding: 0;
+  line-height: 1.4;
+  min-height: 24px;
   font-family: var(--fg-font-family);
 }
 
@@ -660,12 +667,20 @@
 }
 
 .free-grid-filter-actions {
-  border-top: 1px solid var(--fg-grid-surface-border);
+  border-top: 1px solid #e6eaf0;
   display: flex;
   justify-content: space-between;
-  margin: 6px -16px 0;
-  padding: 12px 16px;
-  width: calc(100% + 32px);
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
+  flex-wrap: wrap;
+}
+
+.free-grid-filter-action {
+  color: #166cff;
 }
 
 .free-grid-filter-action {
@@ -678,9 +693,24 @@
   font-family: var(--fg-font-family);
   font-size: 0.8rem;
   font-weight: 600;
-  gap: 8px;
-  padding: 4px 0;
+  gap: 6px;
+  padding: 4px 8px;
   text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 120px;
+  justify-content: center;
+  border-radius: 4px;
+}
+
+.free-grid-filter-action:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.free-grid-filter-action-icon {
+  display: inline-flex;
+  flex-shrink: 0;
 }
 
 .free-grid-filter-action:hover {
